@@ -1,3 +1,15 @@
+/*
+ * Copyright (c) 2012 Acroquest Technology Co., Ltd. All Rights Reserved.
+ * Please read the associated COPYRIGHTS file for more details.
+ *
+ * THE SOFTWARE IS PROVIDED BY Acroquest Technology Co., Ltd., WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+ * AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDER BE LIABLE FOR ANY
+ * CLAIM, DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING
+ * OR DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+ */
 package jp.co.acroquest.endosnipe.web.dashboard.manager;
 
 import java.util.Collections;
@@ -8,6 +20,8 @@ import jp.co.acroquest.endosnipe.web.dashboard.config.AlarmSetting;
 import jp.co.acroquest.endosnipe.web.dashboard.config.MeasurementSetting;
 import jp.co.acroquest.endosnipe.web.dashboard.config.ResourceAlarmSetting;
 
+import org.wgp.manager.WgpDataManager;
+
 /**
  * イベントを管理するシングルトンです。
  * @author fujii
@@ -16,18 +30,24 @@ import jp.co.acroquest.endosnipe.web.dashboard.config.ResourceAlarmSetting;
 public final class EventManager
 {
     /** シングルトンインスタンス */
-    private static EventManager               instance__        = new EventManager();
+    private static EventManager instance__ = new EventManager();
 
-    private Map<String, MeasurementSetting>   clientMap_        =
-                                                                  new ConcurrentHashMap<String, MeasurementSetting>();
+    private final Map<String, MeasurementSetting> clientMap_ =
+                                                               new ConcurrentHashMap<String, MeasurementSetting>();
 
     /** アラーム通知を行うクライアント設定 */
-    private Map<String, AlarmSetting>         alarmClientMap_   =
-                                                                  new ConcurrentHashMap<String, AlarmSetting>();
+    private final Map<String, AlarmSetting> alarmClientMap_ =
+                                                              new ConcurrentHashMap<String, AlarmSetting>();
 
     /** 閾値超過アラーム通知を行うクライアント設定 */
-    private Map<String, ResourceAlarmSetting> resourceAlarmMap_ =
-                                                                  new ConcurrentHashMap<String, ResourceAlarmSetting>();
+    private final Map<String, ResourceAlarmSetting> resourceAlarmMap_ =
+                                                                        new ConcurrentHashMap<String, ResourceAlarmSetting>();
+
+    /** WGPDataManager */
+    private WgpDataManager wgpDataManager;
+
+    /** ResourceSender */
+    private ResourceSender resourceSender;
 
     /**
      * インスタンス化を阻止するプライベートコンストラクタです。
@@ -51,7 +71,7 @@ public final class EventManager
      * @param clientId クライアントID
      * @return クライアントの計測項目情報
      */
-    public MeasurementSetting getMeasurementSettings(String clientId)
+    public MeasurementSetting getMeasurementSettings(final String clientId)
     {
         return this.clientMap_.get(clientId);
     }
@@ -61,9 +81,9 @@ public final class EventManager
      * @param clientId クライアントID
      * @param setting 計測項目情報
      */
-    public void addMeasurementSetting(String clientId, MeasurementSetting setting)
+    public void addMeasurementSetting(final String clientId, final MeasurementSetting setting)
     {
-        synchronized(this.clientMap_)
+        synchronized (this.clientMap_)
         {
             this.clientMap_.put(clientId, setting);
         }
@@ -82,9 +102,9 @@ public final class EventManager
      * クライアントの設定情報を削除します。
      * @param clientId クライアントID
      */
-    public void removeClientSetting(String clientId)
+    public void removeClientSetting(final String clientId)
     {
-        synchronized(this.clientMap_)
+        synchronized (this.clientMap_)
         {
             this.clientMap_.remove(clientId);
         }
@@ -95,7 +115,7 @@ public final class EventManager
      * @param clientId クライアントID
      * @return クライアントのアラーム通知情報
      */
-    public AlarmSetting getAlarmSetting(String clientId)
+    public AlarmSetting getAlarmSetting(final String clientId)
     {
         return this.alarmClientMap_.get(clientId);
     }
@@ -105,9 +125,9 @@ public final class EventManager
      * @param clientId クライアントID
      * @param setting アラーム通知情報
      */
-    public void addAlarmSetting(String clientId, AlarmSetting setting)
+    public void addAlarmSetting(final String clientId, final AlarmSetting setting)
     {
-        synchronized(this.alarmClientMap_)
+        synchronized (this.alarmClientMap_)
         {
             this.alarmClientMap_.put(clientId, setting);
         }
@@ -126,9 +146,9 @@ public final class EventManager
      * クライアントのアラーム通知情報を削除します。
      * @param clientId クライアントID
      */
-    public void removeAlarmSetting(String clientId)
+    public void removeAlarmSetting(final String clientId)
     {
-        synchronized(this.alarmClientMap_)
+        synchronized (this.alarmClientMap_)
         {
             this.alarmClientMap_.remove(clientId);
         }
@@ -139,7 +159,7 @@ public final class EventManager
      * @param clientId クライアントID
      * @return クライアントの閾値超過アラーム通知情報
      */
-    public ResourceAlarmSetting getResourceAlarmSetting(String clientId)
+    public ResourceAlarmSetting getResourceAlarmSetting(final String clientId)
     {
         return this.resourceAlarmMap_.get(clientId);
     }
@@ -149,9 +169,9 @@ public final class EventManager
      * @param clientId クライアントID
      * @param setting 閾値超過アラーム通知情報
      */
-    public void addResourceAlarmSetting(String clientId, ResourceAlarmSetting setting)
+    public void addResourceAlarmSetting(final String clientId, final ResourceAlarmSetting setting)
     {
-        synchronized(this.resourceAlarmMap_)
+        synchronized (this.resourceAlarmMap_)
         {
             this.resourceAlarmMap_.put(clientId, setting);
         }
@@ -170,11 +190,32 @@ public final class EventManager
      * クライアントの閾値超過アラーム通知情報を削除します。
      * @param clientId クライアントID
      */
-    public void removeResourceAlarmSetting(String clientId)
+    public void removeResourceAlarmSetting(final String clientId)
     {
-        synchronized(this.resourceAlarmMap_)
+        synchronized (this.resourceAlarmMap_)
         {
             this.resourceAlarmMap_.remove(clientId);
         }
     }
+
+    public void setWgpDataManager(final WgpDataManager wgpDataManager)
+    {
+        this.wgpDataManager = wgpDataManager;
+    }
+
+    public WgpDataManager getWgpDataManager()
+    {
+        return this.wgpDataManager;
+    }
+
+    public void setResourceSender(final ResourceSender resourceSender)
+    {
+        this.resourceSender = resourceSender;
+    }
+
+    public ResourceSender getResourceSender()
+    {
+        return this.resourceSender;
+    }
+
 }

@@ -1,3 +1,15 @@
+/*
+ * Copyright (c) 2012 Acroquest Technology Co., Ltd. All Rights Reserved.
+ * Please read the associated COPYRIGHTS file for more details.
+ *
+ * THE SOFTWARE IS PROVIDED BY Acroquest Technology Co., Ltd., WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+ * AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDER BE LIABLE FOR ANY
+ * CLAIM, DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING
+ * OR DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+ */
 package jp.co.acroquest.endosnipe.web.dashboard.servlet;
 
 import java.io.IOException;
@@ -12,6 +24,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
+import jp.co.acroquest.endosnipe.data.dao.MeasurementInfoDao;
+import jp.co.acroquest.endosnipe.data.db.DBManager;
+import jp.co.acroquest.endosnipe.data.db.DatabaseType;
 import jp.co.acroquest.endosnipe.web.dashboard.config.AgentSetting;
 import jp.co.acroquest.endosnipe.web.dashboard.config.ConfigurationReader;
 import jp.co.acroquest.endosnipe.web.dashboard.config.DataBaseConfig;
@@ -33,10 +49,6 @@ import jp.co.acroquest.endosnipe.web.dashboard.service.processor.ResourceAlarmSt
 import jp.co.acroquest.endosnipe.web.dashboard.service.processor.ResourceStateAllProcessor;
 import jp.co.acroquest.endosnipe.web.dashboard.service.processor.TermAlarmNotifyProcessor;
 import jp.co.acroquest.endosnipe.web.dashboard.service.processor.TermMeasurementDataProcessor;
-import jp.co.smg.endosnipe.common.logger.ENdoSnipeLogger;
-import jp.co.smg.endosnipe.data.dao.MeasurementInfoDao;
-import jp.co.smg.endosnipe.data.db.DBManager;
-import jp.co.smg.endosnipe.data.db.DatabaseType;
 
 /**
  * クライアントから通知要求を受信するためのサーブレットです。

@@ -24,7 +24,7 @@
  * SOFTWARE.
  ******************************************************************************/
 wgp.MapView = wgp.AbstractView.extend({
-    initialize:function(argument){
+    initialize:function(argument, treeSettings){
     	this.viewType = wgp.constants.VIEW_TYPE.VIEW;
     	this.collection = new MapElementList();
 		if(argument["collection"]){
@@ -81,6 +81,9 @@ wgp.MapView = wgp.AbstractView.extend({
 		var objectId = mapElement.get("objectId");
 		this.viewCollection[objectId].remove(mapElement);
 		delete this.viewCollection[objectId];
+	},
+	getTermData : function(){
+		// todo
 	}
 });
 

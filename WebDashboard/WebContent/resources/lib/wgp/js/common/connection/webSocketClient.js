@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*****************************************************************************g**
  * WGP 0.2 - Web Graphical Platform (https://sourceforge.net/projects/wgp/)
  * 
  * The MIT License (MIT)
@@ -23,15 +23,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-function webSocketClient(handler) {
+wgp.WebSocketClient = function(handler, methodName) {
 	var instance = this;
     this.handler = handler;
-	webSocketClient = function() {
+    this.methodName = methodName;
+    this.isOpen = false;
+	wgp.WebSocketClient = function() {
 		return instance;
 	};
 };
 
-webSocketClient.prototype.initialize = function(url) {
+wgp.WebSocketClient.prototype.initialize = function(url) {
 	if (!url) {
 		url = ConnectionConstants.DEF_WEBSOCKET_SERVELET_PROTOCOL + "://"
 				+ window.location.host + common.getContextPath()
@@ -41,52 +43,41 @@ webSocketClient.prototype.initialize = function(url) {
 	this.blobBuilder = window.BlobBuilder || window.WebKitBlobBuilder
 			|| window.MozBlobBuilder;
 
+    var instance = this;
 	this.ws.onopen = function() {
+		instance.isOpen = true;
 	};
 
-    var instance = this;
 	this.ws.onmessage = function(message) {
 		if (!message || !message.data) {
 			return;
 		}
 		var result = $.parseJSON(message.data);
-        instance.handler.sendData(result);
+        instance.handler[instance.methodName](result);
 	};
 };
 
-webSocketClient.prototype.send = function(message) {
+wgp.WebSocketClient.prototype.send = function(message) {
+	var instance = this;
+	if (!this.isOpen) {
+		var tmpMessage = message;
+		setTimeout(function(){
+			instance.send(tmpMessage);
+		}, 100);
+		return;
+	}
 	this.ws.send(message);
 };
 
-webSocketClient.prototype.sendBinary = function(message) {
+wgp.WebSocketClient.prototype.sendBinary = function(message) {
+	var instance = this;
+	if (!this.isOpen) {
+		var tmpMessage = message;
+		setTimeout(function(){
+			instance.sendBinary(tmpMessage);
+		}, 100);
+		return;
+	}
 	this.ws.binaryType = 'arraybuffer';
 	this.ws.send(message);
-};
-
-webSocketClient.prototype.addListener = function(settings) {
-	if (settings.windowId == null || settings.dataType == null) {
-		return;
-	}
-	var data = {
-		eventType : 'addListener',
-		eventId : {
-			windowId : settings.windowId,
-			dataType : settings.dataType
-		}
-	};
-	this.ws.send(JSON.stringify(data));
-};
-
-webSocketClient.prototype.removeListener = function(settings) {
-	if (settings.windowId == null || settings.dataType == null) {
-		return;
-	}
-	var data = {
-		eventType : 'removeListner',
-		eventId : {
-			windowId : settings.windowId,
-			dataType : settings.dataType
-		}
-	};
-	this.ws.send(JSON.stringify(data));
 };

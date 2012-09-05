@@ -1,16 +1,28 @@
+/*
+ * Copyright (c) 2012 Acroquest Technology Co., Ltd. All Rights Reserved.
+ * Please read the associated COPYRIGHTS file for more details.
+ *
+ * THE SOFTWARE IS PROVIDED BY Acroquest Technology Co., Ltd., WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+ * AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDER BE LIABLE FOR ANY
+ * CLAIM, DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING
+ * OR DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+ */
 package jp.co.acroquest.endosnipe.web.dashboard.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
+import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.web.dashboard.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.dashboard.manager.DatabaseManager;
-import jp.co.smg.endosnipe.data.dao.JavelinMeasurementItemDao;
-import jp.co.smg.endosnipe.data.entity.JavelinMeasurementItem;
 
 import org.springframework.stereotype.Service;
 
@@ -43,7 +55,7 @@ public class TreeMenuService
         String dbName = dbMmanager.getDataBaseName(1);
         List<JavelinMeasurementItem> javelinMeasurementItemList = null;
         List<TreeMenuDto> treeMenuDtoList = new ArrayList<TreeMenuDto>();
-        Map<String, TreeMenuDto> treeMenuMap = new HashMap<String, TreeMenuDto>();
+        Map<String, TreeMenuDto> treeMenuMap = new LinkedHashMap<String, TreeMenuDto>();
         try
         {
             javelinMeasurementItemList = JavelinMeasurementItemDao.selectAll(dbName);
@@ -84,17 +96,12 @@ public class TreeMenuService
     private void addTree(final Map<String, TreeMenuDto> treeMenuDtoMap, final String parentId,
             final String itemName)
     {
-        String currentItemName = null;
+        String currentItemName = itemName;
         String unitName = "";
         int unitPosition = itemName.indexOf(UNIT_SEPARATOR);
         if (unitPosition > 0)
         {
-            currentItemName = itemName.substring(0, unitPosition);
             unitName = itemName.substring(unitPosition + 1);
-        }
-        else
-        {
-            currentItemName = itemName;
         }
         String currentId = parentId + currentItemName;
         TreeMenuDto menuDto = treeMenuDtoMap.get(currentId);
@@ -104,9 +111,10 @@ public class TreeMenuService
         }
         menuDto = new TreeMenuDto();
         menuDto.setId(currentId);
+        menuDto.setTreeId(currentId);
         menuDto.setData(currentItemName);
         menuDto.setMeasurementUnit(unitName);
-        menuDto.setParentId(parentId.substring(0, parentId.length() - 1));
+        menuDto.setParentTreeId(parentId.substring(0, parentId.length() - 1));
         treeMenuDtoMap.put(currentId, menuDto);
 
     }

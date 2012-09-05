@@ -1,10 +1,10 @@
 /*
- * Copyright (c) 2004-2010 SMG Co., Ltd. All Rights Reserved.
+ * Copyright (c) 2012 Acroquest Technology Co., Ltd. All Rights Reserved.
  * Please read the associated COPYRIGHTS file for more details.
  *
- * THE  SOFTWARE IS  PROVIDED BY  SMG Co., Ltd., WITHOUT  WARRANTY  OF
- * ANY KIND,  EXPRESS  OR IMPLIED,  INCLUDING BUT  NOT LIMITED  TO THE
- * WARRANTIES OF  MERCHANTABILITY,  FITNESS FOR A  PARTICULAR  PURPOSE
+ * THE SOFTWARE IS PROVIDED BY Acroquest Technology Co., Ltd., WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
  * AND NONINFRINGEMENT.
  * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDER BE LIABLE FOR ANY
  * CLAIM, DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING
@@ -29,6 +29,12 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jp.co.acroquest.endosnipe.common.jmx.JMXManager;
+import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
+import jp.co.acroquest.endosnipe.common.util.ResourceDataUtil;
+import jp.co.acroquest.endosnipe.communicator.entity.MeasurementConstants;
+import jp.co.acroquest.endosnipe.data.dao.MeasurementValueDao;
+import jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.web.dashboard.config.MeasurementSetting;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.EventConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
@@ -41,12 +47,6 @@ import jp.co.acroquest.endosnipe.web.dashboard.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.dashboard.util.EventUtil;
 import jp.co.acroquest.endosnipe.web.dashboard.util.RequestUtil;
 import jp.co.acroquest.endosnipe.web.dashboard.util.ResponseUtil;
-import jp.co.smg.endosnipe.common.jmx.JMXManager;
-import jp.co.smg.endosnipe.common.logger.ENdoSnipeLogger;
-import jp.co.smg.endosnipe.common.util.ResourceDataUtil;
-import jp.co.smg.endosnipe.communicator.entity.MeasurementConstants;
-import jp.co.smg.endosnipe.data.dao.MeasurementValueDao;
-import jp.co.smg.endosnipe.data.dto.MeasurementValueDto;
 
 /**
  * 指定した期間の計測情報を取得する処理クラスです。

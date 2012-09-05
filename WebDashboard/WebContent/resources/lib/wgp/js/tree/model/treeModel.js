@@ -9,8 +9,12 @@ wgp.TreeModel = Backbone.Model.extend({
 		element : null
 	},
 	idAttribute:"treeId",
-	addChildren:function(child){
-		this.get("chidlren").concat(child);
+	addChildren:function(treeModel){
+		var children = this.get("children");
+		var after = {};
+		after[treeModel.id] = treeModel;
+		$.extend(true, after, children);
+		this.set({children: after}, wgp.constants.BACKBONE_EVENT.SILENT);
 	}
 });
 

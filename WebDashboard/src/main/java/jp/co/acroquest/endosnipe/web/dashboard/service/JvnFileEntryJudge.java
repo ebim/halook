@@ -1,10 +1,10 @@
 /*
- * Copyright (c) 2004-2010 SMG Co., Ltd. All Rights Reserved.
+ * Copyright (c) 2012 Acroquest Technology Co., Ltd. All Rights Reserved.
  * Please read the associated COPYRIGHTS file for more details.
  *
- * THE  SOFTWARE IS  PROVIDED BY  SMG Co., Ltd., WITHOUT  WARRANTY  OF
- * ANY KIND,  EXPRESS  OR IMPLIED,  INCLUDING BUT  NOT LIMITED  TO THE
- * WARRANTIES OF  MERCHANTABILITY,  FITNESS FOR A  PARTICULAR  PURPOSE
+ * THE SOFTWARE IS PROVIDED BY Acroquest Technology Co., Ltd., WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
  * AND NONINFRINGEMENT.
  * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDER BE LIABLE FOR ANY
  * CLAIM, DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING
@@ -19,22 +19,20 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.co.acroquest.endosnipe.arrowvision.data.JavelinLogInputStreamAccessor;
+import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
+import jp.co.acroquest.endosnipe.communicator.accessor.JvnFileNotifyAccessor.JvnFileEntry;
+import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
+import jp.co.acroquest.endosnipe.javelin.parser.JavelinLogElement;
+import jp.co.acroquest.endosnipe.javelin.parser.JavelinParser;
+import jp.co.acroquest.endosnipe.javelin.parser.ParseException;
+import jp.co.acroquest.endosnipe.perfdoctor.PerfDoctorIgnoreMonitor;
+import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
+import jp.co.acroquest.endosnipe.perfdoctor.classfier.PerformanceDoctorFilter;
+import jp.co.acroquest.endosnipe.perfdoctor.classfier.UnifiedFilter;
+import jp.co.acroquest.endosnipe.perfdoctor.exception.RuleCreateException;
+import jp.co.acroquest.endosnipe.perfdoctor.exception.RuleNotFoundException;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
-import jp.co.smg.endosnipe.arrowvision.data.JavelinLogInputStreamAccessor;
-import jp.co.smg.endosnipe.common.logger.ENdoSnipeLogger;
-import jp.co.smg.endosnipe.communicator.accessor.JvnFileNotifyAccessor.JvnFileEntry;
-import jp.co.smg.endosnipe.data.entity.JavelinLog;
-import jp.co.smg.endosnipe.javelin.parser.JavelinLogElement;
-import jp.co.smg.endosnipe.javelin.parser.JavelinParser;
-import jp.co.smg.endosnipe.perfdoctor.PerfDoctor;
-import jp.co.smg.endosnipe.perfdoctor.PerfDoctorIgnoreMonitor;
-import jp.co.smg.endosnipe.perfdoctor.WarningUnit;
-import jp.co.smg.endosnipe.perfdoctor.classfier.PerformanceDoctorFilter;
-import jp.co.smg.endosnipe.perfdoctor.classfier.UnifiedFilter;
-import jp.co.smg.endosnipe.perfdoctor.exception.RuleCreateException;
-import jp.co.smg.endosnipe.perfdoctor.exception.RuleNotFoundException;
-
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 /**
  * JvnFileEntry の解析を行うクラスです。<br />
@@ -211,9 +209,6 @@ public class JvnFileEntryJudge
         catch (IOException ex)
         {
             LOGGER.log(LogMessageCodes.IO_ERROR, ex);
-        } catch (jp.co.smg.endosnipe.javelin.parser.ParseException pex) {
-
-        	LOGGER.log(LogMessageCodes.IO_ERROR, pex);
 		}
         finally
         {

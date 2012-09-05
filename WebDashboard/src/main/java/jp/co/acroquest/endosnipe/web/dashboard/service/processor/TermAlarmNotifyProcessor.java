@@ -1,10 +1,10 @@
 /*
- * Copyright (c) 2004-2011 SMG Co., Ltd. All Rights Reserved.
+ * Copyright (c) 2012 Acroquest Technology Co., Ltd. All Rights Reserved.
  * Please read the associated COPYRIGHTS file for more details.
  *
- * THE  SOFTWARE IS  PROVIDED BY  SMG Co., Ltd., WITHOUT  WARRANTY  OF
- * ANY KIND,  EXPRESS  OR IMPLIED,  INCLUDING BUT  NOT LIMITED  TO THE
- * WARRANTIES OF  MERCHANTABILITY,  FITNESS FOR A  PARTICULAR  PURPOSE
+ * THE SOFTWARE IS PROVIDED BY Acroquest Technology Co., Ltd., WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
  * AND NONINFRINGEMENT.
  * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDER BE LIABLE FOR ANY
  * CLAIM, DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING
@@ -22,6 +22,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
+import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
+import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
+import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.EventConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.LogMessageCodes;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.AlarmNotifyEntity;
@@ -32,10 +36,6 @@ import jp.co.acroquest.endosnipe.web.dashboard.util.DaoUtil;
 import jp.co.acroquest.endosnipe.web.dashboard.util.EventUtil;
 import jp.co.acroquest.endosnipe.web.dashboard.util.RequestUtil;
 import jp.co.acroquest.endosnipe.web.dashboard.util.ResponseUtil;
-import jp.co.smg.endosnipe.common.logger.ENdoSnipeLogger;
-import jp.co.smg.endosnipe.data.dao.JavelinLogDao;
-import jp.co.smg.endosnipe.data.entity.JavelinLog;
-import jp.co.smg.endosnipe.perfdoctor.WarningUnit;
 
 /**
  * 指定した期間のJvnファイルを取得し、計測情報として変換するクラスです。

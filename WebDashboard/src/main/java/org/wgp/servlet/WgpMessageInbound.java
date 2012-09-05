@@ -96,10 +96,7 @@ public class WgpMessageInbound extends MessageInbound {
 	}
 
 	private void sendResponse(String data) {
-		Map<String, Object> messageMap = new HashMap<String, Object>();
-		messageMap.put(SEND_DATA_KEY, data);
-		String response = JSON.encode(messageMap);
-		CharBuffer buffer = CharBuffer.wrap(response);
+		CharBuffer buffer = CharBuffer.wrap(data);
 		try {
 			myoutbound.writeTextMessage(buffer);
 		} catch (IOException ex) {

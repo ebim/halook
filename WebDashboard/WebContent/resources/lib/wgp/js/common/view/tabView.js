@@ -1,10 +1,10 @@
 
 wgp.TabView = wgp.AbstractView.extend({
-	initialize:function(argument){
+	initialize:function(argument, treeSettings){
 		this.viewType = wgp.constants.VIEW_TYPE.TAB;
 		this.collection = new TabModelList();
-
-		this.rootView = argument["rootView"];
+		this.treeSettings = treeSettings;
+		this.viewList = {};
 
 		this.divId = this.$el.attr("id");
 		this.divTabId = this.$el.attr("id") + "_tab";
@@ -66,11 +66,10 @@ wgp.TabView = wgp.AbstractView.extend({
 
 		var childAttribute = {
 			id: newDivTabId,
-			rootView: this.rootView,
 			collection: childCollection
 		};
-		var view = eval("new " + viewClassName + "(childAttribute)");
-		this.rootView.addViews( view.getRegisterViews() );
+		var view = eval("new " + viewClassName + "(childAttribute, this.treeSettings)");
+		this.viewList[view.getRegisterId()] = view;
 	},
 	onChange : function(tabModel){
 		//blank
@@ -78,6 +77,10 @@ wgp.TabView = wgp.AbstractView.extend({
 	onRemove : function(tabModel){
 		var view = this.viewCollection(tabModel.id);
 		$("#" + this.divId ).tabs("remove", tabModel.id);
-		this.rootView.removeViews( view.getRegisterViews );
 	},
+	destroy : function(){
+		_.each(this.viewList, function(view){
+			view.destroy();
+		})
+	}
 });

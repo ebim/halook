@@ -11,3 +11,13 @@ wgp.ViewModel = Backbone.Model.extend({
 wgp.ViewModelList = Backbone.Collection.extend({
 	model : wgp.ViewModel
 });
+
+wgp.WgpModel = Backbone.Model.extend({
+	destroy : function(){
+		this.trigger(destroy, this);
+	}
+});
+
+wgp.WgpCollection = Backbone.Collection.extend({
+	model : wgp.WgpModel
+});

@@ -68,8 +68,8 @@
 		if (elementFileList != null && elementFileList.size() > 0) {
 			// ウィジェットとなるjavaScriptファイルのファイルパスを基にscriptタグを生成する。
 			for (File jsFile : elementFileList) {
-				String[] filePaths = jsFile.getAbsolutePath().split("WebContent");
-				String tmpfilePath = filePaths[filePaths.length - 1];
+				String[] filePaths = jsFile.getAbsolutePath().split("resources");
+				String tmpfilePath = "/resources" + filePaths[filePaths.length - 1];
 				String filePath = tmpfilePath.replaceAll("\\\\", "/");
 				out.print("<script type=\"text/javascript\" ");
 				out.print("src=\"" + request.getContextPath()

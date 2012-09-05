@@ -46,11 +46,11 @@
 		<servlet-class>jp.co.acroquest.endosnipe.web.dashboard.servlet.DashBoardNotifyServlet</servlet-class>
 		<init-param>
 			<param-name>collector.property</param-name>
-			<param-value>C:\AcroWorks\workspace\WebDashboard\conf\collector.properties</param-value>
+			<param-value>D:/AcroWorks/VM/ENdoSnipe/svn/branches/Ver5.0/MasterSource/WebDashboard/conf/collector.properties</param-value>
 		</init-param>
 		<init-param>
 			<param-name>report.directory</param-name>
-			<param-value>C:\Acroquest\ENdoSnipe\DataCollector\reports</param-value>
+			<param-value>D:/AcroWorks/reports</param-value>
 		</init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
@@ -66,7 +66,7 @@
 		<servlet-class>jp.co.acroquest.endosnipe.web.dashboard.servlet.ReportServlet</servlet-class>
 		<init-param>
 			<param-name>report.directory</param-name>
-			<param-value>C:\Acroquest\ENdoSnipe\DataCollector\reports</param-value>
+			<param-value>D:/AcroWorks/reports</param-value>
 		</init-param>
 	</servlet>
 
@@ -76,10 +76,9 @@
 	</servlet>
 
 	<servlet>
-		<servlet-name>WgpWebSocketServlet</servlet-name>
+		<servlet-name>wgpWebSocketServlet</servlet-name>
 		<servlet-class>org.wgp.servlet.WgpWebSocketServlet</servlet-class>
 	</servlet>
-
 
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
@@ -107,7 +106,7 @@
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>WgpWebSocketServlet</servlet-name>
+		<servlet-name>wgpWebSocketServlet</servlet-name>
 		<url-pattern>/webSocketServlet</url-pattern>
 	</servlet-mapping>
 

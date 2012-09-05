@@ -1,10 +1,10 @@
 /*
- * Copyright (c) 2004-2012 SMG Co., Ltd. All Rights Reserved.
+ * Copyright (c) 2012 Acroquest Technology Co., Ltd. All Rights Reserved.
  * Please read the associated COPYRIGHTS file for more details.
  *
- * THE  SOFTWARE IS  PROVIDED BY  SMG Co., Ltd., WITHOUT  WARRANTY  OF
- * ANY KIND,  EXPRESS  OR IMPLIED,  INCLUDING BUT  NOT LIMITED  TO THE
- * WARRANTIES OF  MERCHANTABILITY,  FITNESS FOR A  PARTICULAR  PURPOSE
+ * THE SOFTWARE IS PROVIDED BY Acroquest Technology Co., Ltd., WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
  * AND NONINFRINGEMENT.
  * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDER BE LIABLE FOR ANY
  * CLAIM, DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING
@@ -17,8 +17,11 @@ public class TreeMenuDto
     /** 表示名 */
     private String data;
 
-    /** 親ID */
-    private String parentId;
+    /** ツリーID */
+    private String treeId;
+    
+    /** 親ツリーID */
+    private String parentTreeId;
 
     /** ID */
     private String id;
@@ -33,14 +36,22 @@ public class TreeMenuDto
         this.data = data;
     }
 
-    public String getParentId()
-    {
-        return parentId;
+    public String getTreeId(){
+    	return treeId;
     }
 
-    public void setParentId(final String parentId)
+    public void setTreeId(final String treeId){
+    	this.treeId = treeId;
+    }
+
+    public String getParentTreeId()
     {
-        this.parentId = parentId;
+        return parentTreeId;
+    }
+
+    public void setParentTreeId(final String parentTreeId)
+    {
+        this.parentTreeId = parentTreeId;
     }
 
     public String getId()
@@ -69,7 +80,7 @@ public class TreeMenuDto
     @Override
     public String toString()
     {
-        return "TreeMenuDto [data=" + data + ", parentId=" + parentId + ", id=" + id
+        return "TreeMenuDto [data=" + data + ", parentId=" + parentTreeId + ", id=" + id
                 + ", measurementUnit=" + measurementUnit + "]";
     }
 
@@ -81,7 +92,7 @@ public class TreeMenuDto
         result = prime * result + ((data == null) ? 0 : data.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((measurementUnit == null) ? 0 : measurementUnit.hashCode());
-        result = prime * result + ((parentId == null) ? 0 : parentId.hashCode());
+        result = prime * result + ((parentTreeId == null) ? 0 : parentTreeId.hashCode());
         return result;
     }
 
@@ -134,14 +145,14 @@ public class TreeMenuDto
         {
             return false;
         }
-        if (parentId == null)
+        if (parentTreeId == null)
         {
-            if (other.parentId != null)
+            if (other.parentTreeId != null)
             {
                 return false;
             }
         }
-        else if (!parentId.equals(other.parentId))
+        else if (!parentTreeId.equals(other.parentTreeId))
         {
             return false;
         }

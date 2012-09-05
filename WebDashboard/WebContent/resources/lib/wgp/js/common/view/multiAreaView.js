@@ -1,11 +1,11 @@
 
 wgp.MultiAreaView = wgp.AbstractView.extend({
-	initialize: function(argument){
+	initialize: function(argument, treeSettings){
 		this.viewType = wgp.constants.VIEW_TYPE.AREA;
 		this.collection = new wgp.ViewModelList();
+		this.treeSettings = treeSettings;
 		this.viewList = {};
 
-		this.rootView = argument["rootView"];
 		this.divId = this.$el.attr("id");
 		this.registerCollectionEvent();
 		this.maxId = 0;
@@ -17,7 +17,7 @@ wgp.MultiAreaView = wgp.AbstractView.extend({
 			instance.collection.add(viewModel);
 		})
 	},
-	render : function(){	
+	render : function(){
 	},
 	onAdd : function(viewModel){
 		var viewId = viewModel.get("viewId");
@@ -43,10 +43,12 @@ wgp.MultiAreaView = wgp.AbstractView.extend({
 		newDivArea.height(height);
 
 		$.extend(true, viewAttribute, {id: newDivAreaId });
-		var view = eval("new " + viewClassName + "(viewAttribute)");
-		this.rootView.addViews( view.getRegisterViews() );
+		var view = eval("new " + viewClassName + "(viewAttribute, this.treeSettings)");
+		this.viewList[view.getRegisterId()] = view;
 	},
-	getRegisterViews : function(){
-		return _.values(this.viewList);
+	destroy : function(){
+		_.each(this.viewList, function(view){
+			view.destroy();
+		})
 	}
 });

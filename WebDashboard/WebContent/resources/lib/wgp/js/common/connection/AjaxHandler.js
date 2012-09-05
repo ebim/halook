@@ -23,7 +23,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-function AjaxHandler() {
+wgp.AjaxHandler = function() {
 	var instance = this;
 	this.settings_;
 	this.errorCallObject_ = null;
@@ -51,7 +51,7 @@ function AjaxHandler() {
  * @param {Exception}
  *            ex
  */
-AjaxHandler.prototype.handleException = function(result, status, ex) {
+wgp.AjaxHandler.prototype.handleException = function(result, status, ex) {
 	// Do nothing
 };
 
@@ -74,7 +74,7 @@ AjaxHandler.prototype.handleException = function(result, status, ex) {
  * @param {XmlHttpRequest}
  *            request
  */
-AjaxHandler.prototype.handleSuccess = function(data, status, request) {
+wgp.AjaxHandler.prototype.handleSuccess = function(data, status, request) {
 	var instance = this;
 	if (request.status < 200 || request.status >= 300) {
 		instance.handleException(request, status, null);
@@ -103,7 +103,7 @@ AjaxHandler.prototype.handleSuccess = function(data, status, request) {
  * @param {Object}
  *            settings
  */
-AjaxHandler.prototype.postConnection = function(settings) {
+wgp.AjaxHandler.prototype.postConnection = function(settings) {
 	var instance = this;
 	var settingsArray = {
 		type : "POST",
@@ -198,7 +198,7 @@ AjaxHandler.prototype.postConnection = function(settings) {
  *            </tbody> </table>
  *            通信エラー等発生時にシステムエラー画面表示ではなく、正常性アイコンの入れ替えを行う場合は画面IDを渡す。
  */
-AjaxHandler.prototype.requestServerAsync = function(settings) {
+wgp.AjaxHandler.prototype.requestServerAsync = function(settings) {
 	settings["async"] = true;
 	this.postConnection(settings);
 };
@@ -255,7 +255,7 @@ AjaxHandler.prototype.requestServerAsync = function(settings) {
  *            </tr>
  *            </tbody> </table>
  */
-AjaxHandler.prototype.requestServerSync = function(settings) {
+wgp.AjaxHandler.prototype.requestServerSync = function(settings) {
 	settings["async"] = false;
 	var result = this.postConnection(settings);
 	return result.responseText;

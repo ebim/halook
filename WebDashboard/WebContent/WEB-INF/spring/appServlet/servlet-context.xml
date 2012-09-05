@@ -42,11 +42,10 @@
     	</aop:aspect>
     	<aop:aspect ref="completeUpdateDataInterceptor">
 			<!-- you must change this setting of expression. -->
-	     	<aop:pointcut id="completePointCut"
-    	    	expression="execution(* org.wgp.manager.WgpDataManager.set (..))" />
+			<aop:pointcut id="completePointCut"
+				expression="execution(* jp.co.acroquest.endosnipe.web.dashboard.manager.ResourceSender.send(..))" />
 			<!-- end -->
-   		 	<aop:around pointcut-ref="completePointCut"
-        	 	method="completeInterceptor" />
-    	</aop:aspect>
+			<aop:after pointcut-ref="completePointCut" method="completeInterceptor" />
+		</aop:aspect>
 	</aop:config>
 </beans:beans>

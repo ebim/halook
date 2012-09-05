@@ -1,15 +1,31 @@
-var HDFSViewElement = {
-	viewClassName : "HDFSView",
-	tabTitle : "HDFSView",
+var graphViewElement = {
+	viewClassName : "wgp.DygraphElementView",
+	viewAttribute : {
+		term : 1800,
+		noTermData : false
+	}
 };
 
-var HDFSParentElement = { 
+var mapTabElement = {
+	viewClassName : "wgp.MapView",
+	tabTitle : "Map",
+};
+
+var graphAreaTabElement = { 
 	viewClassName : "wgp.MultiAreaView",
-	rootView:appView,
-	collection :[HDFSViewElement]
+	tabTitle : "Graph",
+	collection :[graphViewElement]
+};
+
+var tabViewElement = {
+	viewClassName: "wgp.TabView",
+	collection:[mapTabElement, graphAreaTabElement]
 };
 
 wgp.constants.VIEW_SETTINGS = {
-	"default" : HDFSParentElement,
-	//"/hdfsView/" : tabViewElement
+	"default" : graphViewElement,
+	"/usage/" : tabViewElement,
+	"/total/" : graphViewElement,
+	"/system/" : graphViewElement,
+	"/user/" : graphViewElement
 };

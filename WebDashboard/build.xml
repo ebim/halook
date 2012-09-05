@@ -5,26 +5,27 @@
     <property name="app.name" value="WebDashboard"/>
 
     <!-- パス設定 -->
-    <property name="src.path"       value="${basedir}/src/main/java"/>
-    <property name="src.test.dir"   value="${basedir}/src/test/java"/>
-    <property name="resource.path"  value="${basedir}/src/main/resources"/>
+    <property name="src.path"           value="${basedir}/src/main/java"/>
+    <property name="src.test.dir"       value="${basedir}/src/test/java"/>
+    <property name="resource.path"      value="${basedir}/src/main/resources"/>
     <property name="resources.test.dir" value="${basedir}/src/test/resources"/>
-    <property name="lib.path"       value="${basedir}/lib"/>
+    <property name="lib.path"           value="${basedir}/lib"/>
     <property name="lib-dependency.dir" value="${lib.path}/dependency"/>
-    <property name="webroot.path"   value="${basedir}/WebContent"/>
-    <property name="weblib.path"    value="${webroot.path}/WEB-INF/lib"/>
-    <property name="webclass.path"    value="${webroot.path}/WEB-INF/classes"/>
-    <property name="deploy.path"    value="${basedir}/target"/> 
-    <property name="classes.path"   value="${deploy.path}/classes"/>
-	<property name="test.dir"       value="classes-test"/>
-    <property name="classes.test.dir" value="${deploy.path}/${test.dir}" />
-    <property name="jar.file"       value="${deploy.path}/endosnipe-${app.name}.jar"/> 
-    <property name="war.file"       value="${deploy.path}/${app.name}.war"/> 
+    <property name="webroot.path"       value="${basedir}/WebContent"/>
+    <property name="weblib.path"        value="${webroot.path}/WEB-INF/lib"/>
+    <property name="webclass.path"      value="${webroot.path}/WEB-INF/classes"/>
+    <property name="report.dir"         value="${basedir}/junit-report" />
+    <property name="deploy.path"        value="${basedir}/target"/> 
+    <property name="classes.path"       value="${deploy.path}/classes"/>
+    <property name="test.dir"           value="classes-test"/>
+    <property name="classes.test.dir"   value="${deploy.path}/${test.dir}" />
+    <property name="jar.file"           value="${deploy.path}/endosnipe-${app.name}.jar"/> 
+    <property name="war.file"           value="${deploy.path}/${app.name}.war"/> 
 
-    <property name="javadoc.path"     value="${deploy.path}/docs"/>
-    <property name="javadoc.package"  value="jp.co.smg.*"/>
-    <property name="javadoc.title"    value="SMG Project"/>
-    <property name="copyright"        value="Copyright (c) SMG Co., Ltd. All rights reserved."/>
+    <property name="javadoc.path"       value="${deploy.path}/docs"/>
+    <property name="javadoc.package"    value="jp.co.acroquest.*"/>
+    <property name="javadoc.title"      value="Acroquest Technology Project"/>
+    <property name="copyright"          value="Copyright (c) Acroquest Technology Co., Ltd. All rights reserved."/>
 
     <path id="project.classpath">
         <pathelement path ="${classes.path}"/>
@@ -35,6 +36,7 @@
         <fileset dir="${lib.path}">
             <include name="**/*.jar"/>
             <include name="**/*.zip"/>
+            <exclude name="sources/*.jar"/>
         </fileset>
     </path>
 
@@ -69,12 +71,12 @@
         </copy>
     </target>
 
-	<!-- SQLファイルのビルドパスへのコピー -->
+    <!-- SQLファイルのビルドパスへのコピー -->
     <target name="sql"
             description="リソースファイルをビルドファイル配下にコピーします">
         <copy todir="${classes.path}" includeEmptyDirs="no">
             <fileset dir="${src.path}">
-            	<include name="**/*.sql"/>
+                <include name="**/*.sql"/>
             </fileset>
         </copy>
     </target>
@@ -86,7 +88,7 @@
         <copy file="${endosnipe-dataaccessor.jar}" todir="${weblib.path}" failonerror="yes" />
         <javac srcdir       = "${src.path}"
                destdir      = "${classes.path}"
-               encoding    = "UTF-8"
+               encoding     = "UTF-8"
                classpathref = "project.classpath"
                debug        = "true"/>
     </target>
@@ -105,8 +107,9 @@
         </copy>
     </target>
 
-	<!-- JUnit テストの実行 -->
+    <!-- JUnit テストの実行 -->
     <target name="runtest" depends="compile-test">
+        <!--
         <mkdir dir="${report.dir}" />
 
         <junit printsummary="yes" haltonfailure="yes">
@@ -123,6 +126,7 @@
                 </fileset>
             </batchtest>
         </junit>
+     -->
     </target>
 
     <!-- JARファイル生成 -->
@@ -134,16 +138,18 @@
     <target name="war" depends="jar" description="WARファイルを生成する">
         <copy file="${jar.file}" todir="${weblib.path}" overwrite="true"/>
         <copy file="${classes.path}/EWDMessages_ja.properties" todir="${webroot.path}/WEB-INF/classes" overwrite="true"/>
-    	<copy file="${classes.path}/log4j.properties" todir="${webroot.path}/WEB-INF/classes" overwrite="true"/>
-    	<war basedir="${webroot.path}"
-              destfile="${war.file}"
-              webxml="${webroot.path}/WEB-INF/web.xml">
+        <copy file="${classes.path}/log4j.xml" todir="${webroot.path}/WEB-INF/classes" overwrite="true"/>
+        <war basedir="${webroot.path}"
+             destfile="${war.file}"
+             webxml="${webroot.path}/WEB-INF/web.xml">
         </war>
     </target>
 
     <!-- リリースアーカイブの生成 -->
     <target name="dist" depends="war" description="Build a zip distributable">
+        <!--
         <copy file="tomcat_config/conf/server.xml" todir="${deploy.path}"/>
+        -->
 
         <delete dir="${classes.path}" />
         <delete file="${jar.file}" />
@@ -153,7 +159,7 @@
             <zipfileset dir="${deploy.path}" includes="**" excludes="${test.dir}/**"/>
         </zip>
     </target>
-	
+    
     <!-- Javadoc 生成 -->
     <target name="javadoc" depends="prepare" description="Javadoc を生成する">
         <mkdir dir="${javadoc.path}"/>

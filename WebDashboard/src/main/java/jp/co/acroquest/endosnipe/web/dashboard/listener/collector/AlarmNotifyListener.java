@@ -1,3 +1,15 @@
+/*
+ * Copyright (c) 2012 Acroquest Technology Co., Ltd. All Rights Reserved.
+ * Please read the associated COPYRIGHTS file for more details.
+ *
+ * THE SOFTWARE IS PROVIDED BY Acroquest Technology Co., Ltd., WITHOUT
+ * WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+ * AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDER BE LIABLE FOR ANY
+ * CLAIM, DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING
+ * OR DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+ */
 package jp.co.acroquest.endosnipe.web.dashboard.listener.collector;
 
 import java.util.ArrayList;
@@ -5,6 +17,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import jp.co.acroquest.endosnipe.communicator.AbstractTelegramListener;
+import jp.co.acroquest.endosnipe.communicator.accessor.JvnFileNotifyAccessor;
+import jp.co.acroquest.endosnipe.communicator.accessor.JvnFileNotifyAccessor.JvnFileEntry;
+import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
+import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.config.AlarmSetting;
 import jp.co.acroquest.endosnipe.web.dashboard.constants.EventConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.entity.AlarmNotifyEntity;
@@ -13,12 +30,7 @@ import jp.co.acroquest.endosnipe.web.dashboard.manager.MessageSender;
 import jp.co.acroquest.endosnipe.web.dashboard.service.JvnFileEntryJudge;
 import jp.co.acroquest.endosnipe.web.dashboard.util.DaoUtil;
 import jp.co.acroquest.endosnipe.web.dashboard.util.EventUtil;
-import jp.co.smg.endosnipe.communicator.AbstractTelegramListener;
-import jp.co.smg.endosnipe.communicator.accessor.JvnFileNotifyAccessor;
-import jp.co.smg.endosnipe.communicator.accessor.JvnFileNotifyAccessor.JvnFileEntry;
-import jp.co.smg.endosnipe.communicator.entity.Telegram;
-import jp.co.smg.endosnipe.communicator.entity.TelegramConstants;
-import jp.co.smg.endosnipe.perfdoctor.WarningUnit;
+import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 import net.arnx.jsonic.JSON;
 
 /**

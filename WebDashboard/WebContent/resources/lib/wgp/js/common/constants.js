@@ -13,6 +13,12 @@ wgp.constants = {};
 wgp.constants.BACKBONE_EVENT = {};
 wgp.constants.BACKBONE_EVENT.SILENT = {silent: true};
 
+wgp.constants.RENDER_TYPE = {};
+wgp.constants.RENDER_TYPE.ALL = "all";
+wgp.constants.RENDER_TYPE.ADD = "add";
+wgp.constants.RENDER_TYPE.DELETE = "delete";
+wgp.constants.RENDER_TYPE.UPDATE = "update";
+
 wgp.constants.VIEW_TYPE = {};
 wgp.constants.VIEW_TYPE.CONTROL = "control";
 wgp.constants.VIEW_TYPE.TAB = "tab";
@@ -20,11 +26,9 @@ wgp.constants.VIEW_TYPE.AREA = "area";
 wgp.constants.VIEW_TYPE.VIEW = "view";
 
 wgp.constants.CHANGE_TYPE = {};
-wgp.constants.CHANGE_TYPE.ADD = "add";
-wgp.constants.CHANGE_TYPE.DELETE = "delete";
-wgp.constants.CHANGE_TYPE.UPDATE = "update";
-wgp.constants.CHANGE_TYPE.ANIMATE = "animate";
-
+wgp.constants.CHANGE_TYPE.ADD = 2;
+wgp.constants.CHANGE_TYPE.DELETE = 1;
+wgp.constants.CHANGE_TYPE.UPDATE = 0;
 
 wgp.constants.STATE = {};
 wgp.constants.STATE.NORMAL = "normal";
@@ -40,6 +44,14 @@ wgp.constants.IS_CHANGE = {};
 wgp.constants.IS_CHANGE.SIZE = {"pointX":true, "pointY":true, "width":true, "height":true};
 wgp.constants.IS_CHANGE.STATE = {"state":true};
 
+// url
+wgp.constants.URL = {};
+wgp.constants.URL.TERM_DATA_URL = "/termData";
+wgp.constants.URL.GET_TERM_DATA = wgp.constants.URL.TERM_DATA_URL + "/get";
 
-
-
+// tree configuration
+wgp.constants.TREE = {};
+wgp.constants.TREE.DATA_ID = "tree";
+wgp.constants.TREE.CENTER_NODE_ICON = "center";
+wgp.constants.TREE.LEAF_NODE_ICON = "leaf";
+wgp.constants.TREE.INITAL_OPEN = true;
