@@ -48,48 +48,27 @@ halook.ganttChartAxisNameView = Backbone.View
 				var timeLabel = [];
 				var timeLine = [];
 				var timeWidth = 120;
+//				console.log("時刻表示？");
+//				console.log(comDateFormat(new Date(this.model.attributes.text),
+//						halook.DATE_FORMAT_HOUR));
+
 				var unixTime = new Date(this.model.attributes.text) / 1000 + 7200;
 				var year, month, day, hour, minute, second;
 				for ( var num = 0; num < this.model.attributes.widthX / 120 - 1; num++) {
-					var normalTime = unixTime * 1000;
-					year = new Date(normalTime).getYear();
-					month = new Date(normalTime).getMonth() + 1;
-					day = new Date(normalTime).getDate();
-					hour = new Date(normalTime).getHours();
-					minute = new Date(normalTime).getMinutes();
-					second = new Date(normalTime).getSeconds();
 
-					if (year < 2000) {
-						year += 1900;
-					}
-					if (month < 10) {
-						month = "0" + month;
-					}
-					if (day < 10) {
-						day = "0" + day;
-					}
-					if (hour < 10) {
-						hour = "0" + hour;
-					}
-					if (minute < 10) {
-						minute = "0" + minute;
-					}
-					if (second < 10) {
-						second = "0" + second;
-					}
 
 					timeLabel.push(new wgp.MapElement({
 						pointX : this.model.attributes.pointX + timeWidth,
-						pointY : 450,
-						height : 400,
-						text : year + "/" + month + "/" + day + " " + hour
-								+ ":" + minute + ":" + second
+						pointY : this.model.attributes.pointY,
+						text : comDateFormat(new Date(
+								this.model.attributes.text),
+								halook.DATE_FORMAT_HOUR)
 					}));
 					timeLine.push(new wgp.MapElement({
 						pointX : this.model.attributes.pointX + timeWidth,
 						pointY : 0,
 						width : 0,
-						height : 450
+						height : this.model.attributes.pointY
 					}));
 					timeWidth += 120;
 					unixTime += 7200;
@@ -112,15 +91,18 @@ halook.ganttChartAxisNameView = Backbone.View
 				this.element = [];
 				this.element.push(new line(this.model.attributes, this._paper));
 				this._paper.text(this.model.attributes.pointX,
-						this.model.attributes.pointY + 10,
-						this.model.attributes.text);
+						this.model.attributes.pointY + 10, comDateFormat(
+								new Date(this.model.attributes.text),
+								halook.DATE_FORMAT_HOUR));
 
 				for ( var num = 0; num < timeLabel.length; num++) {
 					this.element.push(new line(timeLine[num].attributes,
 							this._paper));
 					this._paper.text(timeLabel[num].attributes.pointX,
 							timeLabel[num].attributes.pointY + 10,
-							timeLabel[num].attributes.text);
+							comDateFormat(new Date(
+									timeLabel[num].attributes.text),
+									halook.DATE_FORMAT_HOUR));
 				}
 			},
 			update : function(model) {

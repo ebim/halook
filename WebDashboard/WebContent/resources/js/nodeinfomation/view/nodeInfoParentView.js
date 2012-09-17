@@ -82,7 +82,7 @@ halook.NodeInfoParentView = wgp.AbstractView.extend({
 		console.log(graphId);
 		var viewId = null;
 		var viewClassName = "halook.ResourceGraphElementView";
-		var tempId = graphId.split("/");
+//		var tempId = graphId.split("/");
 		var dataId = tempId[tempId.length - 1];
 		console.log(dataId);
 		var treeSettings = {

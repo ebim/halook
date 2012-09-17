@@ -18,6 +18,12 @@
 	href="<%=request.getContextPath()%>/resources/css/common/ui.slider.extras.css"
 	type="text/css" />
 
+<%-- halook tab view --%>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/common/tabView.js">
+	
+</script>
+
 <%-- nodeInfo graph --%>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/nodeInfoParentView.js">
@@ -35,7 +41,7 @@
 <style type="text/css">
 </style>
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/css/nodeInfo/nodeStyles.css"
+	href="<%=request.getContextPath()%>/resources/css/nodeinfomation/nodeStyles.css"
 	type="text/css" media="all">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/css/ui.slider.extras.css"
@@ -89,25 +95,25 @@
 
 <%-- arrow view --%>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/ParentView/view/parentTmpView.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/parentView/view/parentTmpView.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/ParentView/model/parentTmpModel.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/parentView/model/parentTmpModel.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/ParentView/mock/parentTmpDataMock.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/parentView/mock/parentTmpDataMock.js"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/common/map/customtriangle.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/ArrowChart/view/dygraphChartView.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/arrow/view/dygraphChartView.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/ArrowChart/model/dygraphChartModel.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/arrow/model/dygraphChartModel.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/ArrowChart/mock/dygraphChartDataMock.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/arrow/mock/dygraphChartDataMock.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/ArrowChart/view/arrowChartView.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/arrow/view/arrowChartView.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/ArrowChart/model/arrowChartModel.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/arrow/model/arrowChartModel.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/ArrowChart/mock/arrowChartDataMock.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/arrow/mock/arrowChartDataMock.js"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/common/map/arrowStateElementView.js"></script>
 <script type="text/javascript"
@@ -123,38 +129,38 @@
 
 <%-- gantt view --%>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/ganttChart/view/ganttChartView.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/gantt/view/ganttChartView.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/ganttChart/model/ganttChartModel.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/gantt/model/ganttChartModel.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/ganttChart/mock/ganttChartDataMock.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/gantt/mock/ganttChartDataMock.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/ganttChart/view/ganttChartDetailView.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/gantt/view/ganttChartDetailView.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/ganttChart/view/ganttChartParentView.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/gantt/view/ganttChartParentView.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/ganttChart/view/ganttChartAxisNameView.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/gantt/view/ganttChartAxisNameView.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/ganttChart/view/ganttChartAxisStateElementView.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/gantt/view/ganttChartAxisStateElementView.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/ganttChart/view/ganttChartStateElementView.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/gantt/view/ganttChartStateElementView.js"></script>
 
 <%-- bubble view --%>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/bubbleChart/model/bubbleChartModel.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/bubble/model/bubbleChartModel.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/bubbleChart/view/bubbleChartView.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/bubble/view/bubbleChartView.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/bubbleChart/mock/bubbleChartMock.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/bubble/mock/bubbleChartMock.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/bubbleChart/graph/bubbleElementView.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/bubble/graph/bubbleElementView.js"></script>
 
 <%-- hdfs view --%>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/HDFSView/HDFSView/HDFSView.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/hdfs/view/HDFSView.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/HDFSView/HDFSModel/HDFSModel.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/hdfs/model/HDFSModel.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/HDFSView/testData.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/hdfs/testData.js"></script>
 <script
 	src="<%=request.getContextPath()%>/resources/js/utility/utility.js"></script>

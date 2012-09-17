@@ -1,16 +1,7 @@
-var sampleDatasJob = {
-	StartTime : 1346160591456,
-	FinishTime : 1346160991946,
-	SubmitTime : 1346160591446,
-	JobID : "job_20120907140000_0001",
-	JobName : "PiEstimator",
-	Status : "KILLED",
-};
-
-var BubbleChartView = wgp.AbstractView
+halook.BubbleChartView = wgp.AbstractView
 		.extend({
 			initialize : function(arguments, treeSettings) {
-
+				this.jobInfo = arguments.jobInfo;
 				this.viewType = wgp.constants.VIEW_TYPE.VIEW;// ビュータイプ
 
 				this.maxId = 0;// ???
@@ -27,28 +18,31 @@ var BubbleChartView = wgp.AbstractView
 				this._callHtmlConstructor();
 
 				// グラフビューの表示
-				this.graph = new BubbleElementView({
+				this.graph = new halook.BubbleElementView({
 					id : "Bubble",
 					treeSettings : treeSettings,
 					width : 700,
 					height : 480,
+					jobInfo : this.jobInfo,
 					attributes : {
 						xlabel : "StartTime [Date]",
 						ylabel : "ProcessTime [Seconds]",
-						labels : [ "StartTime", "MapSuccess", "MapFailed","MapKilled",
-								"ReduceSuccess", "ReduceFailed", "ReduceKilled", "Null" ],
+						labels : [ "StartTime", "MapSuccess", "MapFailed",
+								"MapKilled", "ReduceSuccess", "ReduceFailed",
+								"ReduceKilled", "Null" ],
 						strokeWidth : 0,
 						drawPoints : true,
 						pointSize : 3,
 						highlightCircleSize : 7,
-						/*colors : [ "#00FF7F", "#FF0000", "#008000", "#4B0082",
-								"#FFFFFF" ]*/
-						colors : ["#008000", "#FF0000", "#333333", "#0000FF", "#C400C4",
-						          "#663300", "#FFFFFF"]
+						/*
+						 * colors : [ "#00FF7F", "#FF0000", "#008000",
+						 * "#4B0082", "#FFFFFF" ]
+						 */
+						colors : [ "#008000", "#FF0000", "#333333", "#0000FF",
+								"#C400C4", "#663300", "#FFFFFF" ]
 					}
 				});
 
-				console.log('called bubbleChartView');
 			},
 			render : function() {
 				console.log('call render');
@@ -56,39 +50,21 @@ var BubbleChartView = wgp.AbstractView
 			onAdd : function(element) {
 				// ここにgetする処理を書く
 				this.graph.onAdd(element);
-				console.log('call onAdd');
 			},
 			onChange : function(element) {
-				console.log('called changeModel');
 			},
 			onRemove : function(element) {
-				console.log('called removeModel');
-
 			},
-			destory : function(){
+			destory : function() {
 				this.graph.destory();
 			},
 			// htmlタグの定義
 			_callHtmlConstructor : function() {
-				$("#" + this.$el.attr("id"))
-						.css(
-								{
-									// background :
-									// "-moz-linear-gradient(-45deg,
-									// rgba(255,255,255,1) 0%,
-									// rgba(241,241,241,1) 50%,
-									// rgba(225,225,225,1) 51%,
-									// rgba(246,246,246,1) 100%)"
-									// background: "#000000"
-									//background : "-moz-linear-gradient(45deg, rgba(248,255,232,1) 0%, rgba(227,245,171,1) 33%)"
-								// background : "-moz-linear-gradient(top left,
-								// #EBEBEB 0%, #E3FFE4 100%)"
-								});
 
 				$("#" + this.$el.attr("id"))
 						.append(
 								'<div id="jobInfoSpace" style="border:outset;border-color:#EEEEEE;border-width:7px;"><div id="jobInfoSpaceHtml"  width="450" height = "60"></div><div id = "jobInfoImage" width="250" height="50"><img  src ="/WebDashboard/resources/images/halook_120x30.png" alt="nopage" ></div></div>'
-								+ '<div class="clearSpace"></div>');
+										+ '<div class="clearSpace"></div>');
 				$("#jobInfoSpace")
 						.css(
 								{
@@ -97,69 +73,66 @@ var BubbleChartView = wgp.AbstractView
 									marginTop : 5,
 									marginLeft : 5,
 									float : "left",
-									/* For Mozilla/Gecko (Firefox etc) */
-									// background : " -moz-linear-gradient(top,
-									// #1e5799 0%, #2989d8 50%, #207cca 51%,
-									// #7db9e8 100%)",
-									// background : "-moz-linear-gradient(45deg,
-									// rgba(181,189,200,1) 0%,
-									// rgba(130,140,149,1) 36%, rgba(40,52,59,1)
-									// 100%)",
 									background : "-moz-linear-gradient(-45deg, rgba(255,255,255,1) 0%, rgba(241,241,241,1) 50%, rgba(225,225,225,1) 51%, rgba(246,246,246,1) 100%)",
-									/* For Internet Explorer 5.5 - 7 */
 									filter : " progid:DXImageTransform.Microsoft.gradient(startColorstr=#FF0000FF, endColorstr=#FFFFFFFF)",
-								// /* For Internet Explorer 8 */
-								// -ms-filter:
-								// "progid:DXImageTransform.Microsoft.gradient(startColorstr=#FF0000FF,
-								// endColorstr=#FFFFFFFF)",
 								});
-				var sd = new Date();
-				var fd = new Date();
+				var sd = this.jobInfo.startTime;
+				var fd = this.jobInfo.finishTime;
 				var subd = new Date();
-				sd.setTime(sampleDatasJob.StartTime);
-				fd.setTime(sampleDatasJob.FinishTime);
-				subd.setTime(sampleDatasJob.SubmitTime);
+				// TODO submitTime
+				subd.setTime("");
 
 				var jobColor;
-				if (sampleDatasJob.Status == "SUCCESS") {
+				if (this.jobInfo.jobStatus == "success") {
 					jobColor = "#00FF00";
-				} else if (sampleDatasJob.Status == "KILLED") {
+				} else if (this.jobInfo.jobStatus == "killed") {
 					jobColor = "#777777";
-				} else if (sampleDatasJob.Status == "FAILED") {
+				} else if (this.jobInfo.jobStatus == "failed") {
 					jobColor = "#FF0000";
-				} else if (sampleDatasJob.Status == "RUNNING") {
+				} else if (this.jobInfo.jobStatus == "running") {
 					jobColor = "#0000FF";
 				}
-
+				// submitTime 補完用
+				// $("#jobInfoSpaceHtml").html(
+				// "<p><font size='6' face='Comic Sans MS' ><b>"
+				// + this.jobInfo.jobId + " : </b></font>"
+				// + "<font size='6' color='" + jobColor + "'><b>"
+				// + this.jobInfo.jobStatus + "</b></font></br> "
+				// + "<font size='5'>(" + this.jobInfo.jobName
+				// + ")</font></br>" + " "
+				// + " <font face='Comic Sans MS'> "
+				// + sd.toLocaleString() + " - "
+				// + fd.toLocaleString() + "( SUBMIT_TIME:"
+				// + subd.toLocaleString() + " )</font></br></p>");
 				$("#jobInfoSpaceHtml").html(
-						"<p><font size='6' face='Comic Sans MS' ><b>" + sampleDatasJob.JobID
-								+ " : </b></font>" + "<font size='6' color='"
-								+ jobColor + "'><b>" + sampleDatasJob.Status
-								+ "</b></font></br> " + "<font size='5'>("
-								+ sampleDatasJob.JobName + ")</font></br>"
-								+ "  " + " <font  face='Comic Sans MS'> "
+						"<p><font size='6' face='Comic Sans MS' ><b>"
+								+ this.jobInfo.jobId + " : </b></font>"
+								+ "<font size='6' color='" + jobColor + "'><b>"
+								+ this.jobInfo.jobStatus + "</b></font></br> "
+								+ "<font size='5'>(" + this.jobInfo.jobName
+								+ ")</font></br>" + "  "
+								+ " <font  face='Comic Sans MS'> "
 								+ sd.toLocaleString() + "  -  "
-								+ fd.toLocaleString() + "( SUBMIT_TIME:"
-								+ subd.toLocaleString() + " )</font></br></p>");
+								+ fd.toLocaleString() + " </font></br></p>");
 				$("#jobInfoSpaceHtml").css({
-					float:"left"
+					float : "left"
 				});
 				$("#jobInfoImage").css({
-					float:"right"
+					float : "right"
 				});
-				
+
 				$(".clearSpace").css({
 					height : 15,
 					clear : "both"
 				});
 				$("#jobInfoSpaceHtml p").css({
 					marginLeft : 10,
-					marginTop :0
+					marginTop : 0
 				});
 
 				$("#" + this.$el.attr("id"))
-				.append(
-						'<div id="leftTop"></div><div id="rightTop"><div id ="checkLeft" class = "checkTable"></div><div id ="checkCenter" class = "checkTable"></div><div id ="checkRight" class = "checkTable"></div></div><div id="marginSpace"></div>');
+						.append(
+								'<div id="leftTop"></div><div id="rightTop"><div id ="checkLeft" class = "checkTable"></div><div id ="checkCenter" class = "checkTable"></div><div id ="checkRight" class = "checkTable"></div></div><div id="marginSpace"></div>');
 				$("#leftTop").css({
 					float : "left",
 					width : 350,
@@ -170,9 +143,10 @@ var BubbleChartView = wgp.AbstractView
 								'<input type="button" id="backButton" value="Back" onClick="self.history.back()">');
 				$("#backButton").button();
 				$("#leftTop").append(
-				'<input type="button" id="finishButton" value='+sortCheck()+'>');
+						'<input type="button" id="finishButton" value='
+								+ sortCheck() + '>');
 				$("#finishButton").button();
-				
+
 				$("#rightTop").css({
 					float : "right",
 					width : 400,

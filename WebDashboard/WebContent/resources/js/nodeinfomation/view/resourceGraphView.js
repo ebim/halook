@@ -66,7 +66,7 @@ halook.ResourceGraphElementView = wgp.DygraphElementView.extend({
 				data, this.getAttributes(halook.ResourceGraphAttribute));
 		console.log(this.height + ":" + this.graphHeight);
 
-		this.entity.resize(this.width, this.graphHeight);
+		this.entity.resize(this.widagth, this.graphHeight);
 		$("#" + this.$el.attr("id")).prepend("<h2>" + this.title + "</h2>");
 		$("#" + this.$el.attr("id")).height(this.height);
 		this.getGraphObject().updateOptions({

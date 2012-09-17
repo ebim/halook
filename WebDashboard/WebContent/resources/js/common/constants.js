@@ -4,6 +4,15 @@ halook.hbase.parent = {};
 halook.hbase.dualslider = {};
 halook.hbase.dualslider.UNIT = 60 * 60 * 1000;
 
+halook.DATE_FORMAT_DETAIL = 'yyyy/MM/dd HH:mm:ss.fff';
+halook.DATE_FORMAT_DAY = 'yyyy/MM/dd';
+halook.DATE_FORMAT_HOUR = 'yyyy/MM/dd HH:mm';
+
+halook.task = {};
+halook.task.SUCCESSED = "SUCCEEDED";
+halook.task.FAILED = "FAILED";
+halook.task.KILLED = "KILLED";
+halook.task.COMMIT_PENDING = "COMMIT_PENDING";
 wgp.constants.STATE.SUCCESS = "success";
 wgp.constants.STATE.RUNNING = "running";
 
@@ -21,7 +30,6 @@ wgp.constants.STATE.RKILLED = "rkilled";
 wgp.constants.STATE.TASKKILLED = "killed";
 wgp.constants.STATE.TASKFAIL = "fail";
 
-
 wgp.constants.JOB_STATE = {};
 wgp.constants.JOB_STATE.NORMAL = "NORMAL";
 wgp.constants.JOB_STATE.RUNNING = "RUNNING";
@@ -37,40 +45,35 @@ wgp.constants.JOB_STATE_COLOR.FAIL = "#FF0000";
 wgp.constants.JOB_STATE_COLOR.KILLED = "#888800";
 wgp.constants.JOB_STATE_COLOR.SUCCESS = "#0000FF";
 
+// wgp.constants.STATE_COLOR = {};
+// wgp.constants.STATE_COLOR[wgp.constants.STATE.NORMAL]="#00FF00";
+// wgp.constants.STATE_COLOR[wgp.constants.STATE.SUCCESS]="#00FF00";
+// wgp.constants.STATE_COLOR[wgp.constants.STATE.RUNNING]="#0000FF";
+// wgp.constants.STATE_COLOR[wgp.constants.STATE.KILLED]="#FFFF00";
+// wgp.constants.STATE_COLOR[wgp.constants.STATE.FAIL]="#FF0000";
+// wgp.constants.STATE_COLOR[wgp.constants.STATE.MNORMAL]="#007700";
+// wgp.constants.STATE_COLOR[wgp.constants.STATE.MRUNNING]="#00FF00";
+// wgp.constants.STATE_COLOR[wgp.constants.STATE.MFAIL]="#FF7700";
+// wgp.constants.STATE_COLOR[wgp.constants.STATE.MKILLED]="#777700";
+// wgp.constants.STATE_COLOR[wgp.constants.STATE.RNORMAL]="#000077";
+// wgp.constants.STATE_COLOR[wgp.constants.STATE.RRUNNING]="#0000FF";
+// wgp.constants.STATE_COLOR[wgp.constants.STATE.RFAIL]="#FF0077";
+// wgp.constants.STATE_COLOR[wgp.constants.STATE.RKILLED]="#770077";
+// wgp.constants.STATE_COLOR[wgp.constants.STATE.TASKEFAIL]="#FF0000";
+// wgp.constants.STATE_COLOR[wgp.constants.STATE.TASKKILLED]="#FF7700";
 
-
-
-
-//wgp.constants.STATE_COLOR = {};
-//wgp.constants.STATE_COLOR[wgp.constants.STATE.NORMAL]="#00FF00";
-//wgp.constants.STATE_COLOR[wgp.constants.STATE.SUCCESS]="#00FF00";
-//wgp.constants.STATE_COLOR[wgp.constants.STATE.RUNNING]="#0000FF";
-//wgp.constants.STATE_COLOR[wgp.constants.STATE.KILLED]="#FFFF00";
-//wgp.constants.STATE_COLOR[wgp.constants.STATE.FAIL]="#FF0000";
-//wgp.constants.STATE_COLOR[wgp.constants.STATE.MNORMAL]="#007700";
-//wgp.constants.STATE_COLOR[wgp.constants.STATE.MRUNNING]="#00FF00";
-//wgp.constants.STATE_COLOR[wgp.constants.STATE.MFAIL]="#FF7700";
-//wgp.constants.STATE_COLOR[wgp.constants.STATE.MKILLED]="#777700";
-//wgp.constants.STATE_COLOR[wgp.constants.STATE.RNORMAL]="#000077";
-//wgp.constants.STATE_COLOR[wgp.constants.STATE.RRUNNING]="#0000FF";
-//wgp.constants.STATE_COLOR[wgp.constants.STATE.RFAIL]="#FF0077";
-//wgp.constants.STATE_COLOR[wgp.constants.STATE.RKILLED]="#770077";
-//wgp.constants.STATE_COLOR[wgp.constants.STATE.TASKEFAIL]="#FF0000";
-//wgp.constants.STATE_COLOR[wgp.constants.STATE.TASKKILLED]="#FF7700";
-
-
-wgp.constants.STATE_COLOR[wgp.constants.STATE.SUCCESS]="#00FF00";
-wgp.constants.STATE_COLOR[wgp.constants.STATE.RUNNING]="#0000FF";
-wgp.constants.STATE_COLOR[wgp.constants.STATE.KILLED]="#FF6600";
-wgp.constants.STATE_COLOR[wgp.constants.STATE.FAIL]="#FF6600";
-wgp.constants.STATE_COLOR[wgp.constants.STATE.FAILED]="#FF6600";
-wgp.constants.STATE_COLOR[wgp.constants.STATE.MNORMAL]="#008000";
-wgp.constants.STATE_COLOR[wgp.constants.STATE.MRUNNING]="#00FF00";
-wgp.constants.STATE_COLOR[wgp.constants.STATE.MFAIL]="#FF0000";
-wgp.constants.STATE_COLOR[wgp.constants.STATE.MKILLED]="#777777";
-wgp.constants.STATE_COLOR[wgp.constants.STATE.RNORMAL]="#0000FF";
-wgp.constants.STATE_COLOR[wgp.constants.STATE.RRUNNING]="#0000FF";
-wgp.constants.STATE_COLOR[wgp.constants.STATE.RFAIL]="#C400C4";
-wgp.constants.STATE_COLOR[wgp.constants.STATE.RKILLED]="#777777";
-wgp.constants.STATE_COLOR[wgp.constants.STATE.TASKEFAIL]="#FF6600";
-wgp.constants.STATE_COLOR[wgp.constants.STATE.TASKKILLED]="#FF6600";
+wgp.constants.STATE_COLOR[wgp.constants.STATE.SUCCESS] = "#00FF00";
+wgp.constants.STATE_COLOR[wgp.constants.STATE.RUNNING] = "#0000FF";
+wgp.constants.STATE_COLOR[wgp.constants.STATE.KILLED] = "#FF6600";
+wgp.constants.STATE_COLOR[wgp.constants.STATE.FAIL] = "#FF6600";
+wgp.constants.STATE_COLOR[wgp.constants.STATE.FAILED] = "#FF6600";
+wgp.constants.STATE_COLOR[wgp.constants.STATE.MNORMAL] = "#008000";
+wgp.constants.STATE_COLOR[wgp.constants.STATE.MRUNNING] = "#00FF00";
+wgp.constants.STATE_COLOR[wgp.constants.STATE.MFAIL] = "#FF0000";
+wgp.constants.STATE_COLOR[wgp.constants.STATE.MKILLED] = "#777777";
+wgp.constants.STATE_COLOR[wgp.constants.STATE.RNORMAL] = "#0000FF";
+wgp.constants.STATE_COLOR[wgp.constants.STATE.RRUNNING] = "#0000FF";
+wgp.constants.STATE_COLOR[wgp.constants.STATE.RFAIL] = "#C400C4";
+wgp.constants.STATE_COLOR[wgp.constants.STATE.RKILLED] = "#777777";
+wgp.constants.STATE_COLOR[wgp.constants.STATE.TASKEFAIL] = "#FF6600";
+wgp.constants.STATE_COLOR[wgp.constants.STATE.TASKKILLED] = "#FF6600";

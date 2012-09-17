@@ -23,8 +23,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
+
 halook.ganttchartStateElementView = Backbone.View.extend({
-	initialize : function(argument) {
+	initialize : function(argument, treeSettings) {
 		_.bindAll();
 		this._paper = argument.paper;
 		if (this._paper == null) {
@@ -33,6 +34,7 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 		}
 		this.id = this.model.get("objectId");
 		this.render();
+
 	},
 	render : function() {
 		var color = this.getStateColor();
@@ -88,10 +90,6 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 			pointY : this.model.attributes.pointY - 8,
 			width : 0,
 			height : 16,
-		// attributes : {
-		// stroke : color,
-		// "stroke-width" : 4
-		// }
 		});
 		var rightLine = new wgp.MapElement(
 				{
@@ -100,13 +98,9 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 					pointY : this.model.attributes.pointY - 8,
 					width : 0,
 					height : 16,
-				// attributes : {
-				// stroke : color,
-				// "stroke-width" : 4
-				// }
 				});
 		var jobLabel = new wgp.MapElement({
-			pointX : 70,
+			pointX : 65,
 			pointY : this.model.attributes.pointY,
 			text : this.model.attributes.label,
 			fontSize : 14
@@ -118,29 +112,34 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 			text : this.model.attributes.text,
 			fontSize : 10
 		});
-		var detail = new wgp.MapElement(
-				{
-					pointX : this.model.attributes.pointX
-							+ this.model.attributes.width + 100,
-					pointY : this.model.attributes.pointY - 10,
-					text : "■JOB DETAIL <br /> jobId : "
-							+ this.model.attributes.label + "<br /> jobName : "
-							+ this.model.attributes.text + "<br /> status : "
-							+ this.model.attributes.state
-							+ "<br /> submitTime : "
-							+ this.model.attributes.submitTime
-							+ "<br /> startTime : "
-							+ this.model.attributes.startTime
-							+ "<br /> finishTime : "
-							+ this.model.attributes.finishTime,
-					fontSize : 12
-				});
+		var detail = new wgp.MapElement({
+			pointX : this.model.attributes.pointX + this.model.attributes.width
+					+ 100,
+			pointY : this.model.attributes.pointY - 10,
+			text : "■JOB DETAIL <br /> jobId : "
+					+ this.model.attributes.label
+					+ "<br /> jobName : "
+					+ this.model.attributes.text
+					+ "<br /> status : "
+					+ this.model.attributes.state
+					// + "<br /> submitTime : "
+					// + this.model.attributes.submitTime
+					+ "<br /> startTime : "
+					+ comDateFormat(new Date(this.model.attributes.startTime),
+							halook.DATE_FORMAT_DETAIL)
+					+ "<br /> finishTime : "
+					+ comDateFormat(new Date(this.model.attributes.finishTime),
+							halook.DATE_FORMAT_DETAIL),
+			fontSize : 12
+		});
+
 		var mouseOverRect = new wgp.MapElement({
 			pointX : 130,
 			pointY : this.model.attributes.pointY - 5,
 			width : 700,
 			height : 10
 		});
+
 		leftLine.set({
 			"attributes" : {
 				stroke : color,
@@ -191,21 +190,12 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 						.push(new line(dotLine[num].attributes, this._paper));
 			}
 			this.element.push(new line(leftLine.attributes, this._paper),
-					new line(rightLine.attributes, this._paper)
-			// new textArea(jobLabel, this._paper),
-			// new textArea(jobName, this._paper)
-			);
+					new line(rightLine.attributes, this._paper));
 			this._paper.text(jobLabel.attributes.pointX,
 					jobLabel.attributes.pointY, jobLabel.attributes.text);
-			// this._paper.text(jobName.attributes.pointX,
-			// jobName.attributes.pointY, jobName.attributes.text);
 
 			for ( var num = 0; num < this.element.length; num++) {
 				this.element[num].object.mouseover(function() {
-					// new wgp.detailElementView({
-					// model : mouseOverRect,
-					// paper : this.paper
-					// });
 					$("#ganttChartDetail").html(detail.attributes.text);
 				});
 				this.element[num].object.click(function(e) {
@@ -216,26 +206,56 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 		} else {
 			this.element.push(new line(this.model.attributes, this._paper),
 					new line(leftLine.attributes, this._paper), new line(
-							rightLine.attributes, this._paper)
-			// new textArea(jobLabel, this._paper),
-			// new textArea(jobName, this._paper)
-			);
+							rightLine.attributes, this._paper));
 			this._paper.text(jobLabel.attributes.pointX,
 					jobLabel.attributes.pointY, jobLabel.attributes.text);
-			// this._paper.text(jobName.attributes.pointX,
-			// jobName.attributes.pointY, jobName.attributes.text);
 
 			for ( var num = 0; num < this.element.length; num++) {
 				this.element[num].object.mouseover(function() {
-					// new wgp.detailElementView({
-					// model : detail,
-					// paper : this.paper
-					// });
 					$("#ganttChartDetail").html(detail.attributes.text);
 				});
+				var instance = this;
 				this.element[num].object.click(function(e) {
-					console.log(e.pageX);
-					console.log(jobLabel.attributes.text);
+
+					if (instance.childView) {
+						var tmpAppView = new wgp.AppView();
+						tmpAppView.removeView(inctance.childView);
+						this.childView = null;
+					}
+					$("#contents_area").children().remove();
+
+					var dataId = "/mapreduce/task";
+					var viewSettings = null;
+
+					$.each(wgp.constants.VIEW_SETTINGS, function(index, value) {
+						if (dataId.match(index)) {
+							viewSettings = value;
+							return false;
+						}
+					});
+					var viewClassName = viewSettings.viewClassName;
+					$.extend(true, viewSettings, {
+						id : instance.targetId
+					});
+					var treeSettings = {
+						id : "/mapreduce/task",
+						graphId : "/mapreduce/task"
+					};
+
+					$.extend(true, viewSettings, {
+						startTime : new Date(
+								instance.model.attributes.startTime),
+						finishTime : new Date(
+								instance.model.attributes.finishTime),
+						jobName : instance.model.attributes.text,
+						jobId : instance.model.attributes.label,
+						jobStatus : instance.model.attributes.state,
+						rootView : appView,
+						id : "contents_area",
+					});
+					instance.childView = eval("new " + viewClassName
+							+ "(viewSettings, treeSettings)");
+
 				});
 			}
 		}
@@ -265,5 +285,4 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 		var width = this.model.get("stroke");
 		return width;
 	}
-
 });

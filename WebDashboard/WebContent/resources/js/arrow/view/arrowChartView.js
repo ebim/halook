@@ -1,5 +1,6 @@
 //paperの高さ
-halook.arrowChart.paperHeight = getFromServerDatas.length * halook.arrowChart.cellHeight;
+halook.arrowChart.paperHeight = getFromServerDatas.length
+		* halook.arrowChart.cellHeight;
 // paperの幅
 halook.arrowChart.paperWidth = 725;
 // 矢印絵画領域の始まるオフセット分
@@ -46,23 +47,24 @@ function getChartPosition(x, y) {
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-var ArrowChartView = wgp.AbstractView
+halook.ArrowChartView = wgp.AbstractView
 		.extend({
-			initialize : function() {
+			initialize : function(arguments) {
 				var jobColor;
-
+				console.log(arguments);
+				this.jobInfo = argument.jobInfo;
 				this.viewType = wgp.constants.VIEW_TYPE.VIEW;
 				this.collection = new arrowModelCollection();
 				this.attributes = {};
-				this.registerCollectionEvent();
+//				this.registerCollectionEvent();
 
 				this.paper = new Raphael(document.getElementById(this.$el
 						.attr("id")), this.width, this.height);
-				halook.arrowChart.paperHeight = getFromServerDatas.length * halook.arrowChart.cellHeight;
+				halook.arrowChart.paperHeight = getFromServerDatas.length
+						* halook.arrowChart.cellHeight;
 
 				this.paper.setSize(halook.arrowChart.paperWidth,
 						halook.arrowChart.paperHeight);
-
 
 				// /複数会登場するIDの記憶と番号登録
 				var taskDataShowLength = halook.taskDataForShow.length;
@@ -94,10 +96,9 @@ var ArrowChartView = wgp.AbstractView
 				// textAreaの描画を行う。
 				this._drawCellTitle();
 
-				//taskInfo表示用
+				// taskInfo表示用
 				this._initInfoElement();
-				
-				
+
 				// /////グラフのtaskのカウントを実行
 
 				this.maxId = 0;
@@ -180,7 +181,8 @@ var ArrowChartView = wgp.AbstractView
 					// +
 					// halook.parentView.taskAttemptInfoDictionary[data.Mapreduce
 					// + "_" + data.SimpleID]);
-					if (data.Status == wgp.constants.JOB_STATE.FAIL || data.Status == wgp.constants.JOB_STATE.KILLED) {
+					if (data.Status == wgp.constants.JOB_STATE.FAIL
+							|| data.Status == wgp.constants.JOB_STATE.KILLED) {
 						var errorInfo;
 						if (DisplayMode == "task") {
 							errorInfo = this._calcErrorLengthAndStartPos(
@@ -202,14 +204,15 @@ var ArrowChartView = wgp.AbstractView
 						stateString = wgp.constants.STATE[data.Status];
 						// if (data.Status == wgp.constants.JOB_STATE.FAIL)
 						// stateString = "fail";
-						// else if (data.Status == wgp.constants.JOB_STATE.KILLED)
+						// else if (data.Status ==
+						// wgp.constants.JOB_STATE.KILLED)
 						// stateString = wgp.constants.JOB_STATE.KILLED;
 						var errorStateString = stateString;
 						stateString = data.Mapreduce + stateString;
 
-//						console.log("state string : " + stateString
-//								+ " error state " + errorStateString + " "
-//								+ data.SimpleID);
+						// console.log("state string : " + stateString
+						// + " error state " + errorStateString + " "
+						// + data.SimpleID);
 						if (data.Status == wgp.constants.JOB_STATE.FAIL) {
 							new wgp.ErrorStateElementView({
 								model : modelDataForError,
@@ -457,25 +460,30 @@ var ArrowChartView = wgp.AbstractView
 			},
 
 			redraw : function(mode) {
-				halook.arrowChart.paperHeight = getFromServerDatas.length * halook.arrowChart.cellHeight;
+				halook.arrowChart.paperHeight = getFromServerDatas.length
+						* halook.arrowChart.cellHeight;
 				this.paper.clear();
-				this.paper.setSize(halook.arrowChart.paperWidth,halook.arrowChart.paperHeight);
+				this.paper.setSize(halook.arrowChart.paperWidth,
+						halook.arrowChart.paperHeight);
 				DisplayMode = mode;
 				// 基本となるテーブルの線を描く
 				this._drawTableLines();
 				// 矢印たちと×印の絵画の作成
-				halook.arrowChart.paperHeight = getFromServerDatas.length * halook.arrowChart.cellHeight;
-							console.log(halook.arrowChart.paperWidth + " "+halook.arrowChart.paperHeight + " "+halook.arrowChart.paperHeight + " "+halook.arrowChart.cellHeight + " ");
-				
-				
+				halook.arrowChart.paperHeight = getFromServerDatas.length
+						* halook.arrowChart.cellHeight;
+				console.log(halook.arrowChart.paperWidth + " "
+						+ halook.arrowChart.paperHeight + " "
+						+ halook.arrowChart.paperHeight + " "
+						+ halook.arrowChart.cellHeight + " ");
+
 				this._drawArrowAndError();
 				console.log("drawed arrow and errors lines");
 
 				// textAreaの描画を行う。
 				this._drawCellTitle();
-				
+
 				this._initInfoElement();
-				
+
 			}
 
 		});
