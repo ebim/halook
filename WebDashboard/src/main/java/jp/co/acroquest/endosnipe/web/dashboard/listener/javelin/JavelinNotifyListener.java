@@ -26,7 +26,6 @@ import jp.co.acroquest.endosnipe.communicator.entity.Header;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.web.dashboard.config.DataBaseConfig;
-import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.AlarmNotifyListener;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.CollectorListener;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.ResourceAlarmListener;
 import jp.co.acroquest.endosnipe.web.dashboard.listener.collector.ResourceStateListener;
@@ -46,8 +45,14 @@ public class JavelinNotifyListener implements TelegramListener
     /** メッセージ送信用オブジェクトです。 */
     private MessageSender               messageSender_;
 
+    /** DB名(1つの場合のみ対応) TODO 複数対応 */
+    private static String dataBaseName_;
+
     /** 接続しているDB名のリスト */
-    private static Map<String, Integer> databaseNameMap_ = new HashMap<String, Integer>();
+    private static Map<Integer, String> databaseNameMap_ = new HashMap<Integer, String>();
+    
+    /** エージェントID */
+    private static int currentAgentID__;
 
     /**
      * コンストラクタです。
@@ -71,7 +76,7 @@ public class JavelinNotifyListener implements TelegramListener
                 && header.getByteRequestKind() == TelegramConstants.BYTE_REQUEST_KIND_NOTIFY)
         {
             Set<String> databaseNameList = ConnectNotifyAccessor.getDataBaseNameList(telegram);
-            modiryCollectorClientThread(databaseNameList, header.getByteTelegramKind());
+            modifyCollectorClientThread(databaseNameList, header.getByteTelegramKind());
 
             //            sendNotifyEntry(databaseNameList, header.getByteTelegramKind());
             //
@@ -84,7 +89,7 @@ public class JavelinNotifyListener implements TelegramListener
      * @param databaseNameList DataCollectorから取得したDB名リスト
      * @param telegramKind Javelin増減通知電文
      */
-    private void modiryCollectorClientThread(Set<String> databaseNameList, byte telegramKind)
+    private void modifyCollectorClientThread(Set<String> databaseNameList, byte telegramKind)
     {
         DatabaseManager manager = DatabaseManager.getInstance();
         DataBaseConfig dbConfig = manager.getDataBaseConfig();
@@ -95,7 +100,7 @@ public class JavelinNotifyListener implements TelegramListener
             List<CommunicationClient> clientList = connectionClient.getClientList();
             for (String databaseName : databaseNameList)
             {
-                if (databaseNameMap_.containsKey(databaseName))
+                if (dataBaseName_ != null)
                 {
                     continue;
                 }
@@ -103,7 +108,7 @@ public class JavelinNotifyListener implements TelegramListener
                 String javelinHost = dbConfig.getServerModeAgentSetting().acceptHost;
                 int javelinPort = dbConfig.getServerModeAgentSetting().acceptPort;
 
-                int agentId = getAgentId();
+                int agentId = generateAgentId();
                 String clientId = DashBoardServlet.createClientId(javelinHost, javelinPort);
 
                 CommunicationClient client =
@@ -112,7 +117,6 @@ public class JavelinNotifyListener implements TelegramListener
                 client.init(javelinHost, javelinPort);
                 client.addTelegramListener(new CollectorListener(messageSender_, agentId,
                                                                  databaseName));
-                client.addTelegramListener(new AlarmNotifyListener(messageSender_, agentId));
                 client.addTelegramListener(new ResourceAlarmListener(messageSender_, agentId));
                 client.addTelegramListener(new ResourceStateListener(messageSender_, agentId));
 
@@ -124,14 +128,7 @@ public class JavelinNotifyListener implements TelegramListener
                 client.connect(connectNotify);
                 clientList.add(client);
 
-                databaseNameMap_.put(databaseName, agentId);
-            }
-        }
-        else
-        {
-            for (String databaseName : databaseNameList)
-            {
-                databaseNameMap_.remove(databaseName);
+                dataBaseName_ = databaseName;
             }
         }
     }
@@ -140,58 +137,22 @@ public class JavelinNotifyListener implements TelegramListener
      * agentIDを取得する。
      * @return agentID
      */
-    private int getAgentId()
+    private synchronized int generateAgentId()
     {
-        // 現在空いている最も大きいagentId + 1の値を取得する
-        Integer agentId = 1;
-        for (Integer nowAgentId : databaseNameMap_.values())
-        {
-            if (agentId <= nowAgentId)
-            {
-                agentId = nowAgentId + 1;
-            }
-        }
-        return agentId;
+        return currentAgentID__++;
     }
-
-    // TODO
-    //    /**
-    //     * クライアントにDB名を通知する。
-    //     * @param measurementDataMap
-    //     * @param matchSettingMap
-    //     */
-    //    private void sendNotifyEntry(Set<String> databaseNameList, Byte kind)
-    //    {
-    //        Map<Byte, Set<String>> notifyData = new HashMap<Byte, Set<String>>();
-    //        notifyData.put(kind, databaseNameList);
-    //
-    //        // クライアントにDB名を送信する
-    //        EventManager manager = EventManager.getInstance();
-    //        Map<String, MeasurementSetting> clientSettings = manager.getCliantSettings();
-    //        for (Entry<String, MeasurementSetting> clientEntry : clientSettings.entrySet())
-    //        {
-    //            String clientId = clientEntry.getKey();
-    //
-    //            String result = JSON.encode(notifyData);
-    //            this.messageSender_.send(clientId, result);
-    //        }
-    //    }
 
     /**
      * DB名リストを取得します。
      * @return databaseNameList_ DB名リスト
      */
-    public static Map<String, Integer> getDatabaseNameMap_()
+    public static Map<Integer, String> getDatabaseNameMap()
     {
         return databaseNameMap_;
     }
 
-    /**
-     * DB名リストを設定します。
-     * @param databaseNameList_ DB名リスト
-     */
-    public static void setDatabaseNameMap_(Map<String, Integer> databaseNameMap_)
+    public static String getDatabaseName(int agentId)
     {
-        JavelinNotifyListener.databaseNameMap_ = databaseNameMap_;
+        return dataBaseName_;
     }
 }

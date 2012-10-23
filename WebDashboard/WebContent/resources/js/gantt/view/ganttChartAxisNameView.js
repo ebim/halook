@@ -47,22 +47,35 @@ halook.ganttChartAxisNameView = Backbone.View
 
 				var timeLabel = [];
 				var timeLine = [];
-				var timeWidth = 120;
-//				console.log("時刻表示？");
-//				console.log(comDateFormat(new Date(this.model.attributes.text),
-//						halook.DATE_FORMAT_HOUR));
+				var timeRange;
+				
+				// X軸の分割数　
+				var splitter = 6;
+				
+				// X軸の1区間の時間幅
+				var timeWidthSplitter = ((new Date(this.model.attributes.endText) / 1000) - (new Date(this.model.attributes.text) / 1000)) / splitter;
 
-				var unixTime = new Date(this.model.attributes.text) / 1000 + 7200;
+				//　X軸の1区間の幅
+				var timeWidthInit = 700 / splitter;
+				
+				console.log("range : " + ((new Date(this.model.attributes.endText) / 1000) - (new Date(this.model.attributes.text) / 1000)));
+				
+				var timeWidth = timeWidthInit;
+//					console.log("時刻表示？");
+//					console.log(comDateFormat(new Date(this.model.attributes.text),
+//							halook.DATE_FORMAT_HOUR));
+
+				console.log(this.model.attributes.width);
+				console.log(timeWidthInit);
+				var unixTime = new Date(this.model.attributes.text) / 1000 + timeWidthSplitter;
 				var year, month, day, hour, minute, second;
-				for ( var num = 0; num < this.model.attributes.widthX / 120 - 1; num++) {
+				for ( var num = 0; num < splitter; num++) {
 
 
 					timeLabel.push(new wgp.MapElement({
 						pointX : this.model.attributes.pointX + timeWidth,
 						pointY : this.model.attributes.pointY,
-						text : comDateFormat(new Date(
-								this.model.attributes.text),
-								halook.DATE_FORMAT_HOUR)
+						text : new Date(unixTime) * 1000
 					}));
 					timeLine.push(new wgp.MapElement({
 						pointX : this.model.attributes.pointX + timeWidth,
@@ -70,8 +83,16 @@ halook.ganttChartAxisNameView = Backbone.View
 						width : 0,
 						height : this.model.attributes.pointY
 					}));
-					timeWidth += 120;
-					unixTime += 7200;
+					timeLine[num].set({
+						"attributes" : {
+							stroke : color
+						}
+					}, {
+						silent : true
+					})
+
+					timeWidth += timeWidthInit;
+					unixTime += timeWidthSplitter;
 					timeLabel[num].set({
 						"attributes" : {
 							fill : color
@@ -96,6 +117,9 @@ halook.ganttChartAxisNameView = Backbone.View
 								halook.DATE_FORMAT_HOUR));
 
 				for ( var num = 0; num < timeLabel.length; num++) {
+//					console.log(comDateFormat(new Date(
+//							timeLabel[num].attributes.text),
+//							halook.DATE_FORMAT_HOUR));
 					this.element.push(new line(timeLine[num].attributes,
 							this._paper));
 					this._paper.text(timeLabel[num].attributes.pointX,
@@ -114,6 +138,7 @@ halook.ganttChartAxisNameView = Backbone.View
 					silent : true
 				});
 				this.element.setAttributes(model);
+				this.render();
 			},
 			remove : function(property) {
 				this.element.object.remove();

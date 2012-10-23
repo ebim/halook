@@ -109,6 +109,7 @@ wgp.DygraphElementView = wgp.AbstractView.extend({
 		return this.graphId;
 	},
 	destroy : function() {
+		console.log("remove");
 		this.stopRegisterCollectionEvent();
 		var tmpAppView = new wgp.AppView();
 		tmpAppView.stopSyncData([ this.graphId ]);

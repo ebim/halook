@@ -54,6 +54,7 @@ halook.ganttChartAxisStateElementView = Backbone.View.extend({
 			silent : true
 		});
 		this.element.setAttributes(model);
+
 	},
 	remove : function(property) {
 		this.element.object.remove();

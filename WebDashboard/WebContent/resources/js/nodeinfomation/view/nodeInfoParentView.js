@@ -1,6 +1,7 @@
 halook.nodeinfo = {};
 halook.nodeinfo.parent = {};
 halook.nodeinfo.parent.css = {};
+halook.nodeinfo.viewList = [];
 
 halook.nodeinfo.parent.css.informationArea = {
 	fontSize : "14px",
@@ -19,8 +20,8 @@ halook.nodeinfo.parent.css.annotationLegendArea = {
 	padding : "5px 5px 5px 5px"
 };
 halook.nodeinfo.parent.css.dualSliderArea = {
-	width : "700px",
-	margin : "50px 0px 0px 60px",
+	width : "800px",
+	margin : "0px 0px 20px 60px",
 };
 halook.nodeinfo.parent.css.graphArea = {
 	float : "left",
@@ -31,6 +32,8 @@ halook.nodeinfo.ONEDAY_MILLISEC = 86400000;
 
 halook.NodeInfoParentView = wgp.AbstractView.extend({
 	initialize : function(argument, treeSettings) {
+		halook.nodeinfo.viewList = [];
+		
 		this.viewtype = wgp.constants.VIEW_TYPE.VIEW;
 		this.graphIds = [];
 		this.treeSettings = treeSettings;
@@ -38,6 +41,7 @@ halook.NodeInfoParentView = wgp.AbstractView.extend({
 			id : "tree",
 			rootView : this
 		});
+		var appView = wgp.AppView();
 		appView.addView(treeListView, "tree");
 		console.log(treeListView.collection);
 		this.createParseData(treeSettings.id, treeListView.collection);
@@ -64,7 +68,18 @@ halook.NodeInfoParentView = wgp.AbstractView.extend({
 			console.log(graphName);
 			instance._addGraphDivision(graphName);
 		})
-		// associate with the slider and graph
+		
+		this.dualSliderView.setScaleMovedEvent(function(from, to) {
+			var viewList = halook.nodeinfo.viewList;
+			for (key in viewList) {
+				var instance = viewList[key];
+				// グラフの表示期間の幅を更新する
+				instance.updateDisplaySpan(from, to);
+				// グラフの表示データを更新する
+				instance.updateGraphData(key, from, to);
+				
+			}
+		});
 	},
 	render : function() {
 		console.log('call render');
@@ -82,7 +97,7 @@ halook.NodeInfoParentView = wgp.AbstractView.extend({
 		console.log(graphId);
 		var viewId = null;
 		var viewClassName = "halook.ResourceGraphElementView";
-//		var tempId = graphId.split("/");
+		var tempId = graphId.split("/");
 		var dataId = tempId[tempId.length - 1];
 		console.log(dataId);
 		var treeSettings = {
@@ -97,8 +112,9 @@ halook.NodeInfoParentView = wgp.AbstractView.extend({
 			rootView : this,
 			graphId : graphId,
 			title : dataId,
-			noTermData : true,
-			width : 250,
+			noTermData : false,
+			term : 1800 * 2,
+			width : 260,
 			height : 200,
 			dateWindow : [ new Date() - 60 * 60 * 1000, new Date() ],
 			attributes : {
@@ -128,12 +144,10 @@ halook.NodeInfoParentView = wgp.AbstractView.extend({
 		});
 		var view = eval("new " + viewClassName
 				+ "(viewAttribute, treeSettings)");
-		var instance = view;
-		this.dualSliderView.setScaleMovedEvent(function(from, to) {
-			instance.updateDisplaySpan(from, to);
-		});
-		this.viewList[view.getRegisterId()] = view;
-
+//		var instance = view;
+		
+		var registerId = view.getRegisterId();
+		halook.nodeinfo.viewList[registerId] = view;
 	},
 	getTermData : function() {
 		console.log(this.collection);

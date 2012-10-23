@@ -77,14 +77,18 @@ public class MessageInboundManager
         {
         	Set<String> groupIdList = new HashSet<String>(inbound.getListeners());
         	Map<String, Map<String, BufferDto>> sendMap = new HashMap<String, Map<String, BufferDto>>();
-        	for (String groupId : groupIdList) {
+        	for (String groupId : dataMap.keySet()) {
         		Map<String, BufferDto> dtoMap = dataMap.get(groupId);
         		if (dtoMap != null) {
         			sendMap.put(groupId, dtoMap);
         		}
         	}
         	if (sendMap.size() != 0) {
-                inbound.notifyListener(JSON.encode(sendMap));        		
+        		for(Map.Entry<String, Map<String, BufferDto>> entry: sendMap.entrySet()) {
+        			HashMap<String, Map<String, BufferDto>> oneDataMap = new HashMap<String, Map<String,BufferDto>>();
+        			oneDataMap.put(entry.getKey(), entry.getValue());
+        			inbound.notifyListener(JSON.encode(oneDataMap));
+        		}
         	}
         }
     }

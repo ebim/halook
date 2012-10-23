@@ -3,9 +3,10 @@ halook.BubbleChartView = wgp.AbstractView
 			initialize : function(arguments, treeSettings) {
 				this.jobInfo = arguments.jobInfo;
 				this.viewType = wgp.constants.VIEW_TYPE.VIEW;// ビュータイプ
-
+				this.treeSettings = treeSettings;
 				this.maxId = 0;// ???
-
+				this.viewId = arguments.viewId;
+				this.viewList = [];
 				// 何の処理か不明
 				var realTag = $("#" + this.$el.attr("id"));
 				if (this.width == null) {
@@ -21,7 +22,7 @@ halook.BubbleChartView = wgp.AbstractView
 				this.graph = new halook.BubbleElementView({
 					id : "Bubble",
 					treeSettings : treeSettings,
-					width : 700,
+					width : 750,
 					height : 480,
 					jobInfo : this.jobInfo,
 					attributes : {
@@ -52,11 +53,18 @@ halook.BubbleChartView = wgp.AbstractView
 				this.graph.onAdd(element);
 			},
 			onChange : function(element) {
+
 			},
-			onRemove : function(element) {
+			onRemove : function() {
 			},
-			destory : function() {
-				this.graph.destory();
+			getRegisterId : function() {
+				return this.viewId;
+			},
+
+			destroy : function() {
+				console.log("remove test");
+				var appTmpView = new wgp.AppView();
+				appTmpView.removeView(this.graph);
 			},
 			// htmlタグの定義
 			_callHtmlConstructor : function() {
@@ -137,21 +145,22 @@ halook.BubbleChartView = wgp.AbstractView
 					float : "left",
 					width : 350,
 					height : 50
-				/* , "background-color":"red" */});
+				});
 				$("#leftTop")
 						.append(
-								'<input type="button" id="backButton" value="Back" onClick="self.history.back()">');
-				$("#backButton").button();
+								'<input type="button" class = "sortButton" id="backButton" value="Back">');
 				$("#leftTop").append(
-						'<input type="button" id="finishButton" value='
+						'<input type="button" class = "sortButton" id="finishButton" value='
 								+ sortCheck() + '>');
-				$("#finishButton").button();
+//				$("#backButton").button();
+//				$("#finishButton").button();
+				$(".sortButton").css({
+					float : "left"
+				});
 
 				$("#rightTop").css({
 					float : "right",
-					width : 400,
-					height : 50
-				/* , "background-color":"green" */});
+				});
 				$("#marginSpace").css({
 					clear : "both",
 					width : 900,
@@ -160,6 +169,11 @@ halook.BubbleChartView = wgp.AbstractView
 				$(".checkTable").css({
 					float : "left"
 				});
+				
+				$("#backButton").click(function() {
+					location.href = "http://localhost:8080/WebDashboard/init";
+				});
+				
 				$("#checkLeft").append(
 						'<input type="checkbox" value="MapSuccess" id="0" '
 								+ flagCheck(MAP_SUCCESS) + '>MapSuccess'
@@ -190,7 +204,7 @@ halook.BubbleChartView = wgp.AbstractView
 				});
 				$("#leftTop").css({
 					marginTop : 10,
-					marginLeft : 100
+					marginLeft : 10
 				});
 				$("#rightTop").css({
 					marginTop : 10,

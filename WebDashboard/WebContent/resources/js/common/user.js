@@ -108,14 +108,16 @@ var bubbleTabViewElement = {
 };
 
 var arrowTabViewElement = {
-	viewClassName : "halook.ParentTmpView",
+	viewClassName : "halook.ArrowParentView",
 	rootView : appView,
 	tabTitle : "Arrow Chart",
 };
 
 var mapReduceTabViewElement = {
 	viewClassName : "halook.TabView",
-	collection : [ bubbleTabViewElement ]
+	 collection : [ arrowTabViewElement, bubbleTabViewElement ],
+	// collection : [ bubbleTabViewElement ],
+//	collection : [ arrowTabViewElement ],
 };
 
 wgp.constants.VIEW_SETTINGS = {

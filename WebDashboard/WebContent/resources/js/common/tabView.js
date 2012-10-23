@@ -56,8 +56,8 @@ halook.TabView = wgp.AbstractView.extend({
 		var newDivTabId = this.divTabId + "_" + tabId;
 		$("#" + this.divId).append("<div id=" + newDivTabId + "></div>");
 
-		$("#" + newDivTabId).width("100%");
-		$("#" + newDivTabId).height("90%");
+		$("#" + newDivTabId).width("98%");
+		$("#" + newDivTabId).height("98%");
 
 		var title = $("<li></li>");
 		var href = $("<a href=#" + newDivTabId + ">" + tabTitle + "</a>");
@@ -70,9 +70,11 @@ halook.TabView = wgp.AbstractView.extend({
 			id : newDivTabId,
 			collection : childCollection,
 			jobInfo : this.jobInfo,
+			viewId : this.treeSettings.id + tabId,
 		};
 		var view = eval("new " + viewClassName
 				+ "(childAttribute, this.treeSettings)");
+		console.log(view.getRegisterId());
 		this.viewList[view.getRegisterId()] = view;
 	},
 	onChange : function(tabModel) {
@@ -83,6 +85,7 @@ halook.TabView = wgp.AbstractView.extend({
 		$("#" + this.divId).tabs("remove", tabModel.id);
 	},
 	destroy : function() {
+		console.log("test log");
 		_.each(this.viewList, function(view) {
 			view.destroy();
 		})

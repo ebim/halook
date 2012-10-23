@@ -11,18 +11,19 @@ import org.wgp.manager.WgpBufferManager;
 @Component
 public class CompleteUpdateDataInterceptor {
 
+	/** WgpBufferManager */
 	@Autowired
 	WgpBufferManager wgpBufferManager;
 	
 	/**
-	 * 
-	 * @param joinPoint
+	 * if complete execute method, send data to client.
+	 * @param joinPoint joinpointObject.
 	 */
 	public void completeInterceptor() {
 		Map<String, Map<String, BufferDto>> bufferData = wgpBufferManager.extractBufferData();
 		MessageInboundManager messageInboundManager = MessageInboundManager.getInstance();
 		if (bufferData != null) {
-			messageInboundManager.notifyMessage(bufferData);			
+			messageInboundManager.notifyMessage(bufferData);
 		}
 	}
 }

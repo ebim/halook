@@ -8,6 +8,10 @@
 <%-- dual slider --%>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/common/dualSliderView.js">
+</script>
+	
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/common/singleSliderView.js">
 	
 </script>
 <script type="text/javascript"
@@ -75,10 +79,6 @@
 	
 </script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/hbase/mock/hbaseMock.js">
-	
-</script>
-<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/hbase/view/hbaseView.js">
 	
 </script>
@@ -95,11 +95,7 @@
 
 <%-- arrow view --%>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/parentView/view/parentTmpView.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/parentView/model/parentTmpModel.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/parentView/mock/parentTmpDataMock.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/arrow/view/arrowParentView.js"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/common/map/customtriangle.js"></script>
 <script type="text/javascript"
@@ -107,13 +103,9 @@
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/arrow/model/dygraphChartModel.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/arrow/mock/dygraphChartDataMock.js"></script>
-<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/arrow/view/arrowChartView.js"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/arrow/model/arrowChartModel.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/arrow/mock/arrowChartDataMock.js"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/common/map/arrowStateElementView.js"></script>
 <script type="text/javascript"
@@ -133,8 +125,6 @@
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/gantt/model/ganttChartModel.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/gantt/mock/ganttChartDataMock.js"></script>
-<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/gantt/view/ganttChartDetailView.js"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/gantt/view/ganttChartParentView.js"></script>
@@ -147,11 +137,7 @@
 
 <%-- bubble view --%>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/bubble/model/bubbleChartModel.js"></script>
-<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/bubble/view/bubbleChartView.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/bubble/mock/bubbleChartMock.js"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/bubble/graph/bubbleElementView.js"></script>
 

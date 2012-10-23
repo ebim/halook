@@ -46,11 +46,58 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 				stroke : color,
 				"stroke-width" : strokeWidth
 			}
-		}, {
+		}, 
+		{
 			silent : true
 		});
 
-		if (this.model.attributes.state.match("running")) {
+//		if(this.model.attributes.pointX < this.model.attributes.startX)
+//		{
+			var nonLeftLine = new wgp.MapElement({
+				pointX : this.model.attributes.startX,
+				pointY : this.model.attributes.pointY,
+				width : this.model.attributes.width - (this.model.attributes.startX - this.model.attributes.pointX),
+				height : 0,
+				state : this.model.attributes.status,
+				label : this.model.attributes.label,
+				text : this.model.attributes.text,
+				stroke : 6
+			});
+			
+			nonLeftLine.set({
+				"attributes" : {
+					stroke : color,
+					"stroke-width" : strokeWidth
+				}
+			}, {
+				silent : true
+			});
+//		}
+//		else if(this.model.attributes.pointY > this.model.attributes.startX + 700)
+//		{
+			var nonRightLine = new wgp.MapElement({
+				pointX : this.model.attributes.pointX,
+				pointY : this.model.attributes.pointY,
+				width : this.model.attributes.width - (this.model.attributes.pointY - this.model.attributes.startX + 700),
+				height : 0,
+				state : this.model.attributes.status,
+				label : this.model.attributes.label,
+				text : this.model.attributes.text,
+				stroke : 6
+			});
+
+			nonRightLine.set({
+				"attributes" : {
+					stroke : color,
+					"stroke-width" : strokeWidth
+				}
+			}, {
+				silent : true
+			});
+//		}
+
+		//stateがrunningの場合は、点線
+		if (this.model.attributes.state.match("RUNNING")) {
 			var dotLine = [];
 			var models;
 			for ( var num = 0; num < this.model.attributes.width / 20; num++) {
@@ -106,8 +153,7 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 			fontSize : 14
 		});
 		var jobName = new wgp.MapElement({
-			pointX : this.model.attributes.pointX + this.model.attributes.width
-					/ 2,
+			pointX : this.model.attributes.pointX + this.model.attributes.width / 2,
 			pointY : this.model.attributes.pointY - 5,
 			text : this.model.attributes.text,
 			fontSize : 10
@@ -183,7 +229,7 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 
 		this.element = [];
 		var focusElement;
-		if (this.model.attributes.state.match("running")) {
+		if (this.model.attributes.state.match("RUNNING")) {
 			for ( var num = 0; num < dotLine.length; num++) {
 				console.log(dotLine[num].attributes.pointX);
 				this.element
@@ -204,12 +250,24 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 				});
 			}
 		} else {
-			this.element.push(new line(this.model.attributes, this._paper),
-					new line(leftLine.attributes, this._paper), new line(
-							rightLine.attributes, this._paper));
+			console.log("nonLeft startX: " + nonLeftLine.attributes.startX);
+			if(this.model.attributes.pointX < this.model.attributes.startX)
+			{
+				this.element.push(new line(nonLeftLine.attributes, this._paper));
+				console.log("nonLeft : " + nonLeftLine.attributes.pointX);
+			}
+			else if(this.model.attributes.pointY > this.model.attributes.startX + 700)
+			{
+				this.element.push(new line(nonRightLine.attributes, this._paper));
+			}
+			else
+			{
+			this.element.push(new line(this.model.attributes, this._paper));
+			this.element.push(new line(leftLine.attributes, this._paper));
+			this.element.push(new line(rightLine.attributes, this._paper));
 			this._paper.text(jobLabel.attributes.pointX,
 					jobLabel.attributes.pointY, jobLabel.attributes.text);
-
+			}
 			for ( var num = 0; num < this.element.length; num++) {
 				this.element[num].object.mouseover(function() {
 					$("#ganttChartDetail").html(detail.attributes.text);
@@ -284,5 +342,5 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 	getStateStrokeWidth : function() {
 		var width = this.model.get("stroke");
 		return width;
-	}
+	}	
 });

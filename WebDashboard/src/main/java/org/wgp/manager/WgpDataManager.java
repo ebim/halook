@@ -94,7 +94,7 @@ public class WgpDataManager
         }
         else
         {
-            throw new WGPRuntimeException(ADD_ERROR_MESSAGE);
+        	updateData(dataGroupId, objectId, wgpData);
         }
     }
 

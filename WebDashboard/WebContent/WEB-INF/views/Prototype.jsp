@@ -13,13 +13,13 @@
 		var viewArea1 = {};
 		var viewArea2 = {};
 
-		//表示領域1(ツリーエリア)
+		//è¡¨ç¤ºé å1(ããªã¼ã¨ãªã¢)
 		viewArea1.width = 300;
 		viewArea1.height = 800;
 		viewArea1.rowspan = 1;
 		viewArea1.colspan = 1;
 
-		//表示領域2(コンテンツエリア)
+		//è¡¨ç¤ºé å2(ã³ã³ãã³ãã¨ãªã¢)
 		viewArea2.width = 900;
 		viewArea2.height = 800;
 		viewArea2.rowspan = 1;
@@ -50,6 +50,18 @@
 		websocketClient.initialize();
 		appView.getTermData([ wgp.constants.TREE.DATA_ID ], new Date(),
 				new Date());
+
+		$("#tree_area")
+				.click(
+						function() {
+							if (document.getElementById("/mapreduce/task") != undefined) {
+
+								var parentElem = document
+										.getElementById("/mapreduce/task").parentNode;
+								$("#tree_area").jstree("delete_node",
+										parentElem);
+							}
+						});
 	</script>
 </body>
 </html>

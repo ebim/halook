@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,14 +46,14 @@ public class AgentNotifyProcessor implements EventProcessor, EventConstants
      */
     public void process(HttpServletRequest request, HttpServletResponse response)
     {
-        Map<String, Integer> databaseInfoMap = JavelinNotifyListener.getDatabaseNameMap_();
+        Map<Integer, String> databaseInfoMap = JavelinNotifyListener.getDatabaseNameMap();
         List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
 
-        for (Map.Entry<String, Integer> databaseInfo : databaseInfoMap.entrySet())
+        for (Map.Entry<Integer, String> databaseInfo : databaseInfoMap.entrySet())
         {
             Map<String, String> result = new HashMap<String, String>();
-            result.put("serverKind",databaseInfo.getKey());
-            result.put("agentId", databaseInfo.getValue().toString());
+            result.put("serverKind", databaseInfo.getValue());
+            result.put("agentId", databaseInfo.getKey().toString());
 
             resultList.add(result);
         }

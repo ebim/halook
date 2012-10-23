@@ -14,6 +14,7 @@ package jp.co.acroquest.endosnipe.web.dashboard.manager;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import jp.co.acroquest.endosnipe.web.dashboard.config.AgentSetting;
 import jp.co.acroquest.endosnipe.web.dashboard.config.DataBaseConfig;
@@ -102,15 +103,7 @@ public final class DatabaseManager
 
         if ("server".equals(dbConfig_.getConnectionMode()))
         {
-            for (Map.Entry<String, Integer> agentInfo : JavelinNotifyListener.getDatabaseNameMap_().entrySet())
-            {
-                if (agentInfo.getValue() == agentId)
-                {
-                    return agentInfo.getKey();
-                }
-            }
-            return null;
-
+            return JavelinNotifyListener.getDatabaseName(agentId);
         }
         else
         {

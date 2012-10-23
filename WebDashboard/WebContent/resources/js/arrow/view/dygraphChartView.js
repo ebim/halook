@@ -42,27 +42,29 @@ function executeTaskCount(startTime, endTime, tasks, times) {
 			counter : tasksCounter(tasks, tmpTime)
 		};
 		resultReturnArray.push(tmpDictionary);
-		// alert("result: "+tmpDictionary.time+" and "+tmpDictionary.counter);
 	}
-	// alert("result: "+resultReturnArray[2].time+" and
-	// "+resultReturnArray[2].counter);
 	return resultReturnArray;
 }
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-var DygraphChartView = wgp.DygraphElementView.extend({
+halook.DygraphChartView = wgp.DygraphElementView.extend({
 	initialize : function() {
 		this.viewType = wgp.constants.VIEW_TYPE.VIEW;
 		this.collection = new dygraphModelCollection();
 		this.attributes = {
 			xlabel : "time [Date]",
-			ylabel : "num ",
+			ylabel : "Concurrent task num",
+			labels : [ "Date", "Task num" ],
 			drawPoints : true,
-			pointSize : 10,
+			pointSize : 5,
 			strokeWidth : 5,
 			drawXGrid : true, /* colors:["salmon"] */
 		};
+//		var instance = this;
+//		halook.DygraphChartView = function() {
+//			return instance;
+//		}
 		this.registerCollectionEvent();
 		this.graphId = "taskGraph";
 		this.maxId = 0;

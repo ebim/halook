@@ -208,6 +208,11 @@ var HbaseView = wgp.AbstractView.extend({
 			
 			var timestamp = parseInt(modelData.measurementTime);
 			var region_number = jsonData.RegionNumber;
+			
+			// if data format is not currect, execute next data.
+			if (region_number == null) {
+				return true;
+			}
 			var eventList = jsonData.EventList;
 			
 			// push data
