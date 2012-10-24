@@ -13,10 +13,10 @@ Please see [https://github.com/endosnipe/VisualHadoop/wiki](https://github.com/e
 ■概要
 halookは、Hadoop/HBaseの内部動作を可視化し、問題点の早期発見を支援するツールです。
 
-当プロジェクトは、Acroquest Technologyの夏期インターンシップでインターン生が作成したものを基としていています。
+当プロジェクトは、Acroquest Technologyの夏期インターンシップでインターン生が作成したものを基としていています。  
  Acroquest Technology -- http://www.acroquest.co.jp/
 
-また当システムは、WGP（Web Graphical Platform）を用いて作成されています。
+また当システムは、WGP（Web Graphical Platform）を用いて作成されています。  
  WGP -- http://wgp.sourceforge.net/
 
 
