@@ -27,8 +27,6 @@ var ganttChartView = wgp.AbstractView
 				}
 				// realTag.height(this.height);
 				
-				console.log(this.termData.startDate + " : " + this.termData.endDate)
-
 			},
 			render : function() {
 				this.paper.remove();
@@ -90,7 +88,6 @@ var ganttChartView = wgp.AbstractView
 
 					// ganttChartの1時間分の幅の設定
 					var timeWidthInit = (700 / splitter) / timeWidthSplitter;
-					console.log("width: " + timeWidthInit);
 
 					for ( var i = 0; i < this.dataArray.length; i++) {
 						if (i == 0) {
@@ -220,6 +217,5 @@ var ganttChartView = wgp.AbstractView
 			hoge : function(dataArray) {
 				this.dataArray = dataArray;
 				this.render();
-				console.log("hogehoge");
 			}
 		});

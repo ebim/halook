@@ -17,14 +17,10 @@ var ganttChartParentView = wgp.AbstractView
 				var appView = new wgp.AppView();
 				appView.addView(this, (treeSettings.id + "%"));
 				appView.getTermData([ (treeSettings.id + "%") ], dateS, dateE);
-				console.log(this);
 				
 				this.termData = {};
 				this.termData.startDate = dateS;
 				this.termData.endDate = dateE;
-
-				console.log("startTime : " + this.termData.startDate
-						+ "    endTime : " + this.termData.endDate);
 
 				this.maxId = 0;
 
@@ -48,7 +44,7 @@ var ganttChartParentView = wgp.AbstractView
 				$("#" + this.$el.attr("id")).append(
 						'<div id="viewTitle" style="border:outset;border-color:#EEEEEE;border-width:7px;"></div>');
 				$("#viewTitle").css({
-					width : "680px",
+					width : "850px",
 					height : "70px",
 				});
 				$('#viewTitle').append('<h1>GanttChart</h1>'

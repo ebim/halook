@@ -86,6 +86,7 @@ wgp.constants.JOB_STATE.RUNNING = "RUNNING";
 wgp.constants.JOB_STATE.FAIL = "FAILED";
 wgp.constants.JOB_STATE.FAILED = "FAILED";
 wgp.constants.JOB_STATE.KILLED = "KILLED";
+wgp.constants.JOB_STATE.KILLED_UNCLEAN = "KILLED_UNCLEAN";
 wgp.constants.JOB_STATE.SUCCESS = "SUCCESS";
 
 wgp.constants.JOB_STATE_COLOR = {};

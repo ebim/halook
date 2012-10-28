@@ -36,6 +36,7 @@ halook.hbase.parent = {
 		graphArea : {
 				float	: "left",
 				width	: "650px",
+				height	: "400px",
 				margin	: "20px 0px 0px 10px"
 		}
 	}

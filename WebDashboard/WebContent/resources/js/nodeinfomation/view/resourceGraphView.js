@@ -144,7 +144,6 @@ halook.ResourceGraphElementView = wgp.DygraphElementView.extend({
 	updateDisplaySpan : function(from, to) {
 		var startDate = new Date().getTime() - from;
 		var endDate = new Date().getTime() - to;
-		console.log(startDate + "  :  " + endDate);
 		this.getGraphObject().updateOptions({
 			dateWindow : [ startDate, endDate ]
 		});

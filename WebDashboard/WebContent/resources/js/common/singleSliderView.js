@@ -51,8 +51,6 @@ halook.SingleSliderView = wgp.AbstractView.extend({
 		this._setGroupCss();
 		this._selectSelector('groupArea', this.groupNum);
 		
-		console.log('initialize (dual slider)');
-		
 		// group selector event
 		this._setGroupSelectorMovedEvent();
 	},

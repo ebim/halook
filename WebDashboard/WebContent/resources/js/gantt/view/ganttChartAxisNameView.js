@@ -57,16 +57,12 @@ halook.ganttChartAxisNameView = Backbone.View
 
 				//　X軸の1区間の幅
 				var timeWidthInit = 700 / splitter;
-				
-				console.log("range : " + ((new Date(this.model.attributes.endText) / 1000) - (new Date(this.model.attributes.text) / 1000)));
-				
+								
 				var timeWidth = timeWidthInit;
 //					console.log("時刻表示？");
 //					console.log(comDateFormat(new Date(this.model.attributes.text),
 //							halook.DATE_FORMAT_HOUR));
 
-				console.log(this.model.attributes.width);
-				console.log(timeWidthInit);
 				var unixTime = new Date(this.model.attributes.text) / 1000 + timeWidthSplitter;
 				var year, month, day, hour, minute, second;
 				for ( var num = 0; num < splitter; num++) {

@@ -231,7 +231,6 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 		var focusElement;
 		if (this.model.attributes.state.match("RUNNING")) {
 			for ( var num = 0; num < dotLine.length; num++) {
-				console.log(dotLine[num].attributes.pointX);
 				this.element
 						.push(new line(dotLine[num].attributes, this._paper));
 			}
@@ -244,17 +243,11 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 				this.element[num].object.mouseover(function() {
 					$("#ganttChartDetail").html(detail.attributes.text);
 				});
-				this.element[num].object.click(function(e) {
-					console.log(e.pageX);
-					console.log(jobLabel.attributes.text);
-				});
 			}
 		} else {
-			console.log("nonLeft startX: " + nonLeftLine.attributes.startX);
 			if(this.model.attributes.pointX < this.model.attributes.startX)
 			{
 				this.element.push(new line(nonLeftLine.attributes, this._paper));
-				console.log("nonLeft : " + nonLeftLine.attributes.pointX);
 			}
 			else if(this.model.attributes.pointY > this.model.attributes.startX + 700)
 			{

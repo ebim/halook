@@ -96,15 +96,12 @@ var HbaseView = wgp.AbstractView.extend({
 		
 		var appView = new wgp.AppView();
 		appView.addView(this, arguments.treeSettings.id);
-		console.log('---- graph start to initialize----');
-		console.log(this.collection);
 		this.nowDate = new Date();
 		appView.getTermData([arguments.treeSettings.id], 
 							new Date(0), this.nowDate);
 		appView.syncData([arguments.treeSettings.id]);
 		//this.registerCollectionEvent();
         
-		console.log('initialize (graph)');
 	},
 	/*
 	onAdd : function(element){
@@ -144,7 +141,6 @@ var HbaseView = wgp.AbstractView.extend({
 		console.log('called removeModel');
 	},
 	getTermData : function() {
-		console.log('called getTermData (graph)');
 		
 		// set the attributes of dygraph
 		this.dygraphAttributes = halook.hbase.graph.attributes;
@@ -195,12 +191,10 @@ var HbaseView = wgp.AbstractView.extend({
 		this.entity.setAnnotations(this.annotationArray);
 		this._setAnnotationLegend(halook.hbase.parent.id.annotationLegendArea);
 		this._setAnnotationCss();
-		console.log('call render (graph)');
 	},
 	_getDataAndSetAnnotationData : function(){
 		var instance = this;
 		var data = [];
-		console.log('_getDataAndSetAnnotationData');
 		
 		_.each(this.collection.models, function(model, index){
 			var modelData = model.attributes;
@@ -223,8 +217,6 @@ var HbaseView = wgp.AbstractView.extend({
 			
 			// push annotation 
 			if (eventList.length > 0 && eventList[0].EventName != ''){
-				console.log(eventList);
-				console.log( jsonData);
 				var annotationElement = instance._getAnnotationElement(
 												timestamp, 
 												eventList, 

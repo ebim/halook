@@ -33,7 +33,6 @@ var HbaseView = wgp.AbstractView.extend({
 			paper: this.paper
 		});
 		
-		console.log('hello, instance: HbaseView');
 	},
 	render : function(){
 		console.log('call render');

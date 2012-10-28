@@ -11,6 +11,11 @@ halook.arrow.buttonSize.width = "120px";
 halook.arrow.buttonSize.height = "40px";
 halook.arrow.buttonSize.marginLeft = "5px";
 
+halook.arrow.ignoretask = {
+	"COMMIT_PENDING" : true
+};
+halook.arrow.buttonSize = {};
+
 halook.jobInfoSpace = {};
 halook.filterMode = null;
 
@@ -100,18 +105,22 @@ function _taskIDSort(first, second) {
 	var firstAttemptTime = first.attemptTime;
 	var secondAttemptTime = second.attemptTime;
 
-	firstNumID = firstNumID.replace(/0/g, '');
-	if (firstNumID == "")
-		firstNumID = "0";
-
-	secondNumID = secondNumID.replace(/0/g, '');
-	if (secondNumID == "")
-		secondNumID = "0";
-
-	if (parseInt(firstNumID) > parseInt(secondNumID)) {
+	if (firstNumID == "") {
+		firstNumID = 0;
+	} else {
+		firstNumID -= 0;
+	}
+	
+	if (secondNumID == "") {
+		secondNumID = 0;
+	} else {
+		secondNumID -= 0;
+	}
+	
+	if (firstNumID > secondNumID) {
 		// console.log(parseInt(firstNumID), parseInt(secondNumID));
 		return 1;
-	} else if (parseInt(firstNumID) == parseInt(secondNumID)) {
+	} else if (firstNumID == secondNumID) {
 		// console.log(parseInt(firstNumID), parseInt(secondNumID));
 		if (firstAttemptTime > secondAttemptTime) {
 			// console.log(firstAttemptTime, secondAttemptTime);
@@ -262,6 +271,7 @@ halook.ArrowParentView = wgp.AbstractView
 			},
 			_executeTaskSort : function(array, mode) {
 				if (halook.parentView.taskSortFunctionTable[mode] != null) {
+					var a = halook.parentView.taskSortFunctionTable[mode];
 					array.sort(halook.parentView.taskSortFunctionTable[mode]);
 				}
 
@@ -353,9 +363,18 @@ halook.ArrowParentView = wgp.AbstractView
 				.append('<div id="buttonSpace"></div>');
 
 				this.buttonList = [];
+				
+				var backButton = {
+					type : "button",
+					id : "arrowBackButton",
+					value : "Back",
+					classType : "sortButton"
+				};
+				this.buttonList.push(backButton);
+					
 				var taskButton = {
 					type : "button",
-					id : "taskButton",
+					id : "arrowTaskButton",
 					value : "Task",
 					classType : "sortButton"
 				};
@@ -363,7 +382,7 @@ halook.ArrowParentView = wgp.AbstractView
 
 				var nodeButton = {
 					type : "button",
-					id : "nodeButton",
+					id : "arrowNodeButton",
 					value : "Node",
 					classType : "sortButton"
 				};
@@ -371,30 +390,30 @@ halook.ArrowParentView = wgp.AbstractView
 
 				var startButton = {
 					type : "button",
-					id : "startButton",
-					value : "Start Time",
+					id : "arrowStartButton",
+					value : "StartTime",
 					classType : "sortButton"
 				};
 				this.buttonList.push(startButton);
 
 				var finishButton = {
 					type : "button",
-					id : "finishButton",
-					value : "Finish Time",
+					id : "arrowFinishButton",
+					value : "FinishTime",
 					classType : "sortButton"
 				};
 				this.buttonList.push(finishButton);
 
 				var failButton = {
 					type : "button",
-					id : "failButton",
+					id : "arrowFailButton",
 					value : "Failed",
 					classType : "sortButton"
 				};
 				this.buttonList.push(failButton);
 				var killedButton = {
 					type : "button",
-					id : "killedButton",
+					id : "arrowKilledButton",
 					classType : "sortButton",
 					value : "Killed",
 				};
@@ -415,22 +434,25 @@ halook.ArrowParentView = wgp.AbstractView
 					float : "left",
 				});
 
-				$("#taskButton").click(function() {
+				$("#arrowBackButton").click(function() {
+					instance._backTobeforePage();
+				});
+				$("#arrowTaskButton").click(function() {
 					instance._changeToTask();
 				});
-				$("#nodeButton").click(function() {
+				$("#arrowNodeButton").click(function() {
 					instance._changeToNode();
 				});
-				$("#failButton").click(function() {
+				$("#arrowFailButton").click(function() {
 					instance._changeToFail();
 				});
-				$("#killedButton").click(function() {
+				$("#arrowKilledButton").click(function() {
 					instance._changeToKilled();
 				});
-				$("#startButton").click(function() {
+				$("#arrowStartButton").click(function() {
 					instance._changeToStart();
 				});
-				$("#finishButton").click(function() {
+				$("#arrowFinishButton").click(function() {
 					instance._changeToFinish();
 				});
 				$("#taskInfoSpace")
@@ -510,7 +532,10 @@ halook.ArrowParentView = wgp.AbstractView
 					rootView : this,
 				});
 			},
-
+			_backTobeforePage : function() {
+				var elem = document.getElementById("/mapreduce/job");
+				$(elem).mousedown();
+			},
 			_changeToTask : function() {
 				// console.log("change to task " + DisplayMode + " node");
 
@@ -568,7 +593,6 @@ halook.ArrowParentView = wgp.AbstractView
 				}
 			},
 			_changeToKilled : function() {
-				console.log(this);
 				if (halook.filterMode != "killed") {
 					halook.filterMode = "killed";
 					this._executeFilter();
@@ -613,41 +637,20 @@ halook.ArrowParentView = wgp.AbstractView
 			_executeFilter : function(array, mode) {
 				var resultCollection;
 				if (halook.filterMode == "fail") {
-					resultCollection = this.collection.where({
-						Status : wgp.constants.JOB_STATE.FAIL
-
+					resultCollection = _.filter(getFromServerDatas, function(model){
+						return model.Status == wgp.constants.JOB_STATE.FAILED;
 					});
 				} else if (halook.filterMode == "killed") {
-					resultCollection = this.collection.where({
-						Status : wgp.constants.JOB_STATE.KILLED
+					resultCollection = _.filter(getFromServerDatas, function(model){
+						if (model.Status == wgp.constants.JOB_STATE.KILLED){
+							return true;
+						} else if (model.Status == wgp.constants.JOB_STATE.KILLED_UNCLEAN) {
+							return true;
+						}
+						return false;
 					});
 				}
-
-				var data = [];
-				for ( var i = 0; i < resultCollection.length; i++) {
-					var finishTime = resultCollection[i].get("FinishTime");
-					if (finishTime == 0) {
-						finishTime = resultCollection[i].get("StartTime");
-					}
-					var modelData = {
-						StartTime : resultCollection[i].get("StartTime"),
-						FinishTime : finishTime,
-						SubmitTime : resultCollection[i].get("SubmitTime"),
-						Status : resultCollection[i].get("Status"),
-						attemptTime : resultCollection[i].get("attemptTime"),
-						JobID : resultCollection[i].get("JobID"),
-						Hostname : resultCollection[i].get("Hostname"),
-						TaskAttemptID : resultCollection[i]
-								.get("TaskAttemptID"),
-						Mapreduce : resultCollection[i].get("Mapreduce"),
-						SimpleID : resultCollection[i].get("SimpleID"),
-					};
-					data.push(modelData);
-				}
-				;
-
-				halook.taskDataForShow = data;
-
+				halook.taskDataForShow = resultCollection;
 			},
 			getTermData : function() {
 				if (this.isFirst) {
@@ -664,9 +667,12 @@ halook.ArrowParentView = wgp.AbstractView
 						}
 						
 						for ( var i = 0; i < value.length; i++) {
+							// if status is commit pending, ignore task.
+							if (halook.arrow.ignoretask[value[i].Status] == true) {
+								continue;
+							}
 							if (value[i].JobID == instance.jobInfo.jobId) {
 								getFromServerDatas.push(value[i]);
-								console.log(value[i]);
 							}
 						}
 					});

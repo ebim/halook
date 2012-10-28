@@ -23,7 +23,6 @@ wgp.ArrowInfoStateElementView = Backbone.View.extend({
     	this.element.setAttributes(model);
     },
     remove:function(property){
-    	console.log("hey remove is requested");
         this.element.hide();
     },
     getStateColor:function(){

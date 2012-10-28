@@ -89,7 +89,6 @@ var HbaseParentView = wgp.AbstractView
 							toMillisecond);
 				});
 
-				console.log('initialize (parent)');
 			},
 			render : function() {
 				console.log('call render (parent)');
@@ -109,7 +108,6 @@ var HbaseParentView = wgp.AbstractView
 			},
 			destroy : function() {
 				// ツリー移動時に呼ばれる
-				console.log('called destroy (parent)');
 				this.stopRegisterCollectionEvent();
 			},
 			makeLogoArea : function() {

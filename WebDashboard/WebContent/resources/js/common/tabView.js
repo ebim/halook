@@ -74,7 +74,6 @@ halook.TabView = wgp.AbstractView.extend({
 		};
 		var view = eval("new " + viewClassName
 				+ "(childAttribute, this.treeSettings)");
-		console.log(view.getRegisterId());
 		this.viewList[view.getRegisterId()] = view;
 	},
 	onChange : function(tabModel) {
@@ -85,7 +84,6 @@ halook.TabView = wgp.AbstractView.extend({
 		$("#" + this.divId).tabs("remove", tabModel.id);
 	},
 	destroy : function() {
-		console.log("test log");
 		_.each(this.viewList, function(view) {
 			view.destroy();
 		})

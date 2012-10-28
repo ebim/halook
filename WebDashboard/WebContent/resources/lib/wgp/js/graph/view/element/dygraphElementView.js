@@ -68,7 +68,7 @@ wgp.DygraphElementView = wgp.AbstractView.extend({
 		this.data = this.getData();
 		var updateOption = {
 			'file' : this.data,
-			valueRange: [0, this.maxValue]
+//			valueRange: [0, this.maxValue * 1.5]
 		};
 		if (this.data.length != 0) {
 			updateOption['dateWindow'] = [ this.data[1][0],
@@ -80,7 +80,7 @@ wgp.DygraphElementView = wgp.AbstractView.extend({
 		this.data = this.getData();
 		var updateOption = {
 			'file' : this.data,
-			valueRange: [0, this.maxValue]
+//			valueRange: [0, this.maxValue * 1.5]
 		};
 		if (this.data.length != 0) {
 			if (this.data.length != 1) {

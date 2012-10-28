@@ -43,7 +43,6 @@ halook.NodeInfoParentView = wgp.AbstractView.extend({
 		});
 		var appView = wgp.AppView();
 		appView.addView(treeListView, "tree");
-		console.log(treeListView.collection);
 		this.createParseData(treeSettings.id, treeListView.collection);
 		// this._setGraphIds(treeSettings.treeId, treeListView.collection);
 
@@ -65,7 +64,6 @@ halook.NodeInfoParentView = wgp.AbstractView.extend({
 		});
 		var instance = this;
 		_.each(this.graphIds, function(graphName) {
-			console.log(graphName);
 			instance._addGraphDivision(graphName);
 		})
 		
@@ -94,12 +92,10 @@ halook.NodeInfoParentView = wgp.AbstractView.extend({
 		console.log('called removeModel');
 	},
 	_addGraphDivision : function(graphId) {
-		console.log(graphId);
 		var viewId = null;
 		var viewClassName = "halook.ResourceGraphElementView";
 		var tempId = graphId.split("/");
 		var dataId = tempId[tempId.length - 1];
-		console.log(dataId);
 		var treeSettings = {
 			data : dataId,
 			id : graphId,
@@ -150,7 +146,6 @@ halook.NodeInfoParentView = wgp.AbstractView.extend({
 		halook.nodeinfo.viewList[registerId] = view;
 	},
 	getTermData : function() {
-		console.log(this.collection);
 		// データの成型
 	},
 	_setGraphIds : function(parseId, collection) {
@@ -169,20 +164,6 @@ halook.NodeInfoParentView = wgp.AbstractView.extend({
 
 			// icon decided
 			var icon = null;
-			if (children.length == 0) {
-				console.log("0 : " + model.id);
-			} else {
-				console.log("1 : " + model.id);
-			}
-			// var children = collection.where({
-			// parentTreeId : model.get("id")
-			// });
-			// console.log(children);
-			// if (children.length == 0) {
-			// } else {
-			// console.log("test" + model.id);
-			//
-			// }
 
 		})
 	},
@@ -220,7 +201,6 @@ halook.NodeInfoParentView = wgp.AbstractView.extend({
 		if (children.length == 0) {
 			if (treeModel.id.indexOf(parse) != -1) {
 				this.graphIds.push(treeModel.get("id"));
-				console.log(treeModel.id);
 			}
 		} else {
 		}

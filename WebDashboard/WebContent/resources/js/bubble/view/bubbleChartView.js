@@ -62,7 +62,6 @@ halook.BubbleChartView = wgp.AbstractView
 			},
 
 			destroy : function() {
-				console.log("remove test");
 				var appTmpView = new wgp.AppView();
 				appTmpView.removeView(this.graph);
 			},
@@ -76,7 +75,7 @@ halook.BubbleChartView = wgp.AbstractView
 				$("#jobInfoSpace")
 						.css(
 								{
-									width : 855,
+									width : 800,
 									height : 100,
 									marginTop : 5,
 									marginLeft : 5,
@@ -150,8 +149,9 @@ halook.BubbleChartView = wgp.AbstractView
 						.append(
 								'<input type="button" class = "sortButton" id="backButton" value="Back">');
 				$("#leftTop").append(
-						'<input type="button" class = "sortButton" id="finishButton" value='
-								+ sortCheck() + '>');
+						'<input type="button" class = "sortButton" id="startButton" value="StartTime">');
+				$("#leftTop").append(
+						'<input type="button" class = "sortButton" id="finishButton" value="FinishTime">');
 //				$("#backButton").button();
 //				$("#finishButton").button();
 				$(".sortButton").css({
@@ -171,7 +171,8 @@ halook.BubbleChartView = wgp.AbstractView
 				});
 				
 				$("#backButton").click(function() {
-					location.href = "http://localhost:8080/WebDashboard/init";
+					var elem = document.getElementById("/mapreduce/job");
+					$(elem).mousedown();
 				});
 				
 				$("#checkLeft").append(

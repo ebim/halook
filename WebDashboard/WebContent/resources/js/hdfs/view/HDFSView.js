@@ -23,10 +23,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-
+var angle = 0;
 var HDFSView = wgp.AbstractView
 		.extend({
 			initialize : function(argument, treeSetting) {
+				
+				
 				this.hdfsDataList_ = {};
 				this.hdfsState_ = {};
 				this.hostsList_ = [];
@@ -51,7 +53,6 @@ var HDFSView = wgp.AbstractView
 				// リアルタイム通信の受け口を作る
 				this.registerCollectionEvent();
 
-				console.log(this.collection);
 				// set view size
 				this.width = argument["width"];
 				this.height = argument["height"];
@@ -87,6 +88,9 @@ var HDFSView = wgp.AbstractView
 				// add div for data node status popup
 				this._addStatusPopup();
 
+				// TODO モックデータを本データにし、表示させる
+				// this._addClusterStatus();
+
 				var end = new Date();
 				var start = new Date(end.getTime() - 15000);
 				appView
@@ -97,6 +101,9 @@ var HDFSView = wgp.AbstractView
 			// ////////////////////////////////////////////////////////
 			// ////////////////////////////////////////////////////////
 			_staticRender : function() {
+				// drawing static object
+				// core circle (name node)
+				// console.log(this.paper);
 				this.paper
 						.circle(
 								this.center.x,
@@ -126,7 +133,12 @@ var HDFSView = wgp.AbstractView
 
 				this._drawUsage();
 
-				this._drawDataTransfer();
+				/*
+				 * var mainCircleInterval = function(windowId){ function
+				 * innerFunction(){ this._notifyToThisView(this.rackMarker) };
+				 * return innerFunction; };
+				 */
+				// rack
 			},
 			// ////////////////////////////////////////////////////////
 			// ////////////////////////////////////////////////////////
@@ -292,6 +304,7 @@ var HDFSView = wgp.AbstractView
 					} else {
 						this.hdfsState_[host].status = halook.hdfs.constants.dataNode.status.good;
 					}
+					// hdfsState[host].dfsusedLength = 50;
 				}
 			},
 			// ////////////////////////////////////////////////////////
@@ -352,6 +365,8 @@ var HDFSView = wgp.AbstractView
 				this.timerBt = setInterval(self.blockTransferInterval("#"
 						+ this.$el.attr("id")), halook.hdfs.constants.cycle
 						+ halook.hdfs.constants.cycleInterval);
+				// setInterval(function(){console.log("objects :
+				// "+self.maxId);},halook.hdfs.constants.cycle);
 			},
 			// ////////////////////////////////////////////////////////
 			// ////////////////////////////////////////////////////////
@@ -366,6 +381,8 @@ var HDFSView = wgp.AbstractView
 				var end = new Date(new Date().getTime() - pastTime);
 				var start = new Date(end.getTime() - 60 * 60 * 1000);
 				appView.stopSyncData([ (this.treeSettingId_ + '%') ]);
+				// TODO コレクションをリセットする
+				// appView.collections["/hdfs%"] = {};
 				appView
 						.getTermData([ (this.treeSettingId_ + '%') ], start,
 								end);
@@ -399,6 +416,7 @@ var HDFSView = wgp.AbstractView
 				for ( var i = 0; i < self.numberOfDataNode; i++) {
 					self.transfer[i] = {};
 					self.nextId = self._getUniqueId();
+					self.transfer[i].objectId = self.transfer[i].id = self.nextId;
 					self.transfer[i].size = 1;// 0;//self.diff[i];
 					self.transfer[i].angle = self.angleUnit * i,
 							self.blockTransferIdManager.add(self.nextId,
@@ -501,8 +519,12 @@ var HDFSView = wgp.AbstractView
 													(capacity * sin) ] ])
 							.attr(
 									{
-										stroke : halook.hdfs.constants.dataNode.frameColor
+										stroke : halook.hdfs.constants.dataNode.frameColor,
+										fill : " rgb(48, 50, 50)",
+										title : this.hostsList_[i]
+												+ " : remaining"
 									});
+							
 				}
 			},
 			// ////////////////////////////////////////////////////////
@@ -545,6 +567,7 @@ var HDFSView = wgp.AbstractView
 										fill : halook.hdfs.constants.rack.colors[colorNo
 												% numberOfRackColor]
 									});
+
 				}
 			},
 			// ////////////////////////////////////////////////////////
@@ -562,7 +585,7 @@ var HDFSView = wgp.AbstractView
 					var c = this.center;
 					var dfsStatus = this.hdfsState_[this.hostsList_[i]].status;
 					// actual process
-					this.paper.path(
+					var rect = this.paper.path(
 							[
 									[ "M", (c.x + r * cos + w / 2 * sin),
 											(c.y - r * sin + w / 2 * cos) ],
@@ -570,34 +593,9 @@ var HDFSView = wgp.AbstractView
 									[ "l", (-w * sin), (-w * cos) ],
 									[ "l", (-h * cos), (h * sin) ] ]).attr({
 						"stroke" : halook.hdfs.constants.dataNode.frameColor,
-						fill : this._getDataNodeColor(dfsStatus)
+						fill : this._getDataNodeColor(dfsStatus),
+						title : this.hostsList_[i] + " : used"
 					});
-				}
-			},
-			_drawDataTransfer : function() {
-				var r = halook.hdfs.constants.mainCircle.radius;
-				var w = this.dataNodeBarWidth / 7;
-
-				for ( var i = 0; i < this.numberOfDataNode; i++) {
-					// prepare temporary vars in order to make codes readable
-					var h = this.hdfsState_[this.hostsList_[i]].dfsusedLength;
-					var cos = Math.cos(this.angleUnit * i);
-					var sin = Math.sin(this.angleUnit * i);
-					var c = this.center;
-					var dfsStatus = this.hdfsState_[this.hostsList_[i]].status;
-					// actual process
-					var transferItem = this.paper.path(
-							[
-									[ "M", (c.x + r * cos + w / 2 * sin),
-											(c.y - r * sin + w / 2 * cos) ],
-									[ "l", (h * cos), (-h * sin) ],
-									[ "l", (-w * sin), (-w * cos) ],
-									[ "l", (-h * cos), (h * sin) ] ]).attr({
-						"stroke" : halook.hdfs.constants.dataNode.frameColor,
-						fill : "orange"
-					});
-					
-					transferItem.animate({ x : this.center.x, y : this.center.y}, 400, "<>");
 				}
 			},
 			// ////////////////////////////////////////////////////////

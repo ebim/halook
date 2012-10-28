@@ -93,13 +93,11 @@ halook.BubbleElementView = wgp.DygraphElementView
 				this.dataArray = [];
 				var instance = this;
 				this.collection.sort();
-				console.log(this.collection);
 				var max = 0;
 				_.each(this.collection.models, function(model) {
-					max = instance._convartModelToArray(instance, model, max);
+					instance._convartModelToArray(instance, model, max);
 				});
 				if (instance.dataArray.length != 0) {
-					instance._addEdgeData(instance, max);
 				} else {
 					instance.dataArray.push([ new Date(), null, null, null,
 							null, null, null, 0 ]);
@@ -130,24 +128,6 @@ halook.BubbleElementView = wgp.DygraphElementView
 						}
 					}
 				}
-			},
-			_addEdgeData : function(instance, max) {
-				// 端に置く時間を計算(データ全体のEDGE_RATE%)
-				var edgeTime = ((new Date(new Date(
-						instance.dataArray[instance.dataArray.length - 1][0])
-						.getTime())) - new Date(instance.dataArray[0][0]))
-						* EDGE_RATE / 100;
-				// ダミーデータを加える処理
-				instance.dataArray.unshift([
-						new Date(instance.dataArray[0][0] - edgeTime), null,
-						null, null, null, null, null, 0 ]);
-				instance.dataArray.push([
-						new Date(
-
-						instance.dataArray[instance.dataArray.length - 1][0]
-								.getTime()
-								+ edgeTime), null, null, null, null, null,
-						null, max / divTime ]);
 			},
 			getTermData : function() {
 				this.render();
@@ -258,10 +238,7 @@ halook.BubbleElementView = wgp.DygraphElementView
 							sortFlag[MAP_KILLED], sortFlag[REDUCE_SUCCESS],
 							sortFlag[REDUCE_FAILED], sortFlag[REDUCE_KILLED],
 							true ],
-					Null : {// 端の点のダミー定義
-						pointSize : 0,
-						highlightCircleSize : 0
-					}
+					axisLabelFontSize : 11,
 				/*
 				 * 形表示用の定義の仕方 ReduceSuccess:{ //pointSize : 7, //drawPoints :
 				 * false, drawPointCallback : instance._mouthlessFace,
@@ -308,14 +285,6 @@ function flagChange(index) {
 	}
 }
 
-function sortChange() {
-	if (sortByFinishTime) {
-		sortByFinishTime = false;
-	} else {
-		sortByFinishTime = true;
-	}
-}
-
 // フラグが何かを見る
 function flagCheck(index) {
 	if (sortFlag[index]) {
@@ -332,16 +301,18 @@ var sortListenerView = Backbone.View.extend({
 	initialize : function(parentView) {
 		this.parentView = parentView;
 		var instance = this;
-		$("#leftTop").find("#finishButton").click(function(e) {
+		
+		$("#leftTop").find("#startButton").click(function(e) {
+			sortByFinishTime = false;
 			instance._check(e);
-			$("#finishButton").attr("value", sortCheck());
+		});
+		
+		$("#leftTop").find("#finishButton").click(function(e) {
+			sortByFinishTime = true;
+			instance._check(e);
 		});
 	},
-	// events: {
-	// "click input": "_check"
-	// },
 	_check : function(e) {
-		sortChange();
 		this.parentView.trigger("updateData");
 	}
 });
@@ -365,15 +336,6 @@ var graphListenerView = Backbone.View.extend({
 		this.parentView.trigger("updateGraphOptions");
 	}
 });
-
-function sortCheck() {
-	if (sortByFinishTime) {
-		return "StartTime";
-	} else {
-		// $("#leftTop").find("#finishButton").value=
-		return "FinishTime";
-	}
-}
 
 /*
  * var buttonView = Backbone.View.extend({ el : "#leftTop", events:{ "click":

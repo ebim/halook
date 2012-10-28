@@ -56,9 +56,7 @@ halook.DualSliderView = wgp.AbstractView.extend({
 		$(this.viewId).append(htmlString + '<hr class="clearFloat">');
 		this._setGroupCss();
 		this._selectSelector('groupArea', this.groupNum - 1);
-		
-		console.log('initialize (dual slider)');
-		
+				
 		// group selector event
 		this._setGroupSelectorMovedEvent();
 	},
