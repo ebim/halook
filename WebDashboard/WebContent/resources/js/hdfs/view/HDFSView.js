@@ -23,12 +23,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-var angle = 0;
+
+halook.HDFS.angle = 0;
+halook.HDFS.unitAngle = 0;
+halook.HDFS.capacityList = {};
+halook.HDFS.usageList = {};
+halook.HDFS.rackList = {};
+halook.HDFS.angleList = {};
+
 var HDFSView = wgp.AbstractView
 		.extend({
 			initialize : function(argument, treeSetting) {
-				
-				
 				this.hdfsDataList_ = {};
 				this.hdfsState_ = {};
 				this.hostsList_ = [];
@@ -499,11 +504,12 @@ var HDFSView = wgp.AbstractView
 				for ( var i = 0; i < this.numberOfDataNode; i++) {
 					// prepare temporary vars in order to make codes readable
 					var capacity = this.hdfsState_[this.hostsList_[i]].capacityLength;
-					var cos = Math.cos(this.angleUnit * i);
-					var sin = Math.sin(this.angleUnit * i);
+					var angle = this.angleUnit * i + utility.toRadian(90);
+					var cos = Math.cos(angle);
+					var sin = Math.sin(angle);
 					var c = this.center;
 					// actual process
-					this.paper
+					halook.HDFS.capacityList[this.hostsList_[i]] = this.paper
 							.path(
 									[
 											[
@@ -526,6 +532,14 @@ var HDFSView = wgp.AbstractView
 									});
 							
 				}
+				
+				var changedAngle = halook.HDFS.angle;
+				
+				for (var host in halook.HDFS.capacityList) {
+					var capacityObject = halook.HDFS.capacityList[host];
+					capacityObject.animate({transform: "r" + [halook.HDFS.angle, 450, 310]});
+					this._setRotateEvent(capacityObject);
+				}
 			},
 			// ////////////////////////////////////////////////////////
 			// ////////////////////////////////////////////////////////
@@ -544,11 +558,12 @@ var HDFSView = wgp.AbstractView
 					}
 					// prepare temporary vars in order to make codes readable
 					var h = halook.hdfs.constants.rack.height;
-					var cos = Math.cos(this.angleUnit * i);
-					var sin = Math.sin(this.angleUnit * i);
+					var angle = this.angleUnit * i + utility.toRadian(90);
+					var cos = Math.cos(angle);
+					var sin = Math.sin(angle);
 					var c = this.center;
 					// actual process
-					this.paper
+					halook.HDFS.rackList[this.hostsList_[i]] = this.paper
 							.path(
 									[
 											[
@@ -569,6 +584,49 @@ var HDFSView = wgp.AbstractView
 									});
 
 				}
+				
+				var changedAngle = halook.HDFS.angle;
+				
+				for (var host in halook.HDFS.rackList) {
+					var rackObject = halook.HDFS.rackList[host];
+					rackObject.animate({transform: "r" + [halook.HDFS.angle, 450, 310]});
+					this._setRotateEvent(rackObject);
+				}
+			},
+			_setRotateEvent : function(clickObject) {
+				clickObject.click(function() {
+					halook.HDFS.angle -= halook.HDFS.unitAngle;
+					
+					for ( var host in halook.HDFS.capacityList) {
+						halook.HDFS.capacityList[host].animate({transform: "r" + [halook.HDFS.angle, 450, 310]}, 1000, "<>"); 
+						halook.HDFS.usageList[host].animate({transform: "r" + [halook.HDFS.angle, 450, 310]}, 1000, "<>"); 
+						halook.HDFS.rackList[host].animate({transform: "r" + [halook.HDFS.angle, 450, 310]}, 1000, "<>"); 
+						
+//						var usageClone = halook.HDFS.usageList[host].clone();
+//						usageClone.stop().animate({path: "M450,310"}, 1000, "", function() {
+//							this.remove();
+//						});
+					};
+					
+				});
+			},
+			_setBlockTransferAnimation : function(clickObject) {
+				clickObject.click(function() {
+					halook.HDFS.angle -= halook.HDFS.unitAngle;
+					
+					for ( var host in halook.HDFS.capacityList) {
+						
+						var usage = halook.HDFS.usageList[host];
+						
+						var usagePath = usage.attrs.path;
+						
+						var usageClone = this.paper.path(["M", 450, 310]);
+						usageClone.stop().animate({path: "M800,310"}, 1000, "", function() {
+							this.remove();
+						});
+					};
+					
+				});
 			},
 			// ////////////////////////////////////////////////////////
 			// ////////////////////////////////////////////////////////
@@ -580,12 +638,13 @@ var HDFSView = wgp.AbstractView
 				for ( var i = 0; i < this.numberOfDataNode; i++) {
 					// prepare temporary vars in order to make codes readable
 					var h = this.hdfsState_[this.hostsList_[i]].dfsusedLength;
-					var cos = Math.cos(this.angleUnit * i);
-					var sin = Math.sin(this.angleUnit * i);
+					var angle = this.angleUnit * i + utility.toRadian(90);
+					var cos = Math.cos(angle);
+					var sin = Math.sin(angle);
 					var c = this.center;
 					var dfsStatus = this.hdfsState_[this.hostsList_[i]].status;
 					// actual process
-					var rect = this.paper.path(
+					halook.HDFS.usageList[this.hostsList_[i]] = this.paper.path(
 							[
 									[ "M", (c.x + r * cos + w / 2 * sin),
 											(c.y - r * sin + w / 2 * cos) ],
@@ -596,6 +655,14 @@ var HDFSView = wgp.AbstractView
 						fill : this._getDataNodeColor(dfsStatus),
 						title : this.hostsList_[i] + " : used"
 					});
+				}
+				
+				var changedAngle = halook.HDFS.angle;
+				
+				for (var host in halook.HDFS.usageList) {
+					var usageObject = halook.HDFS.usageList[host];
+					usageObject.animate({transform: "r" + [halook.HDFS.angle, 450, 310]});
+					this._setRotateEvent(usageObject);
 				}
 			},
 			// ////////////////////////////////////////////////////////
@@ -665,6 +732,9 @@ var HDFSView = wgp.AbstractView
 
 				// data node
 				this.numberOfDataNode = this.hostsList_.length;
+				
+				halook.HDFS.unitAngle = 360 / this.numberOfDataNode;
+				
 				this.dataNodeBarWidth = halook.hdfs.constants.mainCircle.radius
 						* 2 * Math.PI / this.numberOfDataNode;
 				if (this.dataNodeBarWidth > halook.hdfs.constants.dataNode.maxWidth) {
