@@ -40,6 +40,14 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/cglib-nodep-2.2.3.jar"/>
 	<classpathentry kind="lib" path="lib/dependency/catalina.jar"/>
 	<classpathentry kind="lib" path="lib/dependency/tomcat-coyote.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/postgresql-8.2-506.jdbc3.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/s2-framework-2.4.34.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/slf4j-log4j12-1.5.10.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/wgp.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-dbcp-1.2.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-digester3-3.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-pool-1.4.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/endosnipe-WebDashboard.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/servlet-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jasper.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jsp-api.jar"/>

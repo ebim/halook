@@ -1,8 +1,6 @@
-<project name="ens" default="dist" basedir=".">
-    <import file="../ENdoSnipe/build_common.xml" />
-
+<project name="ens" default="war" basedir=".">
     <!-- ★変数設定★ -->
-    <property name="app.name" value="WebDashboard"/>
+    <property name="app.name" value="HalookDashboard"/>
 
     <!-- パス設定 -->
     <property name="src.path"           value="${basedir}/src/main/java"/>
@@ -83,9 +81,6 @@
 
     <target name="compile" depends="clean,prepare,resources,sql" description="ソースファイルをコンパイルする">
         <!-- 依存ライブラリをコピー -->
-        <copy file="${endosnipe-common.jar}" todir="${weblib.path}" failonerror="yes" />
-        <copy file="${endosnipe-communicator.jar}" todir="${weblib.path}" failonerror="yes" />
-        <copy file="${endosnipe-dataaccessor.jar}" todir="${weblib.path}" failonerror="yes" />
         <javac srcdir       = "${src.path}"
                destdir      = "${classes.path}"
                encoding     = "UTF-8"
@@ -137,29 +132,12 @@
     <!-- WARファイル生成 -->
     <target name="war" depends="jar" description="WARファイルを生成する">
         <copy file="${jar.file}" todir="${weblib.path}" overwrite="true"/>
-        <copy file="${classes.path}/EWDMessages_ja.properties" todir="${webroot.path}/WEB-INF/classes" overwrite="true"/>
-        <copy file="${classes.path}/log4j.xml" todir="${webroot.path}/WEB-INF/classes" overwrite="true"/>
         <war basedir="${webroot.path}"
              destfile="${war.file}"
              webxml="${webroot.path}/WEB-INF/web.xml">
         </war>
     </target>
 
-    <!-- リリースアーカイブの生成 -->
-    <target name="dist" depends="war" description="Build a zip distributable">
-        <!--
-        <copy file="tomcat_config/conf/server.xml" todir="${deploy.path}"/>
-        -->
-
-        <delete dir="${classes.path}" />
-        <delete file="${jar.file}" />
-
-        <!-- Create zipfile. -->
-        <zip destfile="${app.name}-product.zip">
-            <zipfileset dir="${deploy.path}" includes="**" excludes="${test.dir}/**"/>
-        </zip>
-    </target>
-    
     <!-- Javadoc 生成 -->
     <target name="javadoc" depends="prepare" description="Javadoc を生成する">
         <mkdir dir="${javadoc.path}"/>

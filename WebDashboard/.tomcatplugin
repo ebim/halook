@@ -5,7 +5,7 @@
     <reloadable>false</reloadable>
     <redirectLogger>true</redirectLogger>
     <updateXml>true</updateXml>
-    <warLocation>C:\AcroWorks\Work\halook\halook仮想環境作成用ソフトウェア\WebDashboard.war</warLocation>
+    <warLocation></warLocation>
     <extraInfo></extraInfo>
     <webPath>/WebDashboard</webPath>
 </tomcatProjectProperties>

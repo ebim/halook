@@ -46,11 +46,7 @@
 		<servlet-class>jp.co.acroquest.endosnipe.web.dashboard.servlet.DashBoardNotifyServlet</servlet-class>
 		<init-param>
 			<param-name>collector.property</param-name>
-			<param-value>C:\AcroWorks\Work\halook\WebDashboard\conf\collector.properties</param-value>
-		</init-param>
-		<init-param>
-			<param-name>report.directory</param-name>
-			<param-value>D:/AcroWorks/reports</param-value>
+			<param-value>C:\AcroWorks\SVN\IntraProject\halook\promac\WebDashboard\conf\collector.properties</param-value>
 		</init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
@@ -59,20 +55,6 @@
 		<servlet-name>DashBoardServlet</servlet-name>
 		<servlet-class>jp.co.acroquest.endosnipe.web.dashboard.servlet.DashBoardServlet</servlet-class>
 		<load-on-startup>3</load-on-startup>
-	</servlet>
-
-	<servlet>
-		<servlet-name>ReportServlet</servlet-name>
-		<servlet-class>jp.co.acroquest.endosnipe.web.dashboard.servlet.ReportServlet</servlet-class>
-		<init-param>
-			<param-name>report.directory</param-name>
-			<param-value>D:/AcroWorks/reports</param-value>
-		</init-param>
-	</servlet>
-
-	<servlet>
-		<servlet-name>JvnDownloadServlet</servlet-name>
-		<servlet-class>jp.co.acroquest.endosnipe.web.dashboard.servlet.JvnDownloadServlet</servlet-class>
 	</servlet>
 
 	<servlet>
@@ -93,16 +75,6 @@
 	<servlet-mapping>
 		<servlet-name>DashBoardNotifyServlet</servlet-name>
 		<url-pattern>/DashBoardNotifyServlet</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>ReportServlet</servlet-name>
-		<url-pattern>/ReportServlet</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>JvnDownloadServlet</servlet-name>
-		<url-pattern>/JvnDownloadServlet</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
