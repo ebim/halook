@@ -21,7 +21,9 @@ halookは、Hadoop/HBaseの内部動作を可視化し、問題点の早期発�
 
 
 ■利用手順
+以下の環境構築手順を実施することで、halookを使用することができます。
 
+[https://github.com/endosnipe/VisualHadoop/blob/master/Halook%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89%E6%89%8B%E9%A0%86.txt](Halook環境構築手順.txt)
 
 ■ライセンス
 
