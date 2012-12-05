@@ -7,5 +7,5 @@
     <updateXml>true</updateXml>
     <warLocation></warLocation>
     <extraInfo></extraInfo>
-    <webPath>/WebDashboard</webPath>
+    <webPath>/Halookboard</webPath>
 </tomcatProjectProperties>
