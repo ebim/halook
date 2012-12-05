@@ -115,9 +115,12 @@ var HbaseParentView = wgp.AbstractView
 				$(this.viewId).append('<div id="' + idName + '"></div>');
 				$('#' + idName).append(
 						'<h1>HBase GrowMap</h1>');
+				
+				var context = $("#context").val();
+				
 				$('#' + idName)
 						.append(
-								'<img src="/WebDashboard/resources/images/halook_120x30.png">');
+								'<img src="' + context + '/resources/images/halook_120x30.png">');
 				$('#' + idName)
 						.css(
 								{

@@ -60,5 +60,7 @@
 							}
 						});
 	</script>
+	
+	<input type="hidden" id="context" value="<%=request.getContextPath()%>" />
 </body>
 </html>

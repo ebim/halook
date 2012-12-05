@@ -8,8 +8,8 @@
 */
 
 halook.customTriangle = {};
-halook.customTriangle.width = 42;
-halook.customTriangle.height = 30;
+halook.customTriangle.width = 30;
+halook.customTriangle.height = 15;
 halook.customTriangle.rate = 1;
 
 function customtriangle(elementProperty, paper, rate){

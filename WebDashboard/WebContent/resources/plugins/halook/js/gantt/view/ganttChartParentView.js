@@ -49,10 +49,13 @@ var ganttChartParentView = wgp.AbstractView
 					width : "850px",
 					height : "70px",
 				});
+				
+				var context = $("#context").val();
+				
 				$('#viewTitle')
 						.append(
 								'<h1>GanttChart</h1>'
-										+ '<img src="/WebDashboard/resources/images/halook_120x30.png">');
+										+ '<img src="' + context + '/resources/images/halook_120x30.png">');
 				$('#viewTitle')
 						.css(
 								{

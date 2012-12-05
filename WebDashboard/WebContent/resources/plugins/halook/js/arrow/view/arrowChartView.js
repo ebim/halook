@@ -220,7 +220,7 @@ halook.ArrowChartView = wgp.AbstractView
 						model : modelDataForArrow,
 						paper : this.paper,
 						state : stateString,
-						info : data
+						info : data,
 					});
 
 					rowCounter++;

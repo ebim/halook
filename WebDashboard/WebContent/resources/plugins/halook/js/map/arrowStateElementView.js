@@ -17,7 +17,7 @@ var makeID = 0;
 halook.arrowState = {};
 halook.arrowState.xOffset = halook.customTriangle.width;
 halook.arrowState.changableFlag = true;
-halook.arrowState.minLength = 42;
+halook.arrowState.minLength = 30;
 
 wgp.ArrowStateElementView = Backbone.View.extend({
 	// /stateを渡す。NORMAL or ERROR or WARN
@@ -41,8 +41,8 @@ wgp.ArrowStateElementView = Backbone.View.extend({
 		var rate = 1;
 		if (this.model.attributes.width < halook.arrowState.minLength) {
 			rate = this.model.attributes.width*1.0/halook.arrowState.minLength;
-			if(rate < 0.5)
-				rete = 0.5;
+			if(rate < 0.7)
+				rete = 0.7;
 		} else
 			this.model.attributes.width = this.model.attributes.width
 					- halook.arrowState.xOffset;
@@ -51,7 +51,7 @@ wgp.ArrowStateElementView = Backbone.View.extend({
 			"attributes" : {
 				fill : color,
 				stroke : color,
-				"stroke-width" : 15*rate
+				"stroke-width" : 8*rate // 矢印の線の部分の太さ
 			}
 		}, {
 			silent : true

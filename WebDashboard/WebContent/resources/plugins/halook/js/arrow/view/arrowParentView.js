@@ -292,10 +292,12 @@ halook.ArrowParentView = wgp.AbstractView
 									overflow : "hidden",
 
 								});
+				
+				var context = $("#context").val();
 
 				$("#" + this.$el.attr("id"))
 						.append(
-								'<div id="jobInfoSpace" style="border:outset;border-color:#EEEEEE;border-width:7px;"><div id="jobInfoSpaceHtml"  width="450" height = "60"></div><div id = "jobInfoImage" width="250" height="50"><img src ="/WebDashboard/resources/images/halook_120x30.png" alt="nopage" ></div></div>'
+								'<div id="jobInfoSpace" style="border:outset;border-color:#EEEEEE;border-width:7px;"><div id="jobInfoSpaceHtml"  width="450" height = "60"></div><div id = "jobInfoImage" width="250" height="50"><img src ="' + context + '/resources/images/halook_120x30.png" alt="nopage" ></div></div>'
 										+ '<div class="clearSpace"></div>');
 				$("#jobInfoSpace")
 						.css(

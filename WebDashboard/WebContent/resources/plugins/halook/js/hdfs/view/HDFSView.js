@@ -222,8 +222,14 @@ var HDFSView = wgp.AbstractView
 											.split("/");
 									var hostname = measurementItemNameSplit[2];
 									var valueType = measurementItemNameSplit[3];
-									var measurementValue = Number(model
-											.get(halook.ID.MEASUREMENT_VALUE));
+									
+									var measurementValue = model
+											.get(halook.ID.MEASUREMENT_VALUE);
+									
+									if (valueType != "nodeinfo") {
+										measurementValue = Number(measurementValue);
+									}
+									
 									if (instance.hdfsDataList_[instance.lastMeasurementTime_]) {
 										if (instance.hdfsDataList_[instance.lastMeasurementTime_][hostname]) {
 
@@ -586,12 +592,11 @@ var HDFSView = wgp.AbstractView
 				var lastRack = "";
 				var numberOfRackColor = halook.hdfs.constants.rack.colors.length;
 				var colorNo = -1;
-
+				var rackColorList = [];
+				
 				for ( var i = 0; i < this.numberOfDataNode; i++) {
-					if (lastRack != "default") {
-						colorNo++;
-						lastRack = "default";
-					}
+					var rackName = this.hostsList_[i];
+					
 					// prepare temporary vars in order to make codes readable
 					var host = this.hostsList_[i]
 					var h = halook.hdfs.constants.rack.height;
@@ -599,6 +604,19 @@ var HDFSView = wgp.AbstractView
 					var cos = Math.cos(angle);
 					var sin = Math.sin(angle);
 					var c = halook.HDFS.center;
+					
+					// get rack name
+					var nodeInfoStr = this.hdfsState_[host].nodeinfo;
+					var nodeInfo = (new Function("return " + nodeInfoStr))();
+					var rackName = nodeInfo["rack-name"];
+					
+					var rackColor = rackColorList[rackName];
+					
+					if (rackColor == undefined) {
+						rackColor = ++colorNo;
+						rackColorList[rackName] = rackColor;
+					}
+					
 					// actual process
 					halook.HDFS.rackList[host] = this.paper
 							.path(
@@ -615,11 +633,11 @@ var HDFSView = wgp.AbstractView
 							.attr(
 									{
 										target : host,
-										stroke : halook.hdfs.constants.rack.colors[colorNo
+										stroke : halook.hdfs.constants.rack.colors[rackColor
 												% numberOfRackColor],
-										fill : halook.hdfs.constants.rack.colors[colorNo
+										fill : halook.hdfs.constants.rack.colors[rackColor
 												% numberOfRackColor],
-										title : this.hostsList_[i] + " : rack"
+										title : rackName + " : rack"
 									});
 
 				}
