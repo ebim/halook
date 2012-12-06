@@ -80,7 +80,38 @@ public class NameNodeConverter extends AbstractConverter
                     "        return this.dnsToSwitchMapping.resolve(names);" + //
                     "}", ctClass);
             ctClass.addMethod(getServerInfoMethod);
-            
+
+            CtMethod getHLCapacityRemainingMethod = CtMethod.make("" + //
+                    "public long getHLCapacityRemaining(){ " + //
+                    "        return this.getCapacityRemaining();" + //
+                    "}", ctClass);
+            ctClass.addMethod(getHLCapacityRemainingMethod);
+
+            CtMethod getHLCapacityUsedMethod = CtMethod.make("" + //
+                    "public long getHLCapacityUsed(){ " + //
+                    "        return this.getCapacityUsed();" + //
+                    "}", ctClass);
+            ctClass.addMethod(getHLCapacityUsedMethod);
+
+            CtMethod getDfsNodeInfoMethod = CtMethod.make("" + //
+            		"public java.util.Map getDfsNodeInfo() {" + //
+            		"" + //
+            		"	java.util.Map info = new jp.co.acroquest.endosnipe.javelin.util.HashMap();" + //
+            		"	java.util.List aliveNodeList = this" + //
+            		"			.getDatanodeListForReport(org.apache.hadoop.hdfs.protocol.FSConstants.DatanodeReportType.LIVE);" + //
+            		"	for (java.util.Iterator iterator = aliveNodeList.iterator(); iterator.hasNext();) {" + //
+            		"       org.apache.hadoop.hdfs.server.namenode.DatanodeDescriptor node = (org.apache.hadoop.hdfs.server.namenode.DatanodeDescriptor)iterator.next();" + //
+            		"		jp.co.acroquest.endosnipe.javelin.converter.hadoop.DfsNodeInfo nodeInfo = new jp.co.acroquest.endosnipe.javelin.converter.hadoop.DfsNodeInfo();" + //
+            		"		nodeInfo.setCapacity(node.getCapacity());" + //
+            		"		nodeInfo.setDfsUsed(node.getDfsUsed());" + //
+            		"		nodeInfo.setHostName(node.getHostName());" + //
+            		"" + //
+            		"		info.put(node.getHostName(), nodeInfo);" + //
+            		"	}" + //
+            		"" + //
+            		"	return info;" + //
+                    "}", ctClass);
+            ctClass.addMethod(getDfsNodeInfoMethod);
         }
 
         for (CtBehavior ctBehavior : behaviorList)
@@ -91,6 +122,7 @@ public class NameNodeConverter extends AbstractConverter
         setNewClassfileBuffer(ctClass.toBytecode());
     }
 
+    
     /**
      * メソッドの振る舞いを修正する。
      * @param ctBehavior CtBehavior

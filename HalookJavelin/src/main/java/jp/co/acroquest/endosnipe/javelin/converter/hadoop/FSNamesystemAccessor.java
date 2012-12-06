@@ -26,6 +26,7 @@
 package jp.co.acroquest.endosnipe.javelin.converter.hadoop;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * FSNamesystemへのアクセサ。
@@ -34,5 +35,11 @@ import java.util.List;
  */
 public interface FSNamesystemAccessor
 {
-    List<String> resolve(List<String> names); 
+    List<String> resolve(List<String> names);
+
+	long getHLCapacityRemaining();
+
+	long getHLCapacityUsed();
+
+	Map<String, DfsNodeInfo> getDfsNodeInfo(); 
 }

@@ -44,6 +44,7 @@ import jp.co.acroquest.endosnipe.common.entity.DisplayType;
 import jp.co.acroquest.endosnipe.common.entity.ItemType;
 import jp.co.acroquest.endosnipe.common.entity.ResourceItem;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
+import jp.co.acroquest.endosnipe.javelin.converter.hadoop.DfsNodeInfo;
 import jp.co.acroquest.endosnipe.javelin.converter.hadoop.HadoopMeasurementInfo;
 import net.arnx.jsonic.JSON;
 import net.arnx.jsonic.JSONException;
@@ -129,7 +130,7 @@ public class HadoopNameNodeGetter extends HadoopGetter
         }
 
         // HDFS全体の空き容量、使用量を取得する
-        Number dfsRemaining = getJMXValueLong(nameNodeInfoObjectName, ATTRIBUTE_DFS_REMAINING);
+        Number dfsRemaining = HadoopMeasurementInfo.getInstance().getCapacityRemaining();
         if (dfsRemaining != null)
         {
             ResourceItem dfsRemainingItem =
@@ -142,7 +143,7 @@ public class HadoopNameNodeGetter extends HadoopGetter
 
         }
 
-        Number dfsUsed = getJMXValueLong(nameNodeInfoObjectName, ATTRIBUTE_DFS_USED);
+        Number dfsUsed = HadoopMeasurementInfo.getInstance().getCapacityUsed();
         if (dfsUsed != null)
         {
             ResourceItem dfsUsedItem =
@@ -153,101 +154,59 @@ public class HadoopNameNodeGetter extends HadoopGetter
             returnList.add(dfsUsedItem);
         }
 
-        try
+    	Map<String, DfsNodeInfo> liveNodes = HadoopMeasurementInfo.getInstance().getDfsNodeInfo();
+    	
+        List<String> inputNames = new ArrayList<String>();
+        inputNames.addAll(liveNodes.keySet());
+        List<String> resolvedNames = HadoopMeasurementInfo.getInstance().resolve(inputNames);
+        for (int index = 0; index < inputNames.size(); index++)
         {
-            // JMXで各DataNodeの使用量を含むJSON形式の文字列を取得する。
-            // 取得するデータは以下の形式をしている
-            // {
-            //    "hostname1":{"usedSpace":3151212544,"lastContact":1},
-            //    "hostname2":{"usedSpace":3151212544,"lastContact":1}
-            // }
-            String liveNodesJson =
-                                   server__.getAttribute(nameNodeInfoObjectName,
-                                                         ATTRIBUTE_LIVE_NODES).toString();
+            String serverName = inputNames.get(index);
+            String rackName = resolvedNames.get(index);
+            StringBuilder builder = new StringBuilder();
+            builder.append(PREFIX_HDFS);
+            builder.append("/");
+            builder.append(serverName);
+            builder.append(SUFFIX_NODEINFO);
 
-            Map<String, Map<String, Number>> liveNodes = JSON.decode(liveNodesJson);
-            
-            List<String> inputNames = new ArrayList<String>();
-            inputNames.addAll(liveNodes.keySet());
-            List<String> resolvedNames = HadoopMeasurementInfo.getInstance().resolve(inputNames);
-            for (int index = 0; index < inputNames.size(); index++)
-            {
-                String serverName = inputNames.get(index);
-                String rackName = resolvedNames.get(index);
-                StringBuilder builder = new StringBuilder();
-                builder.append(PREFIX_HDFS);
-                builder.append("/");
-                builder.append(serverName);
-                builder.append(SUFFIX_NODEINFO);
+            String nodeInfoItemName = builder.toString();
+            String nodeInfoValue = "{\"rack-name\":\"" + rackName + "\"}";
+            ResourceItem datanodeDfsUsedItem =
+                                               createResourceItem(nameNodeInfoObjectName,
+                                                                  nodeInfoItemName,
+                                                                  nodeInfoValue,
+                                                                  ItemType.ITEMTYPE_LONG);
+            returnList.add(datanodeDfsUsedItem);
 
-                String nodeInfoItemName = builder.toString();
-                String nodeInfoValue = "{\"rack-name\":\"" + rackName + "\"}";
-                ResourceItem datanodeDfsUsedItem =
-                                                   createResourceItem(nameNodeInfoObjectName,
-                                                                      nodeInfoItemName,
-                                                                      nodeInfoValue,
-                                                                      ItemType.ITEMTYPE_LONG);
-                returnList.add(datanodeDfsUsedItem);
-
-            }
-
-            // TODO JMXで取れないため、全体の空き容量をノード数で割ったものを暫定的に各DataNodeの空き容量とする
-            long datanodeDfsTotal = 0;
-            int mapLength = liveNodes.size();
-            if (mapLength > 0 && dfsRemaining != null && dfsUsed != null)
-            {
-                long longDFSRemaining = dfsRemaining.longValue();
-                long longDFSUsed = dfsUsed.longValue();
-                datanodeDfsTotal = (longDFSRemaining + longDFSUsed) / mapLength;
-            }
-
-            for (Entry<String, Map<String, Number>> liveNode : liveNodes.entrySet())
-            {
-                String hostname = liveNode.getKey();
-                long datanodeDfsUsed = liveNode.getValue().get(KEY_USED_SPACE).longValue();
-
-                // ItemName となる文字列
-                StringBuilder builder = new StringBuilder();
-                builder.append(PREFIX_HDFS);
-                builder.append("/");
-                builder.append(hostname);
-                String dfsRemainingItemName = builder.toString() + SUFFIX_DFSREMAINING;
-                String dfsUsedItemName = builder.toString() + SUFFIX_DFSUSED;
-
-                ResourceItem datanodeDfsRemainingItem =
-                                                        createResourceItem(nameNodeInfoObjectName,
-                                                                           dfsRemainingItemName,
-                                                                           (datanodeDfsTotal - datanodeDfsUsed),
-                                                                           ItemType.ITEMTYPE_LONG);
-
-                ResourceItem datanodeDfsUsedItem =
-                                                   createResourceItem(nameNodeInfoObjectName,
-                                                                      dfsUsedItemName,
-                                                                      datanodeDfsUsed,
-                                                                      ItemType.ITEMTYPE_LONG);
-                returnList.add(datanodeDfsRemainingItem);
-                returnList.add(datanodeDfsUsedItem);
-            }
         }
-        catch (AttributeNotFoundException ex)
+
+        for (Entry<String, DfsNodeInfo> liveNode : liveNodes.entrySet())
         {
-            SystemLogger.getInstance().warn(ex);
-        }
-        catch (InstanceNotFoundException ex)
-        {
-            SystemLogger.getInstance().warn(ex);
-        }
-        catch (MBeanException ex)
-        {
-            SystemLogger.getInstance().warn(ex);
-        }
-        catch (ReflectionException ex)
-        {
-            SystemLogger.getInstance().warn(ex);
-        }
-        catch (JSONException ex)
-        {
-            SystemLogger.getInstance().warn(ex);
+            String hostname = liveNode.getKey();
+            long datanodeDfsUsed = liveNode.getValue().getDfsUsed();
+            long datanodeDfsTotal = liveNode.getValue().getCapacity();
+
+            // ItemName となる文字列
+            StringBuilder builder = new StringBuilder();
+            builder.append(PREFIX_HDFS);
+            builder.append("/");
+            builder.append(hostname);
+            String dfsRemainingItemName = builder.toString() + SUFFIX_DFSREMAINING;
+            String dfsUsedItemName = builder.toString() + SUFFIX_DFSUSED;
+
+            ResourceItem datanodeDfsRemainingItem =
+                                                    createResourceItem(nameNodeInfoObjectName,
+                                                                       dfsRemainingItemName,
+                                                                       (datanodeDfsTotal - datanodeDfsUsed),
+                                                                       ItemType.ITEMTYPE_LONG);
+
+            ResourceItem datanodeDfsUsedItem =
+                                               createResourceItem(nameNodeInfoObjectName,
+                                                                  dfsUsedItemName,
+                                                                  datanodeDfsUsed,
+                                                                  ItemType.ITEMTYPE_LONG);
+            returnList.add(datanodeDfsRemainingItem);
+            returnList.add(datanodeDfsUsedItem);
         }
 
         return returnList;

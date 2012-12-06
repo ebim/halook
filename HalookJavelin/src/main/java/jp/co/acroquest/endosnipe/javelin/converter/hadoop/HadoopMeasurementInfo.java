@@ -28,8 +28,10 @@ package jp.co.acroquest.endosnipe.javelin.converter.hadoop;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import jp.co.acroquest.endosnipe.javelin.util.ArrayList;
+import jp.co.acroquest.endosnipe.javelin.util.HashMap;
 
 /**
  * @author ochiai
@@ -190,4 +192,55 @@ public class HadoopMeasurementInfo
             return new ArrayList<String>(names);
         }
     }
+    
+    /**
+     * DFSのcapacityRemainingを取得する。
+     * 
+     * @return capacityRemaining。
+     */
+    public long getCapacityRemaining()
+    {
+        if (fsNamesystem_ != null)
+        {
+            return this.fsNamesystem_.getHLCapacityRemaining();
+        }
+        else
+        {
+            return 0l;
+        }
+    }
+
+    /**
+     * DFSのcapacityRemainingを取得する。
+     * 
+     * @return capacityRemaining。
+     */
+    public long getCapacityUsed()
+    {
+        if (fsNamesystem_ != null)
+        {
+            return this.fsNamesystem_.getHLCapacityUsed();
+        }
+        else
+        {
+            return 0l;
+        }
+    }
+    
+    /**
+     * DFSのDataNode情報を取得する。
+     * 
+     * @return　DFSのDataNode情報のリスト。
+     */
+    public Map<String, DfsNodeInfo> getDfsNodeInfo()
+    {
+        if (fsNamesystem_ != null)
+        {
+            return this.fsNamesystem_.getDfsNodeInfo();
+        }
+        else {
+			return new HashMap<String, DfsNodeInfo>();
+		}
+
+	}
 }

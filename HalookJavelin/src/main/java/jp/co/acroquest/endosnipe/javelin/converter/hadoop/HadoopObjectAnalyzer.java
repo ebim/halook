@@ -316,13 +316,28 @@ public class HadoopObjectAnalyzer
                 // èàóùëŒè€ÉfÅ[É^
                 if (task.getClass().toString().equals("class org.apache.hadoop.mapred.MapTask"))
                 {
-                    Field splitMetaInfoField = task.getClass().getDeclaredField("splitMetaInfo");
-                    splitMetaInfoField.setAccessible(true);
-                    Object splitMetaInfo = splitMetaInfoField.get(task);
-                    String splitLocation = getAccessibleMethod(splitMetaInfo.getClass().getMethod("getSplitLocation", new Class[]{})).invoke(splitMetaInfo, new Object[]{}).toString();
-                    String startOffset = getAccessibleMethod(splitMetaInfo.getClass().getMethod("getStartOffset", new Class[]{})).invoke(splitMetaInfo, new Object[]{}).toString();
+					try {
+						Field splitMetaInfoField = task.getClass()
+								.getDeclaredField("splitMetaInfo");
+						splitMetaInfoField.setAccessible(true);
+						Object splitMetaInfo = splitMetaInfoField.get(task);
+						String splitLocation = getAccessibleMethod(
+								splitMetaInfo.getClass().getMethod(
+										"getSplitLocation", new Class[] {}))
+								.invoke(splitMetaInfo, new Object[] {})
+								.toString();
+						String startOffset = getAccessibleMethod(
+								splitMetaInfo.getClass().getMethod(
+										"getStartOffset", new Class[] {}))
+								.invoke(splitMetaInfo, new Object[] {})
+								.toString();
 
-                    hadoopAction.setInputData(splitLocation + "(" + startOffset + ")");
+						hadoopAction.setInputData(splitLocation + "("
+								+ startOffset + ")");
+					} catch (NoSuchFieldException nsfe) {
+						// TODO ë∂ç›ÇµÇ»Ç¢èÍçáÇÃèàóù
+						
+					}
                 }
             }
             // ÇªÇÃëº
