@@ -148,8 +148,20 @@ public class HadoopObjectAnalyzer
         }
 
         // Host名をリターン
-        return taskTrackerClass.getMethod("getHost", new Class[]{}).invoke(taskTrackerStatus, new Object[]{}).toString();
+        Method method = getAccessibleMethod(taskTrackerClass.getMethod("getHost", new Class[]{}));
+		return method.invoke(taskTrackerStatus, new Object[]{}).toString();
     }
+
+    /**
+     * メソッドをaccesibleにして返す。
+     * 
+     * @param method 対象メソッド
+     * @return accesibleなメソッド
+     */
+	private static Method getAccessibleMethod(Method method) {
+		method.setAccessible(true);
+		return method;
+	}
 
     /**
      * HadoopのTaskTrackerStatusからHadoopTaskStatusオブジェクトのリストを作成する。
@@ -176,7 +188,7 @@ public class HadoopObjectAnalyzer
         }
 
         // TaskStatusのリストを取り出す
-        Object taskObjectList = taskTrackerClass.getMethod("getTaskReports", new Class[]{}).invoke(taskTrackerStatus, new Object[]{});
+        Object taskObjectList = getAccessibleMethod(taskTrackerClass.getMethod("getTaskReports", new Class[]{})).invoke(taskTrackerStatus, new Object[]{});
 
         ArrayList<HadoopTaskStatus> hadoopTaskStatusList = new ArrayList<HadoopTaskStatus>();
 
@@ -188,7 +200,7 @@ public class HadoopObjectAnalyzer
             HadoopTaskStatus hadoopTaskStatus = new HadoopTaskStatus();
 
             // state
-            String state = taskStatus.getClass().getMethod("getRunState", new Class[]{}).invoke(taskStatus, new Object[]{}).toString();
+            String state = getAccessibleMethod(taskStatus.getClass().getMethod("getRunState", new Class[]{})).invoke(taskStatus, new Object[]{}).toString();
 
             // RUNNINGは無視
             if (state.endsWith(State.RUNNING.toString()))
@@ -197,20 +209,20 @@ public class HadoopObjectAnalyzer
             hadoopTaskStatus.setState(state);
 
             // taskID
-            Object taskIdObject = taskStatus.getClass().getMethod("getTaskID", new Class[]{}).invoke(taskStatus, new Object[]{});
+            Object taskIdObject = getAccessibleMethod(taskStatus.getClass().getMethod("getTaskID", new Class[]{})).invoke(taskStatus, new Object[]{});
             hadoopTaskStatus.setTaskID(taskIdObject.toString());
             // jobID
-            hadoopTaskStatus.setJobID(taskIdObject.getClass().getMethod("getJobID", new Class[]{}).invoke(taskIdObject, new Object[]{}).toString());
+            hadoopTaskStatus.setJobID(getAccessibleMethod(taskIdObject.getClass().getMethod("getJobID", new Class[]{})).invoke(taskIdObject, new Object[]{}).toString());
             //Phase
-            hadoopTaskStatus.setPhase(taskStatus.getClass().getMethod("getPhase", new Class[]{}).invoke(taskStatus, new Object[]{}).toString());
+            hadoopTaskStatus.setPhase(getAccessibleMethod(taskStatus.getClass().getMethod("getPhase", new Class[]{})).invoke(taskStatus, new Object[]{}).toString());
             // 開始時刻
-            Object startTimeObject = taskStatus.getClass().getMethod("getStartTime", new Class[]{}).invoke(taskStatus, new Object[]{});
+            Object startTimeObject = getAccessibleMethod(taskStatus.getClass().getMethod("getStartTime", new Class[]{})).invoke(taskStatus, new Object[]{});
             if (startTimeObject != null && startTimeObject instanceof Long)
             {
                 hadoopTaskStatus.setStartTime((Long)startTimeObject);                
             }
             // 終了時刻
-            Object finishTimeObject = taskStatus.getClass().getMethod("getFinishTime", new Class[]{}).invoke(taskStatus, new Object[]{});
+            Object finishTimeObject = getAccessibleMethod(taskStatus.getClass().getMethod("getFinishTime", new Class[]{})).invoke(taskStatus, new Object[]{});
             if (finishTimeObject != null && finishTimeObject instanceof Long)
             {
                 hadoopTaskStatus.setFinishTime((Long)finishTimeObject);                
@@ -249,7 +261,7 @@ public class HadoopObjectAnalyzer
         }
         // TaskTrackerAction[]を解析
         Method method = heartbeatResponseClass.getMethod("getActions", new Class[]{});
-        method.setAccessible(true);
+        getAccessibleMethod(method);
         Object[] actionList = (Object[])(method.invoke(heartbeatResponse, new Object[]{}));
         ArrayList<HadoopAction> ret = new ArrayList<HadoopAction>();
 
@@ -261,7 +273,7 @@ public class HadoopObjectAnalyzer
             // アクション種別の判定
             // リフレクションは基底クラスのメソッドを呼び出せないので、基底クラスからメソッドを取得する。
             Method getActionIdMethod = action.getClass().getSuperclass().getDeclaredMethod("getActionId", new Class[]{});
-            getActionIdMethod.setAccessible(true);
+            getAccessibleMethod(getActionIdMethod);
             String actionType = getActionIdMethod.invoke(action, new Object[]{}).toString();
             hadoopAction.setActionType(actionType);
 
@@ -275,27 +287,27 @@ public class HadoopObjectAnalyzer
             {
                 // Taskオブジェクト取得
                 Method getTaskMethod = action.getClass().getDeclaredMethod("getTask", new Class[]{});
-                getTaskMethod.setAccessible(true);
+                getAccessibleMethod(getTaskMethod);
                 Object task = getTaskMethod.invoke(action, new Object[]{});
 
                 // Mapタスクか？
                 Method isMapTaskMethod = task.getClass().getDeclaredMethod("isMapTask", new Class[]{});
-                isMapTaskMethod.setAccessible(true);
+                getAccessibleMethod(isMapTaskMethod);
                 hadoopAction.setMapTask(((Boolean)(isMapTaskMethod.invoke(task, new Object[]{}))).booleanValue());
 
                 // ジョブID
                 Method getJobIDMethod = task.getClass().getSuperclass().getDeclaredMethod("getJobID", new Class[]{});
-                getJobIDMethod.setAccessible(true);
+                getAccessibleMethod(getJobIDMethod);
                 hadoopAction.setJobID(getJobIDMethod.invoke(task, new Object[]{}).toString());
 
                 // タスク試行ID
                 Method getTaskIDMethod = task.getClass().getSuperclass().getDeclaredMethod("getTaskID", new Class[]{});
-                getTaskIDMethod.setAccessible(true);
+                getAccessibleMethod(getTaskIDMethod);
                 hadoopAction.setTaskID(getTaskIDMethod.invoke(task, new Object[]{}).toString());
 
                 // JobConfオブジェクト取得
                 Method getConfMethod = task.getClass().getSuperclass().getDeclaredMethod("getConf", new Class[]{});
-                getConfMethod.setAccessible(true);
+                getAccessibleMethod(getConfMethod);
                 Object jobConf = getConfMethod.invoke(task, new Object[]{});
 
                 // ジョブ名
@@ -307,8 +319,8 @@ public class HadoopObjectAnalyzer
                     Field splitMetaInfoField = task.getClass().getDeclaredField("splitMetaInfo");
                     splitMetaInfoField.setAccessible(true);
                     Object splitMetaInfo = splitMetaInfoField.get(task);
-                    String splitLocation = splitMetaInfo.getClass().getMethod("getSplitLocation", new Class[]{}).invoke(splitMetaInfo, new Object[]{}).toString();
-                    String startOffset = splitMetaInfo.getClass().getMethod("getStartOffset", new Class[]{}).invoke(splitMetaInfo, new Object[]{}).toString();
+                    String splitLocation = getAccessibleMethod(splitMetaInfo.getClass().getMethod("getSplitLocation", new Class[]{})).invoke(splitMetaInfo, new Object[]{}).toString();
+                    String startOffset = getAccessibleMethod(splitMetaInfo.getClass().getMethod("getStartOffset", new Class[]{})).invoke(splitMetaInfo, new Object[]{}).toString();
 
                     hadoopAction.setInputData(splitLocation + "(" + startOffset + ")");
                 }
@@ -318,13 +330,13 @@ public class HadoopObjectAnalyzer
             {
                 // タスク試行ID
                 Method getTaskIDMethod = action.getClass().getDeclaredMethod("getTaskID", new Class[]{});
-                getTaskIDMethod.setAccessible(true);
+                getAccessibleMethod(getTaskIDMethod);
                 Object taskAttemptID = getTaskIDMethod.invoke(action, new Object[]{});
                 hadoopAction.setTaskID(taskAttemptID.toString());
 
                 // ジョブID
                 Method getJobIDMethod = taskAttemptID.getClass().getDeclaredMethod("getJobID", new Class[]{});
-                getJobIDMethod.setAccessible(true);
+                getAccessibleMethod(getJobIDMethod);
                 Object jobID = getJobIDMethod.invoke(taskAttemptID, new Object[]{});
                 hadoopAction.setJobID(jobID.toString());
             }
@@ -360,7 +372,7 @@ public class HadoopObjectAnalyzer
         }
 
         // JobIDを取得
-        return jobStatusClass.getMethod("getJobId", new Class[]{}).invoke(jobStatus, new Object[]{}).toString();
+        return getAccessibleMethod(jobStatusClass.getMethod("getJobId", new Class[]{})).invoke(jobStatus, new Object[]{}).toString();
     }
 
     /**
@@ -393,7 +405,7 @@ public class HadoopObjectAnalyzer
         }
 
         // getRunState()を取得、実行
-        int state = ((Integer)(jobStatusClass.getMethod("getRunState", new Class[]{}).invoke(jobStatus, new Object[]{}))).intValue();
+        int state = ((Integer)(getAccessibleMethod(jobStatusClass.getMethod("getRunState", new Class[]{})).invoke(jobStatus, new Object[]{}))).intValue();
 
         ret = HadoopJobStatus.getStatus(state);
 
@@ -505,19 +517,19 @@ public class HadoopObjectAnalyzer
         Object jobInProgressObject = getJobMethod.invoke(jobTracker, jobIDObject);
         
         //起動時刻を取得する
-        Object startTimeObject = jobInProgressObject.getClass().getMethod("getStartTime", new Class[]{}).invoke(jobInProgressObject, new Object[]{});
+        Object startTimeObject = getAccessibleMethod(jobInProgressObject.getClass().getMethod("getStartTime", new Class[]{})).invoke(jobInProgressObject, new Object[]{});
         if (startTimeObject != null && startTimeObject instanceof Long)
         {
             info.setStartTime((Long)startTimeObject);                
         }
         //終了時刻を取得する
-        Object finishTimeObject = jobInProgressObject.getClass().getMethod("getFinishTime", new Class[]{}).invoke(jobInProgressObject, new Object[]{});
+        Object finishTimeObject = getAccessibleMethod(jobInProgressObject.getClass().getMethod("getFinishTime", new Class[]{})).invoke(jobInProgressObject, new Object[]{});
         if (finishTimeObject != null && finishTimeObject instanceof Long)
         {
             info.setFinishTime((Long)finishTimeObject);                
         }
         //Submit時刻を取得する
-        Object submitTimeObject = jobInProgressObject.getClass().getMethod("getCreateTimeJvn", new Class[]{}).invoke(jobInProgressObject, new Object[]{});
+        Object submitTimeObject = getAccessibleMethod(jobInProgressObject.getClass().getMethod("getCreateTimeJvn", new Class[]{})).invoke(jobInProgressObject, new Object[]{});
         if (submitTimeObject != null && submitTimeObject instanceof Long)
         {
             info.setSubmitTime((Long)submitTimeObject);                
@@ -527,9 +539,10 @@ public class HadoopObjectAnalyzer
         Field jobConfField = jobInProgressObject.getClass().getDeclaredField("conf");
         jobConfField.setAccessible(true);
         Object jobConfObject = jobConfField.get(jobInProgressObject);
-        String jobName = jobConfObject.getClass().getMethod("getJobName", new Class[]{}).invoke(jobConfObject, new Object[]{}).toString();
+        String jobName = getAccessibleMethod(jobConfObject.getClass().getMethod("getJobName", new Class[]{})).invoke(jobConfObject, new Object[]{}).toString();
         info.setJobName(jobName);
         
         return info;
     }
 }
+	
