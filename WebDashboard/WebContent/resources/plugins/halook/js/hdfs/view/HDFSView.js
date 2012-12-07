@@ -498,6 +498,9 @@ var HDFSView = wgp.AbstractView
 										fill : " rgb(48, 50, 50)",
 										title : this.hostsList_[i]
 												+ " : remaining"
+												+ " : "
+												+ Math.floor(this.hdfsState_[host]["capacity"] / 1024 / 1024)
+												+ "MB"
 									});
 
 				}
@@ -539,7 +542,12 @@ var HDFSView = wgp.AbstractView
 						"stroke" : halook.hdfs.constants.dataNode.frameColor,
 						fill : this._getDataNodeColor(dfsStatus),
 						target : host,
-						title : this.hostsList_[i] + " : used"
+						title : this.hostsList_[i] 
+												+ " : used"
+												+ " : "
+												+ Math.floor(this.hdfsState_[host]["dfsused"] / 1024 / 1024)
+												+ "MB"
+
 					});
 				}
 				
