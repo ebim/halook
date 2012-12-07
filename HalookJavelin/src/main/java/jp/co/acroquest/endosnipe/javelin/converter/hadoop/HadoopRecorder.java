@@ -1684,6 +1684,8 @@ public class HadoopRecorder
                     }
                     else if (status == HadoopJobStatus.FAILED)
                     {
+                    	itr.remove();
+                    	
                         // Œv‘ª—p‚ÉŠi”[
                         HadoopJobStatusInfo info = 
                                 HadoopObjectAnalyzer.getJobStatusInfo(jobID, thisObject);
