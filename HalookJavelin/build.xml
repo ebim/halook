@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="HalookJavelin" default="release" basedir=".">
-    <import file="../ENdoSnipe/build_common.xml" />
-
     <!-- Project settings -->
     <property name="jarname" value="halookJavelin" />
     <property name="zipname" value="HalookJavelin" />
 
     <!-- Local system paths -->
+    <property name="version" value="5.0.0" />
     <property name="src.dir" location="src/main/java" />
     <property name="src.test.dir" location="src/test/java" />
     <property name="resources.dir" location="src/main/resources" />
@@ -14,7 +13,6 @@
     <property name="classes.dir" location="classes" />
     <property name="classes.test.dir" location="classes-test" />
     <property name="lib.dir" value="lib" />
-    <property name="lib-dependency.dir" location="${lib.dir}/dependency" />
     <property name="conf.dir"    value="conf" />
     <property name="bin.dir"     value="bin" />
     <property name="dist.dir"    location="dist" />
@@ -44,7 +42,7 @@
         </fileset>
     </path>
 
-    <target name="prepare" depends="clean, copyVerToBuildProperties">
+    <target name="prepare" depends="clean">
         <mkdir dir="${classes.dir}" />
         <mkdir dir="${classes.test.dir}" />
         <mkdir dir="${dist.dir}" />
@@ -60,17 +58,7 @@
     </target>
 
     <!-- Normal build of application -->
-    <target name="compile" depends="prepare, compileENdoSnipeCommon, compileENdoSnipeCommunicator">
-        <!-- Copy depending libraries -->
-        <copy file="${endosnipe-common.jar}" todir="${lib-dependency.dir}" failonerror="yes" />
-        <copy file="${endosnipe-communicator.jar}" todir="${lib-dependency.dir}" failonerror="yes" />
-        <copy file="${endosnipe-dataaccessor.jar}" todir="${lib-dependency.dir}" failonerror="yes" />
-        <copy todir="${lib-dependency.dir}">
-            <fileset dir="${endosnipe-common.dir}/lib">
-                <include name="*.jar" />
-            </fileset>
-        </copy>
-
+    <target name="compile" depends="prepare">
         <javac destdir="${classes.dir}" fork="true" debug="true" target="1.5">
             <classpath refid="compile.classpath" />
             <src>
@@ -146,9 +134,6 @@
             <fileset dir="${lib.dir}">
                 <include name="*.jar" />
                 <include name="license/*.*" />
-            </fileset>
-            <fileset dir="${lib-dependency.dir}">
-                <include name="endosnipe-*.jar" />
             </fileset>
         </copy>
 
