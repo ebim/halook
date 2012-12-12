@@ -118,6 +118,8 @@ var HDFSView = wgp.AbstractView
 					"stroke-width" : halook.hdfs.constants.rack.height / 2
 				});
 
+				this.hostsList_.sort();
+				
 				// data node capacity bars
 				this._drawCapacity();
 
@@ -615,6 +617,14 @@ var HDFSView = wgp.AbstractView
 					
 					// get rack name
 					var nodeInfoStr = this.hdfsState_[host].nodeinfo;
+					
+					// onAddから複数データが送られてくる場合、
+					// 今のところ、複数データの数だけonAddイベントが発生するが、
+					// 最後以外は不適切なデータなのではじく
+					if(nodeInfoStr == undefined) {
+						return;
+					}
+					
 					var nodeInfo = (new Function("return " + nodeInfoStr))();
 					var rackName = nodeInfo["rack-name"];
 					
