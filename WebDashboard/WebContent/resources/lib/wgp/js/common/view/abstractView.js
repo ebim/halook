@@ -44,6 +44,9 @@ wgp.AbstractView = Backbone.View.extend({
 	onRemove : function(element) {
 		console.log('called removeModel');
 	},
+	onComplete : function(element) {
+		console.log('called completeModel');
+	},
 	getTermData : function() {
 		console.log('called getTermData');
 	},
@@ -57,6 +60,9 @@ wgp.AbstractView = Backbone.View.extend({
 
 		// When Collection Remove Model
 		this.collection.on('remove', this.onRemove, this);
+		
+		// When Collection Complete Model
+		this.collection.on('complete', this.onComplete, this);
 
 		// When Collection get Term Data.
 		this.collection.on('getTermData', this.getTermData, this);
@@ -71,6 +77,9 @@ wgp.AbstractView = Backbone.View.extend({
 
 			// When Collection Remove Model
 			this.collection.off('remove', this.onRemove, this);
+			
+			// When Collection Complete Model
+			this.collection.off('complete', this.onComplete, this);
 
 			// When Collection get Term Data.
 			this.collection.off('getTermData', this.getTermData, this);

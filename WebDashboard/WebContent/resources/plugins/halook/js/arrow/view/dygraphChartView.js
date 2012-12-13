@@ -62,8 +62,7 @@ halook.DygraphChartView = wgp.DygraphElementView.extend({
 			drawXGrid : true,
 			axisLabelFontSize : 12,
 		};
-		
-		this.registerCollectionEvent();
+	
 		this.graphId = "taskGraph";
 		this.maxId = 0;
 

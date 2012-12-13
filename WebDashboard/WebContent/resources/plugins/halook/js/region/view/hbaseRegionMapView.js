@@ -35,9 +35,6 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 		// set paper
 		this.render();
 
-		// リアルタイム通信の受け口を作る
-		this.registerCollectionEvent();
-
 	},
 	render : function() {
 		this.paper = new Raphael(document.getElementById(this.$el.attr("id")),
@@ -73,15 +70,18 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 
 	},
 	onAdd : function(element) {
-		this.data = this._getData();
-
-		this._createMap();
+		
 	},
 	onChange : function(element) {
 		console.log('called changeModel (parent)');
 	},
 	onRemove : function(element) {
 		console.log('called removeModel (parent)');
+	},
+	onComplete : function() {
+		this.data = this._getData();
+
+		this._createMap();
 	},
 	getTermData : function() {
 		// this._updateDraw();

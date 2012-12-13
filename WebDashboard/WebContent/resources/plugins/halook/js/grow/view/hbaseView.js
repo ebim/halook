@@ -39,7 +39,6 @@ var HbaseView = wgp.AbstractView.extend({
 		appView.getTermData([arguments.treeSettings.id], 
 							new Date(0), this.nowDate);
 		appView.syncData([arguments.treeSettings.id]);
-		//this.registerCollectionEvent();
         
 	},
 	/*

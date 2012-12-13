@@ -35,7 +35,6 @@ wgp.DygraphElementView = wgp.AbstractView.extend({
 		var appView = new wgp.AppView();
 		appView.addView(this, this.graphId);
 		this.render();
-		this.registerCollectionEvent();
 
 		if (!this.noTermData) {
 			var startTime = new Date(new Date().getTime() - this.term * 1000);

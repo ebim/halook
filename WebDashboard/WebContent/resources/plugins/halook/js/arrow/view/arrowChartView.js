@@ -53,12 +53,6 @@ halook.ArrowChartView = wgp.AbstractView
 				this.viewType = wgp.constants.VIEW_TYPE.VIEW;
 				this.collection = new arrowModelCollection();
 				this.attributes = {};
-				// var instance = this;
-				// halook.ArrowChartView = function() {
-				// return instance;
-				// }
-
-				// this.registerCollectionEvent();
 				this.paper = new Raphael(document.getElementById(this.$el
 						.attr("id")), this.width, this.height);
 				halook.arrowChart.paperHeight = getFromServerDatas.length

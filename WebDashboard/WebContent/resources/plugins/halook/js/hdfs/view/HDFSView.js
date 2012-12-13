@@ -35,6 +35,7 @@ halook.HDFS.angleList = {};
 halook.HDFS.center = {};
 halook.HDFS.capacity = {};
 halook.HDFS.beforeUsage = {};
+halook.HDFS.isCompleteDraw = false;
 
 var HDFSView = wgp.AbstractView
 		.extend({
@@ -62,8 +63,6 @@ var HDFSView = wgp.AbstractView
 				appView.addView(this, this.treeSettingId_ + '%');
 				// set paper
 				this.render();
-				// リアルタイム通信の受け口を作る
-				this.registerCollectionEvent();
 
 				// set view size
 				this.width = argument["width"];
@@ -135,6 +134,8 @@ var HDFSView = wgp.AbstractView
 						.attr("id")), this.width, this.height);
 			},
 			onAdd : function(mapElement) {
+			},
+			onComplete : function() {
 				this._updateDraw();
 				this._animateBlockTransfer();
 			},
@@ -150,8 +151,9 @@ var HDFSView = wgp.AbstractView
 				this._updateDraw();
 				if (this.isRealTime) {
 					appView.syncData([ (this.treeSettingId_ + "%") ]);
+					this._animateBlockTransfer();
 				}
-				this._animateBlockTransfer();
+				
 			},
 			_initView : function() {
 				// enlarge area
@@ -264,7 +266,7 @@ var HDFSView = wgp.AbstractView
 						
 						// 前回の使用量ｋ
 						var beforeUsage = halook.HDFS.beforeUsage[host];
-						if (beforeUsage < h) {
+						if (beforeUsage > h) {
 							
 							var usageClone = halook.HDFS.usageList[host].clone();
 							
@@ -286,7 +288,7 @@ var HDFSView = wgp.AbstractView
 							usageClone.stop().animate({path: "M" + centerX + " "
 								+ centerY, fill: " rgb(256, 256, 256)"}, 1000, "");
 						
-						} else if (beforeUsage > h) {
+						} else if (beforeUsage < h) {
 							var centerObjectClone = this.paper
 								.path(
 										[
@@ -500,9 +502,6 @@ var HDFSView = wgp.AbstractView
 										fill : " rgb(48, 50, 50)",
 										title : this.hostsList_[i]
 												+ " : remaining"
-												+ " : "
-												+ Math.floor(this.hdfsState_[host]["capacity"] / 1024 / 1024)
-												+ "MB"
 									});
 
 				}
@@ -544,12 +543,7 @@ var HDFSView = wgp.AbstractView
 						"stroke" : halook.hdfs.constants.dataNode.frameColor,
 						fill : this._getDataNodeColor(dfsStatus),
 						target : host,
-						title : this.hostsList_[i] 
-												+ " : used"
-												+ " : "
-												+ Math.floor(this.hdfsState_[host]["dfsused"] / 1024 / 1024)
-												+ "MB"
-
+						title : this.hostsList_[i] + " : used"
 					});
 				}
 				

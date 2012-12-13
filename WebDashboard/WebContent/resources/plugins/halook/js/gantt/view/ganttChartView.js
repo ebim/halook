@@ -201,14 +201,12 @@ var ganttChartView = wgp.AbstractView
 				console.log('called removeModel');
 			},
 			_getStatus : function(status) {
-				if (status.match("SUCCEEDED")) {
+				if (status.match("SUCCESS")) {
 					return wgp.constants.STATE.SUCCESS;
 				} else if (status.match("ERROR")) {
 					return wgp.constants.STATE.ERROR;
 				} else if (status.match("KILLED")) {
 					return wgp.constants.STATE.KILLED;
-				} else if (status.match("FAILED")) {
-					return wgp.constants.STATE.FAILED;
 				} else if (status.match("RUNNING")) {
 					return wgp.constants.STATE.RUNNING;
 				} else {
