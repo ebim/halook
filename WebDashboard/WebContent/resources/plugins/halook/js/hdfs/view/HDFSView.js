@@ -25,7 +25,8 @@
  ******************************************************************************/
 
 halook.HDFS.self;
-halook.HDFS.angle = 0;
+halook.HDFS.changeAngleFromUpdate = 0;
+halook.HDFS.changeAngleTotal = 0;
 halook.HDFS.unitAngle = 0;
 halook.HDFS.centerObject;
 halook.HDFS.capacityList = {};
@@ -116,8 +117,27 @@ var HDFSView = wgp.AbstractView
 					"stroke" : halook.hdfs.constants.dataNode.frameColor,
 					"stroke-width" : halook.hdfs.constants.rack.height / 2
 				});
-
+				
 				this.hostsList_.sort();
+				
+				var hostsListLength = this.hostsList_.length;
+				
+				var rotationVal = (halook.HDFS.changeAngleTotal / halook.HDFS.unitAngle) % hostsListLength;
+				
+				// 右回りで数えていくつ分回転しているかを、正の値で表現する
+				if (rotationVal < 0) {
+					rotationVal = hostsListLength + rotationVal;
+				}
+				
+				// すでに回転している分、リストの順番を並び替える
+				var tmpList = [];
+				for (var index = 0; index < hostsListLength; index++){
+					hostIndex = (rotationVal + index) % hostsListLength ;
+					
+					tmpList[index] = this.hostsList_[hostIndex];
+				}
+				
+				this.hostsList_ = tmpList;
 				
 				// data node capacity bars
 				this._drawCapacity();
@@ -127,6 +147,7 @@ var HDFSView = wgp.AbstractView
 
 				this._drawUsage();
 
+				halook.HDFS.changeAngleFromUpdate = 0;
 			},
 			render : function() {
 				// set paper
@@ -151,7 +172,6 @@ var HDFSView = wgp.AbstractView
 				this._updateDraw();
 				if (this.isRealTime) {
 					appView.syncData([ (this.treeSettingId_ + "%") ]);
-					this._animateBlockTransfer();
 				}
 				
 			},
@@ -286,7 +306,9 @@ var HDFSView = wgp.AbstractView
 							
 							
 							usageClone.stop().animate({path: "M" + centerX + " "
-								+ centerY, fill: " rgb(256, 256, 256)"}, 1000, "");
+								+ centerY, fill: " rgb(256, 256, 256)"}, 1000, "", function() {
+									this.remove();
+								});
 						
 						} else if (beforeUsage < h) {
 							var centerObjectClone = this.paper
@@ -305,8 +327,8 @@ var HDFSView = wgp.AbstractView
 							
 							var pathValue = halook.HDFS.usageList[host].attrs;				
 							
-							centerObjectClone.stop().animate(pathValue, 1000, "", function() {
-								centerObjectClone.remove();
+							centerObjectClone.animate(pathValue, 1000, "", function() {
+								this.remove();
 							});
 						}
 					}
@@ -506,17 +528,17 @@ var HDFSView = wgp.AbstractView
 
 				}
 				
-				var changedAngle = halook.HDFS.angle;
-
-				for ( var host in halook.HDFS.capacityList) {
-					var capacityObject = halook.HDFS.capacityList[host];
-
-					capacityObject.animate({
-						transform : "r"
-								+ [ halook.HDFS.angle, halook.HDFS.center.x,
-										halook.HDFS.center.y ]
-					});
-				}
+//				var changedAngle = halook.HDFS.changeAngleFromUpdate;
+//
+//				for ( var host in halook.HDFS.capacityList) {
+//					var capacityObject = halook.HDFS.capacityList[host];
+//
+//					capacityObject.animate({
+//						transform : "r"
+//								+ [ halook.HDFS.changeAngleFromUpdate, halook.HDFS.center.x,
+//										halook.HDFS.center.y ]
+//					});
+//				}
 			},
 			_drawUsage : function() {
 				// prepare temporary vars in order to make codes readable
@@ -547,16 +569,16 @@ var HDFSView = wgp.AbstractView
 					});
 				}
 				
-				var changedAngle = halook.HDFS.angle;
-
-				for ( var host in halook.HDFS.usageList) {
-					var usageObject = halook.HDFS.usageList[host];
-					usageObject.animate({
-						transform : "r"
-								+ [ halook.HDFS.angle, halook.HDFS.center.x,
-										halook.HDFS.center.y ]
-					});
-				}
+//				var changedAngle = halook.HDFS.changeAngleFromUpdate;
+//
+//				for ( var host in halook.HDFS.usageList) {
+//					var usageObject = halook.HDFS.usageList[host];
+//					usageObject.animate({
+//						transform : "r"
+//								+ [ halook.HDFS.changeAngleFromUpdate, halook.HDFS.center.x,
+//										halook.HDFS.center.y ]
+//					});
+//				}
 			},
 			_setRotationButton : function() {
 				var butt1 = this.paper.set(),
@@ -571,7 +593,8 @@ var HDFSView = wgp.AbstractView
 				butt2.translate(810, 30); 
 				
 				butt1.click(function(event) {
-					halook.HDFS.angle -= halook.HDFS.unitAngle;
+					halook.HDFS.changeAngleFromUpdate -= halook.HDFS.unitAngle;
+					halook.HDFS.changeAngleTotal -= halook.HDFS.unitAngle;
 					halook.HDFS.self._rotateNode();
 				}).mouseover(function () {
 					butt1[1].animate({fill: "#fc0"}, 300);
@@ -580,7 +603,8 @@ var HDFSView = wgp.AbstractView
 				});
 				
 				butt2.click(function(event) {
-					halook.HDFS.angle += halook.HDFS.unitAngle;
+					halook.HDFS.changeAngleFromUpdate += halook.HDFS.unitAngle;
+					halook.HDFS.changeAngleTotal += halook.HDFS.unitAngle;
 					halook.HDFS.self._rotateNode();
 				}).mouseover(function () {
 					butt2[1].animate({fill: "#fc0"}, 300);
@@ -654,16 +678,16 @@ var HDFSView = wgp.AbstractView
 
 				}
 				
-				var changedAngle = halook.HDFS.angle;
-
-				for ( var host in halook.HDFS.rackList) {
-					var rackObject = halook.HDFS.rackList[host];
-					rackObject.animate({
-						transform : "r"
-								+ [ halook.HDFS.angle, halook.HDFS.center.x,
-										halook.HDFS.center.y ]
-					});
-				}
+//				var changedAngle = halook.HDFS.changeAngleFromUpdate;
+//
+//				for ( var host in halook.HDFS.rackList) {
+//					var rackObject = halook.HDFS.rackList[host];
+//					rackObject.animate({
+//						transform : "r"
+//								+ [ halook.HDFS.changeAngleFromUpdate, halook.HDFS.center.x,
+//										halook.HDFS.center.y ]
+//					});
+//				}
 			},
 			_rotateNode : function(clickObject) {
 				var centerX = halook.HDFS.center.x;
@@ -671,15 +695,15 @@ var HDFSView = wgp.AbstractView
 				for ( var host in halook.HDFS.capacityList) {
 					halook.HDFS.capacityList[host].animate({
 						transform : "r"
-								+ [ halook.HDFS.angle, centerX, centerY ]
+								+ [ halook.HDFS.changeAngleFromUpdate, centerX, centerY ]
 					}, 1000, "<>");
 					halook.HDFS.usageList[host].animate({
 						transform : "r"
-								+ [ halook.HDFS.angle, centerX, centerY ]
+								+ [ halook.HDFS.changeAngleFromUpdate, centerX, centerY ]
 					}, 1000, "<>");
 					halook.HDFS.rackList[host].animate({
 						transform : "r"
-								+ [ halook.HDFS.angle, centerX, centerY ]
+								+ [ halook.HDFS.changeAngleFromUpdate, centerX, centerY ]
 					}, 1000, "<>");
 				}
 			},
