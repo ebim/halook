@@ -114,7 +114,7 @@ var HbaseParentView = wgp.AbstractView
 				idName = 'logo';
 				$(this.viewId).append('<div id="' + idName + '"></div>');
 				$('#' + idName).append(
-						'<h1>Hbase GrowMap</h1>');
+						'<h1>HBase GrowMap</h1>');
 				
 				var context = $("#context").val();
 				

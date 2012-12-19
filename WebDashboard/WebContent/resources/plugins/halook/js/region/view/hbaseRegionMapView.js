@@ -14,7 +14,6 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 		this.graphMaxValue = viewAttribute.graphMaxValue;
 		this.colorList = viewAttribute.colorList;
 
-		this.lastTimeRegionNum = {};
 		this.graphRect = [];
 
 		this.treeSetting = argument.treeSettings;
@@ -71,7 +70,7 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 
 	},
 	onAdd : function(element) {
-
+		
 	},
 	onChange : function(element) {
 		console.log('called changeModel (parent)');
@@ -82,8 +81,7 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 	onComplete : function() {
 		this.data = this._getData();
 
-		var maxRegionNum = this._createMap();
-		this._drawYDivision(maxRegionNum);
+		this._createMap();
 	},
 	getTermData : function() {
 		// this._updateDraw();
@@ -94,7 +92,7 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 		this.data = this._getData();
 
 		var maxRegionNum = this._createMap();
-
+		
 		this._drawYDivision(maxRegionNum);
 	},
 	destroy : function() {
@@ -250,22 +248,11 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 
 			serverNum++;
 		}
-		
-		// グラフの倍率
-		var magnification = 0;
-			
-		// 外枠と内側のグラフで、高さが高い方を基準にグラフの倍率を決める
-		if (maxRegionNum < this.lastMaxRegionNum) {
-			magnification = this.graphMaxValue / this.lastMaxRegionNum;
-		} else {
-			magnification = this.graphMaxValue / maxRegionNum;
-		}
-		
-		this.lastMaxRegionNum = maxRegionNum;
+
+		var magnification = this.graphMaxValue / maxRegionNum;
 
 		var unitAreaWidth = (this.width - this.startXAxis) / serverNum;
 		var unitNodeWidth = unitAreaWidth * 0.3;
-		var unitLastNodeWidth = unitAreaWidth * 0.1;
 
 		var count = 0;
 
@@ -290,7 +277,6 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 			var tableNum = regionNum.length;
 
 			var sumRegionNum = 0;
-			var sumHeight = 0;
 			for ( var index = 0; index < tableNum; index++) {
 				var model = regionNum[index];
 
@@ -301,7 +287,7 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 				var height = regionValue * magnification;
 
 				this.graphRect.push(this.paper.rect(startX,
-						this.startYAxis - height - sumHeight, unitNodeWidth,
+						this.startYAxis - height - sumRegionNum, unitNodeWidth,
 						height).attr(
 						{
 							fill : tableColor[tableName],
@@ -309,27 +295,13 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 									+ " regionNumber: " + regionValue
 						}));
 
-				sumHeight += height;
-				sumRegionNum += regionValue;
+				sumRegionNum += height;
 			}
 
 			this.graphRect.push(this.paper.text(textStartX, this.textStartY,
 					serverName).attr({
-				"font-size" : 12
-			}));
-			
-			var lastRegionNum = this.lastTimeRegionNum[serverName];
-			
-			if (lastRegionNum) {
-				// 外枠作成
-				var lastHeight = lastRegionNum * magnification;
-				
-				this.graphRect.push(this.paper.rect(startX - unitLastNodeWidth,
-						this.startYAxis - lastHeight, unitNodeWidth + unitLastNodeWidth * 2,
-						lastHeight));
-			}
-
-			this.lastTimeRegionNum[serverName] = sumRegionNum;
+						"font-size" : 12
+					}));
 
 			count++;
 		}
@@ -345,19 +317,18 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 	},
 	_drawYDivision : function(maxRegionNum) {
 		var yUnitSize = this.graphMaxValue / maxRegionNum;
-
+		
 		// １目盛ごとのRegion数
-		var eachDivisionRegionNum = Math.ceil(maxRegionNum
-				/ this.yUnitDivisionCount);
-
+		var eachDivisionRegionNum = Math.ceil(maxRegionNum / this.yUnitDivisionCount);
+		
 		// １目盛ごとの幅のサイズ
 		var eachDivisionRealSize = eachDivisionRegionNum * yUnitSize;
-
+		
 		// Y軸目盛を描画する
-		for ( var count = 1; count <= maxRegionNum; count++) {
+		for (var count = 1; count <= maxRegionNum; count++) {
 			var regionNum = eachDivisionRegionNum * count;
 			var sumHeight = eachDivisionRealSize * count;
-
+			
 			var yUnitHeight = this.startYAxis - sumHeight;
 
 			this.graphRect.push(this.paper.path(
@@ -365,12 +336,13 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 							[ "l", this.yDivisionChartSize, 0 ] ]).attr({
 				stroke : "#000000"
 			}));
-
+			
 			this.graphRect.push(this.paper.text(this.textStartX, yUnitHeight,
-					regionNum + "").attr({
-				"font-size" : 12
-			}));
-
+					regionNum + "")
+					.attr({
+						"font-size" : 12
+					}));
+					
 			if (sumHeight > this.graphMaxValue) {
 				break;
 			}

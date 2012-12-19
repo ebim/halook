@@ -57,7 +57,7 @@ halook.HbaseResionMapParentView = wgp.AbstractView
 				idName = 'logo';
 				$(this.viewId).append('<div id="' + idName + '"></div>');
 				$('#' + idName).append(
-						'<h1>Hbase RegionMap</h1>');
+						'<h1>HBase RegionMap</h1>');
 				
 				var context = $("#context").val();
 				
@@ -102,17 +102,17 @@ halook.HbaseResionMapParentView = wgp.AbstractView
 			_updateDisplaySpan : function(pastTime) {
 				if (pastTime == 0) {
 
-					if (this.hbaseView.isRealTime == false) {
+					if (this.isRealTime == false) {
 						appView.syncData([ (this.treeSettingId_ + "%") ]);
 					}
-					this.hbaseView.isRealTime = true;
+					this.isRealTime = true;
 
 					var end = new Date();
 					var start = new Date(end.getTime() - 60 * 60 * 1000);
 					appView.getTermData([ (this.treeSettingId_ + '%') ], start,
 							end);
 				} else {
-					this.hbaseView.isRealTime = false;
+					this.isRealTime = false;
 					this.hbaseView._drawStaticRegioniServer(pastTime);
 				}
 
