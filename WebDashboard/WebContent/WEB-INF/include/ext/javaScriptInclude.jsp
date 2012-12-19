@@ -13,12 +13,12 @@
 <%@ page import="java.lang.String"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
-<%@ page import="org.wgp.util.FileNameFilter"%>
-<%@ page import="org.wgp.util.FilePathUtil"%>
+<%@ page import="org.wgp.file.filter.FileNameFilter"%>
+<%@ page import="org.wgp.file.util.FilePathUtil"%>
 
 
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/lib/jQuery/css/jquery-ui-1.8.19.custom.css"
+	href="<%=request.getContextPath()%>/resources/lib/jQuery-ui/css/jquery-ui-1.8.19.custom.css"
 	type="text/css" media="all">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/lib/jqGrid/css/ui.jqgrid.css"
@@ -41,12 +41,14 @@
 	//TODO 残課題 ファイルパス指定を直接記入している。
 	List<String> pathList = new ArrayList<String>();
 	pathList.add("jQuery");
+	pathList.add("jQuery-ui");
 	pathList.add("underscore");
 	pathList.add("backbone");
 	pathList.add("dygraph");
 	pathList.add("jeegoocontext");
 	pathList.add("jqGrid");
 	pathList.add("jquery.event.drag-2.2");
+	pathList.add("jquery.event.drag.live-2.2");
 	pathList.add("jsTree");
 	pathList.add("Raphael");
 	pathList.add("slider");

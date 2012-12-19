@@ -8,7 +8,7 @@
 	href="<%=request.getContextPath()%>/resources/lib/slider/ui.slider.extras.css"
 	type="text/css" media="all">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/lib/jQuery/css/jquery-ui-1.8.19.custom.css"
+	href="<%=request.getContextPath()%>/resources/lib/jQuery-ui/css/jquery-ui-1.8.19.custom.css"
 	type="text/css" media="all">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/lib/jqGrid/css/ui.jqgrid.css"

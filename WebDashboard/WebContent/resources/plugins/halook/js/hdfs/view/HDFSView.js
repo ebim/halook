@@ -122,7 +122,7 @@ var HDFSView = wgp.AbstractView
 				
 				var hostsListLength = this.hostsList_.length;
 				
-				var rotationVal = (halook.HDFS.changeAngleTotal / halook.HDFS.unitAngle) % hostsListLength;
+				var rotationVal = ~~(halook.HDFS.changeAngleTotal / halook.HDFS.unitAngle) % hostsListLength;
 				
 				// 右回りで数えていくつ分回転しているかを、正の値で表現する
 				if (rotationVal < 0) {
