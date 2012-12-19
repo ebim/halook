@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="HalookJavelin" default="release" basedir=".">
+    <!-- Project settings -->
+    <property name="jarname" value="halookJavelin" />
+    <property name="zipname" value="HalookJavelin" />
+
+    <!-- Local system paths -->
+    <property name="version" value="5.0.0" />
+    <property name="src.dir" location="src/main/java" />
+    <property name="src.test.dir" location="src/test/java" />
+    <property name="resources.dir" location="src/main/resources" />
+    <property name="resources.test.dir" location="src/test/resources" />
+    <property name="classes.dir" location="classes" />
+    <property name="classes.test.dir" location="classes-test" />
+    <property name="lib.dir" value="lib" />
+    <property name="conf.dir"    value="conf" />
+    <property name="bin.dir"     value="bin" />
+    <property name="dist.dir"    location="dist" />
+    <property name="temp.dir"    value="${dist.dir}/temp" />
+    <property name="package.dir" value="package" />
+    <property name="doc.dir"     value="doc" />
+    <property name="report.dir" location="junit-report" />
+
+    <!-- Javadoc settings -->
+    <property name="javadoc.package" value="*" />
+    <property name="javadoc.title" value="${ant.project.name}" />
+    <property name="copyright" value="Copyright (c) Acroquest Technology Co., Ltd. All rights reserved." />
+
+    <!-- classpath settings -->
+    <path id="compile.classpath">
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
+
+    <!-- テストクラスコンパイル用のクラスパス -->
+    <path id="compile.test.classpath">
+        <path refid="compile.classpath" />
+        <pathelement location="${classes.dir}" />
+        <fileset dir="${lib-tool.dir}">
+            <include name="junit-*.jar" />
+        </fileset>
+    </path>
+
+    <target name="prepare" depends="clean">
+        <mkdir dir="${classes.dir}" />
+        <mkdir dir="${classes.test.dir}" />
+        <mkdir dir="${dist.dir}" />
+        <mkdir dir="${temp.dir}/${lib.dir}" />
+        <mkdir dir="${temp.dir}/${conf.dir}" />
+        <mkdir dir="${temp.dir}/${package.dir}" />
+    </target>
+
+    <target name="clean">
+        <delete dir="${classes.dir}" />
+        <delete dir="${classes.test.dir}" />
+        <delete dir="${dist.dir}" />
+    </target>
+
+    <!-- Normal build of application -->
+    <target name="compile" depends="prepare">
+        <javac destdir="${classes.dir}" fork="true" debug="true" target="1.5">
+            <classpath refid="compile.classpath" />
+            <src>
+                <pathelement path="${src.dir}" />
+            </src>
+        </javac>
+        <copy todir="${classes.dir}" includeEmptyDirs="no">
+            <fileset dir="${resources.dir}">
+                <include name="**/*" />
+            </fileset>
+        </copy>
+        <propertyfile file="${classes.dir}/version.properties">
+            <entry key="version" value="${version}" />
+        </propertyfile>
+
+    </target>
+
+    <!-- テストソースのコンパイル -->
+    <target name="compile-test" depends="compile" description="テストソースをコンパイルする">
+        <!-- ${src.test}から${classes.test}に、Javaコードをコンパイルする -->
+        <javac srcdir="${src.test.dir}" destdir="${classes.test.dir}" debug="on">
+            <classpath>
+                <path refid="compile.test.classpath" />
+            </classpath>
+        </javac>
+
+        <!-- リソースをコピーする -->
+        <copy todir="${classes.test.dir}">
+            <fileset dir="${resources.test.dir}" />
+        </copy>
+    </target>
+
+    <!-- JUnit テストの実行 -->
+    <target name="runtest" depends="compile-test">
+        <mkdir dir="${report.dir}" />
+
+        <junit printsummary="yes" haltonfailure="yes">
+            <classpath>
+                <path refid="compile.classpath" />
+                <pathelement location="${classes.dir}" />
+                <pathelement location="${classes.test.dir}" />
+            </classpath>
+            <formatter type="plain" />
+            <batchtest fork="no" todir="${report.dir}">
+                <fileset dir="${src.test.dir}">
+                    <include name="**/*Test.java" />
+                    <exclude name="**/Abstract*Test.java" />
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <!-- Jarの生成 -->
+    <target name="jar" depends="compile">
+        <jar basedir="${classes.dir}" jarfile="${dist.dir}/${jarname}.jar" manifest="MANIFEST1.MF">
+            <exclude name="test/**" />
+            <manifest>
+                <attribute name="Version" value="${version}_${build}" />
+            </manifest>
+        </jar>
+    </target>
+
+    <!-- リリースアーカイブの生成 -->
+    <target name="dist" depends="jar" description="Build a plugin distributable">
+        <copy todir="${temp.dir}/${conf.dir}">
+            <fileset dir="${conf.dir}">
+                <include name="**/*" />
+            </fileset>
+        </copy>
+
+        <copy todir="${temp.dir}/${lib.dir}">
+            <fileset file="${dist.dir}/${jarname}.jar" />
+            <fileset dir="${lib.dir}">
+                <include name="*.jar" />
+                <include name="license/*.*" />
+            </fileset>
+        </copy>
+
+        <!-- 依存ライブラリをjavelin.jarに一本化する。 -->
+        <unjar dest="${temp.dir}/${package.dir}">
+            <fileset dir="${temp.dir}/${lib.dir}">
+                <include name="**/*.jar"/>
+            </fileset>
+        </unjar>
+
+        <!-- libディレクトリの内容をいったん、クリアする。 -->
+        <delete dir="${temp.dir}/${lib.dir}" />
+        <mkdir dir="${temp.dir}/${lib.dir}" />
+        
+        <jar basedir="${temp.dir}/${package.dir}" 
+            jarfile="${temp.dir}/${lib.dir}/${jarname}.jar" manifest="MANIFEST1.MF">
+            <manifest>
+                <attribute name="Version" value="${version}_${build}" />
+            </manifest>
+        </jar>
+
+        <!-- マニフェスト中のBoot-Class-Path属性に対応していないプラットフォーム用のjar作成。 -->
+        <jar basedir="${temp.dir}/${package.dir}" 
+            jarfile="${temp.dir}/${lib.dir}/${jarname}-nobootpath.jar" manifest="MANIFEST2.MF">
+            <manifest>
+                <attribute name="Version" value="${version}_${build}" />
+            </manifest>
+        </jar>
+        
+        <delete dir="${temp.dir}/${package.dir}" />
+        
+        <copy todir="${temp.dir}/lib">
+            <fileset dir="${lib.dir}">
+                <include name="*.dll" />
+                <include name="*.so" />
+            </fileset>
+        </copy>
+        
+        <!-- Create zipfile. -->
+        <zip destfile="${dist.dir}/${zipname}_${version}.zip">
+            <zipfileset prefix="${zipname}" dir="${temp.dir}" includes="**" />
+        </zip>
+
+        <delete dir="${temp.dir}" />
+        
+    </target>
+
+    <!-- ビルド -->
+    <target name="release" depends="dist" />
+
+    <!-- Javadoc 生成 -->
+    <target name="javadoc" depends="prepare" description="Javadoc を生成する">
+        <!-- 過去に出力した Javadoc を削除 -->
+        <delete includeEmptyDirs="true" failonerror="false">
+            <fileset dir="${doc.dir}" />
+        </delete>
+
+        <!-- Javadoc 出力ディレクトリ作成 -->
+        <mkdir dir="${doc.dir}" />
+
+        <!-- Javadoc 生成 -->
+        <javadoc packagenames="${javadoc.package}"
+                 sourcepath="${src.dir}"
+                 classpathref="project.classpath"
+                 destdir="${doc.dir}"
+                 access="protected"
+                 encoding="Windows-31J"
+                 docencoding="Shift_JIS"
+                 locale="ja_JP"
+                 windowtitle="${javadoc.title}"
+                 bottom="${copyright}" />
+    </target>
+</project>
