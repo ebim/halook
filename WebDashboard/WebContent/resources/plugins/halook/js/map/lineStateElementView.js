@@ -20,7 +20,10 @@ wgp.LineStateElementView = Backbone.View.extend({
     	if(this.model.attributes.strokeWidth==null){
     		this.model.attributes.strokeWidth = 5;
     	}
-    	this.model.set({"attributes" : {fill:color , stroke: color, "stroke-width":this.model.attributes.strokeWidth}}, {silent:true});
+    	if(this.model.attributes.title==null){
+    		this.model.attributes.title = "";
+    	}
+    	this.model.set({"attributes" : {fill:color , stroke: color, "stroke-width":this.model.attributes.strokeWidth, "title":this.model.attributes.title}}, {silent:true});
     	this.element = new line(this.model.attributes, this._paper);
     },
     update:function(model){

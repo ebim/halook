@@ -30,7 +30,7 @@ function tasksCounter(tasks, markTime) {
 function executeTaskCount(startTime, endTime, tasks, times) {
 	if (times <= 0)
 		return null;
-	var interval = (endTime - startTime) / times;
+	var interval = halook.parentView.intervalTime / times;
 	var resultReturnArray = [];
 	for ( var i = 0; i < times + 1; i++) {
 		var tmpDictionary;

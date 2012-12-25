@@ -51,50 +51,53 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 			silent : true
 		});
 
-//		if(this.model.attributes.pointX < this.model.attributes.startX)
-//		{
-			var nonLeftLine = new wgp.MapElement({
+		var isNonLeft = false;
+		var isNonRight = false;
+		
+		if(this.model.attributes.pointX < this.model.attributes.startX)
+		{
+			this.model.attributes = {
 				pointX : this.model.attributes.startX,
 				pointY : this.model.attributes.pointY,
 				width : this.model.attributes.width,
-				height : 0,
-				state : this.model.attributes.status,
+				height : this.model.attributes.height,
+				state : this.model.attributes.state,
 				label : this.model.attributes.label,
 				text : this.model.attributes.text,
-				stroke : 6
-			});
+				stroke : this.model.attributes.stroke,
+				startTime : this.model.attributes.startTime,
+				finishTime : this.model.attributes.finishTime,
+				submitTime : this.model.attributes.submitTime,
+				objectId : this.model.attributes.objectId,
+				objectName : this.model.attributes.objectName,
+				startX : this.model.attributes.startX,
+				attributes : this.model.attributes.attributes
+			};
 			
-			nonLeftLine.set({
-				"attributes" : {
-					stroke : color,
-					"stroke-width" : strokeWidth
-				}
-			}, {
-				silent : true
-			});
-//		}
-//		else if(this.model.attributes.pointY > this.model.attributes.startX + 700)
-//		{
-			var nonRightLine = new wgp.MapElement({
+			isNonLeft = true;
+		}
+		else if((this.model.attributes.pointX + this.model.attributes.width) > this.model.attributes.startX + 700)
+		{
+			this.model.attributes = {
 				pointX : this.model.attributes.pointX,
 				pointY : this.model.attributes.pointY,
-				width : this.model.attributes.width,
-				height : 0,
-				state : this.model.attributes.status,
+				width : this.model.attributes.startX + 700 -  this.model.attributes.pointX,
+				height : this.model.attributes.height,
+				state : this.model.attributes.state,
 				label : this.model.attributes.label,
 				text : this.model.attributes.text,
-				stroke : 6
-			});
+				stroke : this.model.attributes.stroke,
+				startTime : this.model.attributes.startTime,
+				finishTime : this.model.attributes.finishTime,
+				submitTime : this.model.attributes.submitTime,
+				objectId : this.model.attributes.objectId,
+				objectName : this.model.attributes.objectName,
+				startX : this.model.attributes.startX,
+				attributes : this.model.attributes.attributes
+			};
 
-			nonRightLine.set({
-				"attributes" : {
-					stroke : color,
-					"stroke-width" : strokeWidth
-				}
-			}, {
-				silent : true
-			});
-//		}
+			isNonRight = true;
+		}
 
 		//stateがrunningの場合は、点線
 		if (this.model.attributes.state.match("RUNNING")) {
@@ -192,7 +195,7 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 		leftLine.set({
 			"attributes" : {
 				stroke : color,
-				"stroke-width" : strokeWidth
+				"stroke-width" : strokeWidth / 2
 			}
 		}, {
 			silent : true
@@ -200,7 +203,7 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 		rightLine.set({
 			"attributes" : {
 				stroke : color,
-				"stroke-width" : strokeWidth
+				"stroke-width" : strokeWidth / 2
 			}
 		}, {
 			silent : true
@@ -237,8 +240,14 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 				this.element
 						.push(new line(dotLine[num].attributes, this._paper));
 			}
-			this.element.push(new line(leftLine.attributes, this._paper),
-					new line(rightLine.attributes, this._paper));
+			
+			if (!isNonLeft) {
+				this.element.push(new line(leftLine.attributes, this._paper));
+			}
+			if (!isNonRight) {
+				this.element.push(new line(rightLine.attributes, this._paper));
+			}
+			
 			this._paper.text(jobLabel.attributes.pointX,
 					jobLabel.attributes.pointY, jobLabel.attributes.text);
 
@@ -249,8 +258,14 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 			}
 		} else {
 			this.element.push(new line(this.model.attributes, this._paper));
-			this.element.push(new line(leftLine.attributes, this._paper));
-			this.element.push(new line(rightLine.attributes, this._paper));
+			
+			if (!isNonLeft) {
+				this.element.push(new line(leftLine.attributes, this._paper));
+			}
+			if (!isNonRight) {
+				this.element.push(new line(rightLine.attributes, this._paper));
+			}
+			
 			this._paper.text(jobLabel.attributes.pointX,
 					jobLabel.attributes.pointY, jobLabel.attributes.text);
 			for ( var num = 0; num < this.element.length; num++) {

@@ -129,14 +129,15 @@ halook.ArrowChartView = wgp.AbstractView
 					var stateString;
 
 					if (DisplayMode == "task") {
-						if (halook.parentView.taskAttemptInfoDictionary[data.Mapreduce
-								+ "_" + data.SimpleID].maxTime > 1)
-							totalInCell = 2;
-						if (0 == data.attemptTime % 2) {
-							indexInCell = 2;
-						} else {
-							indexInCell = 1;
-						}
+					// if (halook.parentView.taskAttemptInfoDictionary[data.Mapreduce
+					// + "_" + data.SimpleID].maxTime > 1) {
+					// totalInCell = 2;
+					// }
+					// if (0 == data.attemptTime % 2) {
+					// indexInCell = 2;
+					// } else {
+					// indexInCell = 1;
+					// }
 						modelInfo = this._calcArrowLengthAndStartPos(
 								data.StartTime, data.FinishTime, indexInCell,
 								totalInCell, rowCounter);
@@ -218,10 +219,10 @@ halook.ArrowChartView = wgp.AbstractView
 					});
 
 					rowCounter++;
-					if (DisplayMode == "task"
-							&& (i != halook.taskDataOriginal.length - 1 && halook.taskDataOriginal[i + 1].attemptTime != 1)) {
-						rowCounter--;
-					}
+//					if (DisplayMode == "task"
+//							&& (i != halook.taskDataOriginal.length - 1 && halook.taskDataOriginal[i + 1].attemptTime != 1)) {
+// 						rowCounter--;
+//					}
 				}
 			},
 			_calcErrorLengthAndStartPos : function(eventTime, trialTime,
@@ -271,8 +272,11 @@ halook.ArrowChartView = wgp.AbstractView
 				var data;
 				var modelDataForCellTitle;
 				var tmpLabelArray;
+				
+				var taskDataForAhowLength = halook.taskDataForShow.length;
 				if (DisplayMode == "task") {
-					for ( var i = 0; i < halook.taskDataForShow.length; i++) {
+					
+					for ( var i = 0; i < taskDataForAhowLength; i++) {
 						data = halook.taskDataForShow[i];
 
 						modelDataForCellTitle = new wgp.MapElement(
@@ -297,7 +301,7 @@ halook.ArrowChartView = wgp.AbstractView
 						textRowCounter++;
 					}
 				} else if (DisplayMode == "node") {
-					for ( var i = 0; i < halook.taskDataForShow.length; i++) {
+					for ( var i = 0; i < taskDataForAhowLength; i++) {
 						labelString = halook.taskDataForShow[i].Hostname;
 						tmpLabelArray = labelString.split('/');
 						labelString = tmpLabelArray.join('\n');
@@ -368,6 +372,29 @@ halook.ArrowChartView = wgp.AbstractView
 						state : "rerror"
 					});
 				}
+				
+				var x = halook.arrowChart.startLineX + halook.arrowChart.arrowChartWidth
+					* (halook.parentView.maxGraphTime - halook.parentView.minGraphTime) * 1.0
+					/ halook.parentView.intervalTime;
+				
+				
+				
+				var jobFinishTimeLine = new wgp.MapElement({
+					objectId : k + halook.arrowChart.CellLineObjectID,
+					objectName : null,
+					height : halook.arrowChart.paperHeight,
+					width : 0,
+					pointX : x,
+					pointY : 0,
+					color : "#777777",
+					strokeWidth : 4,
+					title : "JobFinishTime"
+				});
+				var elem = new wgp.LineStateElementView({
+					model : jobFinishTimeLine,
+					paper : this.paper,
+					state : "rerror"
+				});
 			},
 			_initInfoElement : function() {
 

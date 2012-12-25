@@ -678,7 +678,9 @@ halook.ArrowParentView = wgp.AbstractView
 							}
 						}
 					});
+					
 					this._initDataProcesser();
+					this._setIntervalTime();
 					this._createChartScreen();
 					
 					this.isFirst = false;
@@ -705,4 +707,20 @@ halook.ArrowParentView = wgp.AbstractView
 				// halook.arrowChartView.redraw("node");
 
 			},
+			_setIntervalTime : function() {
+				var finalTime = 0;
+				
+				var taskDataForAhowLength = halook.taskDataForShow.length;
+				
+				for ( var i = 0; i < taskDataForAhowLength; i++) {
+					data = halook.taskDataForShow[i];
+
+					if (finalTime < data.FinishTime) {
+						finalTime = data.FinishTime;
+					}
+				}
+				
+				halook.parentView.intervalTime = finalTime
+				- halook.parentView.minGraphTime;
+			}
 		});
