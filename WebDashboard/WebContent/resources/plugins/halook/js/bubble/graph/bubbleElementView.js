@@ -119,6 +119,24 @@ halook.BubbleElementView = wgp.DygraphElementView
 							null, null, null, 0 ]);
 				}
 
+				// TaskのStartTimeまたはFinishが0のとき、0の代わりにJobの開始時間を入れる
+				// これによってBubbleChartに1970/1/1という時系列にデータが表示される問題を防ぐ
+				var jobStartTimeDate = new Date(this.jobInfo.startTime);
+				
+				var dataArrayTmp = this.dataArray;
+				var dataArrayLength = dataArrayTmp.length;
+				
+				for (var index = 0; index < dataArrayLength; index++) {
+					var date = dataArrayTmp[index][0];
+					
+					var time = date.getTime()
+					
+					if (time == 0) {
+						dataArrayTmp[index][0] = jobStartTimeDate;
+					}
+				}
+				
+				this.dataArray = dataArrayTmp;
 			},
 			_convartModelToArray : function(instance, model, max) {
 				var valueString = model.get("measurementValue");
