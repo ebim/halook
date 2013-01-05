@@ -81,3 +81,6 @@ body {
 	height: 26px;
 	background-image : url("../images/ENdoSnipe_logo.png");
 }
+#logo {
+	height : 50px;
+}

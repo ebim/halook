@@ -12,10 +12,6 @@ body {
 	height: 26px;
 	background-image : url("../../../images/halook_120x30.png");
 }
-#logo {
-	height : 50px;
-}
-
 /* コンテンツ表示領域定義 */
 .halookContents {
 	background: -moz-linear-gradient(-45deg, #222222 0%, #000000 100%) repeat scroll 0 0 transparent;
