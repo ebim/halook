@@ -44,7 +44,7 @@ var ganttChartParentView = wgp.AbstractView
 
 				$("#" + this.$el.attr("id"))
 						.append(
-								'<div id="viewTitle" style="border:outset;border-color:#EEEEEE;border-width:7px;"></div>');
+								'<div id="viewTitle" class="contentHeader"></div>');
 				$("#viewTitle").css({
 					width : "850px",
 					height : "70px",
@@ -59,9 +59,7 @@ var ganttChartParentView = wgp.AbstractView
 				$('#viewTitle')
 						.css(
 								{
-									overflow : 'auto',
-									margin : '5px 0px 0px 0px',
-									background : "-moz-linear-gradient(-45deg, rgba(255,255,255,1) 0%, rgba(241,241,241,1) 50%, rgba(225,225,225,1) 51%, rgba(246,246,246,1) 100%)",
+									margin : '5px 0px 0px 0px'
 								});
 				$('#viewTitle' + ' h1').css({
 					fontSize : '30px',
@@ -80,12 +78,12 @@ var ganttChartParentView = wgp.AbstractView
 				// スライダを追加。
 				$("#" + this.$el.attr("id"))
 						.append(
-								'<div id="ganttChartSliderArea" style="border:outset;border-color:#EEEEEE;border-width:4px;"></div>');
+								'<div id="ganttChartSliderArea" style="border:outset;border-color:#222222;;border-width:4px;"></div>');
 				$('#ganttChartSliderArea')
 						.css(
 								{
 									// width : "auto",
-									background : "-moz-linear-gradient(-45deg, rgba(255,255,255,1) 0%, rgba(241,241,241,1) 50%, rgba(225,225,225,1) 51%, rgba(246,246,246,1) 100%)",
+									background : "-moz-linear-gradient(-45deg, #555555 0%, #111111 100%) repeat scroll 0 0 transparent",
 									margin : "10px 0px 0px 0px"
 								});
 				this.dualSliderView = new halook.DualSliderView({
@@ -101,22 +99,21 @@ var ganttChartParentView = wgp.AbstractView
 				// ganttchartを追加する。
 				$("#" + this.$el.attr("id"))
 						.append(
-								'<div id="ganttChart" style="border:outset;border-color:#EEEEEE;border-width:4px;"></div>');
+								'<div id="ganttChart" class="halookContents"></div>');
 				$("#ganttChart").css({
 					height : "360px",
 					overflow : "auto",
-					"margin-top" : "10px",
-					backgroundColor : "#FFFFFF"
+					"margin-top" : "10px"
 				});
 
 				/* ganttChartDetail */
 				$("#" + this.$el.attr("id"))
 						.append(
-								'<div id="ganttChartDetail" style="border:outset;border-color:#EEEEEE;border-width:4px;"></div>');
+								'<div id="ganttChartDetail" style="border:outset;border-color:#000000;border-width:4px;"></div>');
 				$("#ganttChartDetail").css({
 					margin : "10px 0px 0px 0px",
 					overflow : "auto",
-					backgroundColor : "#FFFFFF"
+					backgroundColor : "-moz-linear-gradient(-45deg, #111111 0%, #000000 100%) repeat scroll 0 0 transparent",
 				});
 				$("#ganttChartDetail").html("■JOB DETAIL");
 

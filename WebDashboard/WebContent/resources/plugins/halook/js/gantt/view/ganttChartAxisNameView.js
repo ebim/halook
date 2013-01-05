@@ -36,10 +36,11 @@ halook.ganttChartAxisNameView = Backbone.View
 				this.render();
 			},
 			render : function() {
-				var color = "rgba(0,0,0,50)";
+				var color = halook.gantt.AXIS_COLOR;
 				this.model.set({
 					"attributes" : {
-						fill : color
+						fill : color,
+						font : color
 					}
 				}, {
 					silent : true
@@ -118,7 +119,7 @@ halook.ganttChartAxisNameView = Backbone.View
 //							halook.DATE_FORMAT_HOUR));
 					this.element.push(new line(timeLine[num].attributes,
 							this._paper));
-					this._paper.text(timeLabel[num].attributes.pointX,
+					var labelElement = this._paper.text(timeLabel[num].attributes.pointX,
 							timeLabel[num].attributes.pointY + 10,
 							comDateFormat(new Date(
 									timeLabel[num].attributes.text),
