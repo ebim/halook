@@ -9,9 +9,3 @@ tmp/
 ## Web
 #################
 work/
-/web.xml
-
-#################
-## ENdoSnipe
-#################
-/collector.properties
