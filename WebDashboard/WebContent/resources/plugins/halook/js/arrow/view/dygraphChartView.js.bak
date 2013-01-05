@@ -60,8 +60,6 @@ halook.DygraphChartView = wgp.DygraphElementView.extend({
 			strokeWidth : 5,
 			drawXGrid : true,
 			axisLabelFontSize : 12,
-			axisLabelColor : halook.graph.axisLabelColor,
-			labelsDivStyles : halook.graph.labelsDivStyles
 		};
 	
 		this.graphId = "taskGraph";

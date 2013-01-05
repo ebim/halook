@@ -63,4 +63,10 @@
 	
 	<input type="hidden" id="context" value="<%=request.getContextPath()%>" />
 </body>
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/common.css"
+	type="text/css" media="all">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/plugins/halook/css/halook.css"
+	type="text/css" media="all">
 </html>

@@ -1,6 +1,10 @@
 <meta charset="UTF-8" />
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/plugins/halook/css/jquery-ui-1.9.2.custom.min.css"
+	type="text/css" media="all">
+
 <%-- slider view --%>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/common/singleSliderView.js">

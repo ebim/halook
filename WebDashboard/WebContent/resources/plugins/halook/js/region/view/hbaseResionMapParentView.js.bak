@@ -55,7 +55,7 @@ halook.HbaseResionMapParentView = wgp.AbstractView
 			},
 			makeLogoArea : function() {
 				idName = 'logo';
-				$(this.viewId).append('<div id="' + idName + '" class="contentHeader"></div>');
+				$(this.viewId).append('<div id="' + idName + '"></div>');
 				$('#' + idName).append(
 						'<h1>Hbase RegionMap</h1>');
 				
@@ -67,7 +67,10 @@ halook.HbaseResionMapParentView = wgp.AbstractView
 				$('#' + idName)
 						.css(
 								{
-									margin : '10px 0px 0px 10px'
+									overflow : 'auto',
+									margin : '10px 0px 0px 10px',
+									border : '1px #dcdcdc solid',
+									background : "-moz-linear-gradient(-45deg, rgba(255,255,255,1) 0%, rgba(241,241,241,1) 50%, rgba(225,225,225,1) 51%, rgba(246,246,246,1) 100%)",
 								});
 				$('#' + idName + ' h1').css({
 					fontSize : '25px',

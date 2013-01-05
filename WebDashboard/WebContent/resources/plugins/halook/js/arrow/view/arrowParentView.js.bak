@@ -297,7 +297,7 @@ halook.ArrowParentView = wgp.AbstractView
 
 				$("#" + this.$el.attr("id"))
 						.append(
-								'<div id="jobInfoSpace" class="contentHeader"><div id="jobInfoSpaceHtml"  width="450" height = "60"></div><div id = "jobInfoImage" width="250" height="50"><img src ="' + context + '/resources/images/halook_120x30.png" alt="nopage" ></div></div>'
+								'<div id="jobInfoSpace" class="halookHeader"><div id="jobInfoSpaceHtml"  width="450" height = "60"></div><div id = "jobInfoImage" width="250" height="50"><img src ="' + context + '/resources/images/halook_120x30.png" alt="nopage" ></div></div>'
 										+ '<div class="clearSpace"></div>');
 				$("#jobInfoSpace")
 						.css(
@@ -490,14 +490,15 @@ halook.ArrowParentView = wgp.AbstractView
 				// arrow用のdiv Tagの作成を行う。////////////////////////////////////
 				$("#" + this.$el.attr("id"))
 						.append(
-								'<div id="arrowChart" class="halookContents"></div>');
+								'<div id="arrowChart" style="border:outset;border-color:#AA7777;border-width:4px;"></div>');
 				$("#arrowChart").css({
 					width : halook.arrowChart.width,
 					height : halook.arrowChart.height,
 					overflow : halook.arrowChart.overflow,
 					overflowX : halook.arrowChart.overflowX,
 					marginTop : halook.arrowChart.marginTop,
-					float : halook.arrowChart.float
+					float : halook.arrowChart.float,
+					background : halook.arrowChart.background
 				});
 
 				this.arrowChartView = new halook.ArrowChartView({
@@ -509,7 +510,7 @@ halook.ArrowParentView = wgp.AbstractView
 				// /////////////////////////////////////////////////////////////////
 				// graph用のdiv Tagの作成を行う。//////////////////////////////////////
 				$("#" + this.$el.attr("id")).append(
-						'<div id="dygraphChart" class="halookContents"></div>');
+						'<div id="dygraphChart"></div>');
 				$("#dygraphChart").css({
 					width : halook.dygraphChart.width,
 					height : halook.dygraphChart.height,

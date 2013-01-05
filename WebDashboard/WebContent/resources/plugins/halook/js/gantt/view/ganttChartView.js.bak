@@ -1,3 +1,6 @@
+halook.gantt = {};
+halook.gantt.WIDTH = 700;
+halook.gantt.HEIGHT = 0;
 
 var ganttChartView = wgp.AbstractView
 		.extend({

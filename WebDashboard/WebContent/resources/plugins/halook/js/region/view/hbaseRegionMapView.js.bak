@@ -291,22 +291,6 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 
 			var sumRegionNum = 0;
 			var sumHeight = 0;
-			
-			// 先に外枠を作成
-			var lastRegionNum = this.lastTimeRegionNum[serverName];
-			
-			if (lastRegionNum) {
-				var lastHeight = lastRegionNum * magnification;
-				
-				this.graphRect.push(this.paper.rect(startX - unitLastNodeWidth,
-						this.startYAxis - lastHeight, unitNodeWidth + unitLastNodeWidth * 2,
-						lastHeight).attr({
-							stroke : "#FFFFFF",
-							fill : "#FFFFFF",
-							"fill-opacity" : 0.2
-						}));
-			}
-			// 中身を作成する。
 			for ( var index = 0; index < tableNum; index++) {
 				var model = regionNum[index];
 
@@ -315,7 +299,7 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 				var serverName = model.serverName;
 
 				var height = regionValue * magnification;
-				
+
 				this.graphRect.push(this.paper.rect(startX,
 						this.startYAxis - height - sumHeight, unitNodeWidth,
 						height).attr(
@@ -331,10 +315,20 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 
 			this.graphRect.push(this.paper.text(textStartX, this.textStartY,
 					serverName).attr({
-				"font-size" : 12,
-				stroke : "#FFFFFF"
+				"font-size" : 12
 			}));
 			
+			var lastRegionNum = this.lastTimeRegionNum[serverName];
+			
+			if (lastRegionNum) {
+				// 外枠作成
+				var lastHeight = lastRegionNum * magnification;
+				
+				this.graphRect.push(this.paper.rect(startX - unitLastNodeWidth,
+						this.startYAxis - lastHeight, unitNodeWidth + unitLastNodeWidth * 2,
+						lastHeight));
+			}
+
 			this.lastTimeRegionNum[serverName] = sumRegionNum;
 
 			count++;
@@ -369,13 +363,12 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 			this.graphRect.push(this.paper.path(
 					[ [ "M", this.startXAxis, yUnitHeight ],
 							[ "l", this.yDivisionChartSize, 0 ] ]).attr({
-				stroke : "#FFFFFF"
+				stroke : "#000000"
 			}));
 
 			this.graphRect.push(this.paper.text(this.textStartX, yUnitHeight,
 					regionNum + "").attr({
-				"font-size" : 12,
-				stroke : "#FFFFFF"
+				"font-size" : 12
 			}));
 
 			if (sumHeight > this.graphMaxValue) {

@@ -57,9 +57,7 @@ halook.hbase.graph = {
 		//labelsDiv	: "legendArea",
 		labelsDivWidth			: 100,
 		hideOverlayOnMouseOut	: false,
-		dateWindow	:	null,
-		labelsDivStyles : halook.graph.labelsDivStyles,
-		axisLabelColor : halook.graph.axisLabelColor
+		dateWindow	:	null
 	},
 	annotation : {
 		shortTextClassName		: 'annotationShortText',
@@ -72,8 +70,8 @@ halook.hbase.graph = {
 			text			: 'Multiple Events were occured',
 			css				: {
 				color			: 'white',
-				backgroundColor : 'red',
-				border			: '4px outset red'			
+				backgroundColor : 'black',
+				border			: '0px black solid'			
 			}
 		},
 		MajorCompaction	: {
@@ -84,7 +82,7 @@ halook.hbase.graph = {
 				color			: 'black',
 				backgroundColor : '#0079F2',
 				//backgroundColor : 'transparent',
-				border			: '4px outset #0079F2'
+				border			: '0px #0079F2 solid'
 			}
 		},
 		MinorCompaction	: {
@@ -94,7 +92,7 @@ halook.hbase.graph = {
 			css				: {
 				color			: 'black',
 				backgroundColor : '#00E7F2',
-				border			: '4px outset #00E7F2'
+				border			: '0px #00E7F2 solid'
 			}
 		},
 		Split : {
@@ -104,7 +102,7 @@ halook.hbase.graph = {
 			css				: {
 				color			: 'black',
 				backgroundColor : '#36F200',
-				border			: '4px outset #36F200'
+				border			: '0px #36F200 solid'
 			}
 		}
 	}

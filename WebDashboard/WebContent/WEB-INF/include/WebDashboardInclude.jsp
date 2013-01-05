@@ -35,6 +35,11 @@
 	src="<%=request.getContextPath()%>/resources/js/common/dualSliderView.js">
 </script>
 
+<%-- utility --%>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/common/endoSnipeUtility.js">
+</script>
+
 <%-- nodeInfo graph --%>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/nodeInfoParentView.js">

@@ -72,7 +72,7 @@ halook.BubbleChartView = wgp.AbstractView
 				
 				$("#" + this.$el.attr("id"))
 						.append(
-								'<div id="jobInfoSpace" class="contentHeader"><div id="jobInfoSpaceHtml"  width="450" height = "60"></div><div id = "jobInfoImage" width="250" height="50"><img  src ="' + context + '/resources/images/halook_120x30.png" alt="nopage" ></div></div>'
+								'<div id="jobInfoSpace" style="border:outset;border-color:#EEEEEE;border-width:7px;"><div id="jobInfoSpaceHtml"  width="450" height = "60"></div><div id = "jobInfoImage" width="250" height="50"><img  src ="' + context + '/resources/images/halook_120x30.png" alt="nopage" ></div></div>'
 										+ '<div class="clearSpace"></div>');
 				$("#jobInfoSpace")
 						.css(
@@ -81,7 +81,9 @@ halook.BubbleChartView = wgp.AbstractView
 									height : 100,
 									marginTop : 5,
 									marginLeft : 5,
-									float : "left"
+									float : "left",
+									background : "-moz-linear-gradient(-45deg, rgba(255,255,255,1) 0%, rgba(241,241,241,1) 50%, rgba(225,225,225,1) 51%, rgba(246,246,246,1) 100%)",
+									filter : " progid:DXImageTransform.Microsoft.gradient(startColorstr=#FF0000FF, endColorstr=#FFFFFFFF)",
 								});
 				var sd = this.jobInfo.startTime;
 				var fd = this.jobInfo.finishTime;

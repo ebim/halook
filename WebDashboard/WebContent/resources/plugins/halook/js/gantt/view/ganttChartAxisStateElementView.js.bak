@@ -35,10 +35,10 @@ halook.ganttChartAxisStateElementView = Backbone.View.extend({
 		this.render();
 	},
 	render : function() {
-		var color = halook.gantt.AXIS_COLOR;
+		var color = "rgb(0,0,0)";
 		this.model.set({
 			"attributes" : {
-				stroke : color
+				fill : color
 			}
 		}, {
 			silent : true

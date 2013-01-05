@@ -16,10 +16,6 @@
 <%@ page import="org.wgp.file.filter.FileNameFilter"%>
 <%@ page import="org.wgp.file.util.FilePathUtil"%>
 
-
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/lib/jQuery-ui/css/jquery-ui-1.8.19.custom.css"
-	type="text/css" media="all">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/lib/jqGrid/css/ui.jqgrid.css"
 	type="text/css" media="all">
@@ -32,8 +28,6 @@
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/lib/wgp/css/wgp.css"
 	type="text/css" media="all">
-
-<!-- <script type="text/javascript" src="<%=request.getContextPath()%>/resources/lib/rgbcolor/rgbcolor.js"></script> -->
 
 <!-- ウィジェット用のjavaScript動的読みこみを行なう -->
 <%

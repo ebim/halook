@@ -208,6 +208,23 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 		}, {
 			silent : true
 		});
+		jobLabel.set({
+			"attributes" : {
+				stroke : color,
+				"stroke-width" : strokeWidth,
+				"font-size" : 14
+			}
+		}, {
+			silent : true
+		});
+		jobName.set({
+			"attributes" : {
+				stroke : color,
+				"stroke-width" : strokeWidth
+			}
+		}, {
+			silent : true
+		});
 		mouseOverRect.set({
 			"attributes" : {
 				fill : mouseOverColor
@@ -231,12 +248,9 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 				this.element.push(new line(rightLine.attributes, this._paper));
 			}
 			
-			var textElement = this._paper.text(jobLabel.attributes.pointX,
+			this._paper.text(jobLabel.attributes.pointX,
 					jobLabel.attributes.pointY, jobLabel.attributes.text);
-			textElement.attr({
-				stroke : halook.gantt.AXIS_COLOR
-			});
-			
+
 			for ( var num = 0; num < this.element.length; num++) {
 				this.element[num].object.mouseover(function() {
 					$("#ganttChartDetail").html(detail.attributes.text);
@@ -252,11 +266,8 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 				this.element.push(new line(rightLine.attributes, this._paper));
 			}
 			
-			var textElement = this._paper.text(jobLabel.attributes.pointX,
+			this._paper.text(jobLabel.attributes.pointX,
 					jobLabel.attributes.pointY, jobLabel.attributes.text);
-			textElement.attr({
-				stroke : halook.gantt.AXIS_COLOR
-			});
 			for ( var num = 0; num < this.element.length; num++) {
 				this.element[num].object.mouseover(function() {
 					$("#ganttChartDetail").html(detail.attributes.text);

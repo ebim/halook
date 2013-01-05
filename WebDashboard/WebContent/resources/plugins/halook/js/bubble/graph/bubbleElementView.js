@@ -88,7 +88,9 @@ halook.BubbleElementView = wgp.DygraphElementView
 					var leftDateTime = leftDate.getTime() - term;
 					var rightDateTime = rightDate.getTime() + term;
 					settings.dateWindow = [ new Date(leftDateTime),
-							new Date(rightDateTime) ];					
+							new Date(rightDateTime) ];
+					settings.axisLabelColor = halook.graph.axisLabelColor;
+					settings.labelsDivStyles = halook.graph.labelsDivStyles;
 				}
 				this.entity = new Dygraph(document.getElementById(this.$el
 						.attr("id")), this.dataArray, settings);

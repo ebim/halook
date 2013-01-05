@@ -79,7 +79,11 @@ wgp.DygraphElementView = wgp.AbstractView.extend({
 		var optionSettings = {
 			title : this.title,
 			xlabel : this.labelX,
-			ylabel : this.labelY
+			ylabel : this.labelY,
+			axisLabelColor : "#FFFFFF",
+			labelsDivStyles : {
+				background: "none repeat scroll 0 0 #000000"
+			}
 		};
 		optionSettings = $.extend(true, optionSettings, this
 				.getAttributes(wgp.DygraphAttribute));

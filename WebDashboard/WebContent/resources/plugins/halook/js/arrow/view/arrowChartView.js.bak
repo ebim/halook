@@ -20,7 +20,7 @@ halook.arrowChart.idCounter = {};
 halook.arrowChart.defaultIndexInCell = 1;
 halook.arrowChart.defaultTotalInCell = 1;
 halook.arrowChart.TableLineColor = "#777777";
-halook.arrowChart.CellLineColor = "#FFFFFF";
+halook.arrowChart.CellLineColor = "black";
 halook.arrowChart.cellTitleFontSize = 14;
 halook.arrowChart.cellTitleFontSizeForNode = 14;
 

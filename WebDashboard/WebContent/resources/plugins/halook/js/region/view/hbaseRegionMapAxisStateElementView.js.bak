@@ -10,10 +10,10 @@ halook.hbaseRegionMapAxisStateElementView = Backbone.View.extend({
 		this.render();
 	},
 	render : function() {
-		var color = "rgb(255,255,255)";
+		var color = "rgb(0,0,0)";
 		this.model.set({
 			"attributes" : {
-				stroke : color
+				fill : color
 			}
 		}, {
 			silent : true

@@ -29,7 +29,7 @@ halook.hdfs.constants = {};
 
 halook.hdfs.constants.cycle = 5000;
 
-halook.hdfs.constants.bgColor = "#303232";
+halook.hdfs.constants.bgColor = "#000000";
 
 halook.hdfs.constants.mainCircle = {};
 halook.hdfs.constants.mainCircle.radius = 140;
@@ -62,6 +62,18 @@ halook.hdfs.constants.dataNode.status.full = 1;
 halook.hdfs.constants.dataNode.status.dead = 2;
 halook.hdfs.constants.cycleInterval = 2000;
 halook.hdfs.constants.hostnameAll = "--all--";
+
+halook.gantt = {};
+halook.gantt.WIDTH = 700;
+halook.gantt.HEIGHT = 0;
+halook.gantt.AXIS_COLOR = "rgb(255,255,255)";
+
+// Dygraph用共通定義。
+halook.graph = {};
+halook.graph.labelsDivStyles = {
+	background: "none repeat scroll 0 0 #000000"
+};
+halook.graph.axisLabelColor = "#FFFFFF";
 
 wgp.constants.STATE.SUCCESS = "success";
 wgp.constants.STATE.RUNNING = "running";
@@ -128,3 +140,5 @@ wgp.constants.STATE_COLOR[wgp.constants.STATE.RFAIL] = "#C400C4";
 wgp.constants.STATE_COLOR[wgp.constants.STATE.RKILLED] = "#777777";
 wgp.constants.STATE_COLOR[wgp.constants.STATE.TASKEFAIL] = "#FF6600";
 wgp.constants.STATE_COLOR[wgp.constants.STATE.TASKKILLED] = "#FF6600";
+
+var ENdoSnipe = {};
