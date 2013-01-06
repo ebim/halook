@@ -244,8 +244,8 @@ var HDFSView = wgp.AbstractView
 											.get(halook.ID.MEASUREMENT_ITEM_NAME);
 									var measurementItemNameSplit = measurementItemName
 											.split("/");
-									var hostname = measurementItemNameSplit[2];
-									var valueType = measurementItemNameSplit[3];
+									var hostname = measurementItemNameSplit[3];
+									var valueType = measurementItemNameSplit[4];
 									
 									var measurementValue = model
 											.get(halook.ID.MEASUREMENT_VALUE);

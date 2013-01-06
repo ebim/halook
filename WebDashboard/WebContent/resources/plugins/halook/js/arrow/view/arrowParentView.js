@@ -527,7 +527,8 @@ halook.ArrowParentView = wgp.AbstractView
 				});
 			},
 			_backTobeforePage : function() {
-				var elem = document.getElementById("/mapreduce/job");
+				var ganttchartTreeId = halook.ganttchart.treeSettings.id;
+				var elem = document.getElementById(ganttchartTreeId);
 				$(elem).mousedown();
 			},
 			_changeToTask : function() {

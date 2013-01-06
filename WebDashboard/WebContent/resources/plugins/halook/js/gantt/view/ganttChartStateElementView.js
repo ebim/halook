@@ -23,10 +23,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
+halook.ganttchart = {};
+halook.ganttchart.treeSettings;
 
 halook.ganttchartStateElementView = Backbone.View.extend({
 	initialize : function(argument, treeSettings) {
 		_.bindAll();
+		
+		halook.ganttchart.treeSettings = argument.treeSettings;
 		this._paper = argument.paper;
 		if (this._paper == null) {
 			alert("paper is not exist");
@@ -284,9 +288,13 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 					$.extend(true, viewSettings, {
 						id : instance.targetId
 					});
+					
+					var parentTreeId = halook.ganttchart.treeSettings.parentTreeId
+					var taskTreeId = parentTreeId + "/task";
+					
 					var treeSettings = {
-						id : "/mapreduce/task",
-						graphId : "/mapreduce/task"
+						id : taskTreeId,
+						graphId : taskTreeId
 					};
 
 					$.extend(true, viewSettings, {

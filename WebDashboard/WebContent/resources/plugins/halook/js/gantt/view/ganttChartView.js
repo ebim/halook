@@ -7,6 +7,7 @@ var ganttChartView = wgp.AbstractView
 				this.termData = argument.termData;
 				this.maxId = 0;
 				this.dataArray = argument.dataArray;
+				this.treeSettings = argument.rootView.treeSettings;
 
 				this.paper = new Raphael(document.getElementById(this.$el
 						.attr("id")), this.width, this.height);
@@ -116,6 +117,7 @@ var ganttChartView = wgp.AbstractView
 							});
 							new halook.ganttchartStateElementView({
 								model : ganttChartProperty,
+								treeSettings : this.treeSettings,
 								paper : this.paper
 							});
 						}
@@ -148,6 +150,7 @@ var ganttChartView = wgp.AbstractView
 							});
 							new halook.ganttchartStateElementView({
 								model : ganttChartProperty,
+								treeSettings : this.treeSettings,
 								paper : this.paper
 							});
 						}

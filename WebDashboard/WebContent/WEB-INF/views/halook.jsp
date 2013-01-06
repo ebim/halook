@@ -51,12 +51,12 @@
 		$("#tree_area")
 				.click(
 						function() {
-							if (document.getElementById("/mapreduce/task") != undefined) {
+							if ($("[id$='mapreduce/task']") != undefined) {
 
-								var parentElem = document
-										.getElementById("/mapreduce/task").parentNode;
+								var elem = $("[id$='mapreduce/task']");
+
 								$("#tree_area").jstree("delete_node",
-										parentElem);
+										elem);
 							}
 						});
 	</script>
