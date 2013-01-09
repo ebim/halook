@@ -78,6 +78,11 @@ halook.ArrowChartView = wgp.AbstractView
 							halook.arrowChart.idCounter[(idArray[3] + "_" + idArray[4])] = idArray[5];
 					}
 				}
+				
+				// StartTime,FinishTimeが0であるtaskがあった場合、
+				// 0の代わりにJobの開始時間を入れる
+				this._setJobStartTimeToZeroTask();
+				
 				// 基本となるテーブルの線を描く
 				this._drawTableLines();
 
@@ -414,7 +419,28 @@ halook.ArrowChartView = wgp.AbstractView
 					state : "rerror"
 				});
 			},
-
+			_setJobStartTimeToZeroTask : function() {
+				var jobStartTime = this.jobInfo.startTime;
+				
+				var dataArrayTmp = halook.taskDataForShow;
+				var dataArrayLength = dataArrayTmp.length;
+				
+				for (var index = 0; index < dataArrayLength; index++) {
+					var date = dataArrayTmp[index];
+					
+					if (date.StartTime == 0) {
+						dataArrayTmp[index].StartTime = jobStartTime;
+					}
+					
+					if (date.FinishTime == 0) {
+						dataArrayTmp[index].FinishTime = jobStartTime;
+					}
+				}
+				
+				halook.taskDataForShow = dataArrayTmp;
+				
+				halook.taskDataForShow
+			},
 			redraw : function(mode) {
 				halook.arrowChart.paperHeight = halook.taskDataForShow.length
 						* halook.arrowChart.cellHeight;

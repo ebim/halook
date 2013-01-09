@@ -62,6 +62,8 @@ var hbaseRegionMapView = {
 		yDivisionChartSize : 10,
 		yUnitDivisionCount : 10,
 		graphMaxValue : 280,
+		graphSVGWidth : 880,
+		graphSVGHeight : 540,
 		colorList : [
 		 　　　"#AFEEEE",
 		    "#FFC0CB",

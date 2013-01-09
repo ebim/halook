@@ -4,7 +4,8 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 		var viewAttribute = argument.rootView.options.viewAttribute
 
 		this.isRealTime = viewAttribute.realTime;
-		this.width = viewAttribute.width;
+		this.graphSVGWidth = viewAttribute.graphSVGWidth;
+		this.graphSVGHeight = viewAttribute.graphSVGHeight;
 		this.startXAxis = viewAttribute.startXAxis;
 		this.startYAxis = viewAttribute.startYAxis;
 		this.textStartX = viewAttribute.textStartX;
@@ -39,7 +40,7 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 	},
 	render : function() {
 		this.paper = new Raphael(document.getElementById(this.$el.attr("id")),
-				this.width, this.height);
+				this.graphSVGWidth, this.graphSVGHeight);
 
 		var yProperty = new wgp.MapElement({
 			objectId : 1,
@@ -173,10 +174,16 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 		var time = parseInt(timeString);
 		var date = new Date(time);
 
+		var treeId = this.treeSetting.treeId;
+		
 		var treePath = model.get("measurementItemName");
-		var pathList = treePath.split("/");
-		var serverName = pathList[4];
-		var tableName = pathList[3];
+		var pathList = treePath.split(treeId);
+		
+		var childTreePath = pathList[1];
+		var childPathList = childTreePath.split("/");
+		
+		var serverName = childPathList[2];
+		var tableName = childPathList[1];
 
 		var valueString = model.get("measurementValue");
 		var value = parseFloat(valueString);
@@ -331,14 +338,24 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 
 			this.graphRect.push(this.paper.text(textStartX, this.textStartY,
 					serverName).attr({
-				"font-size" : 12,
-				stroke : "#FFFFFF"
-			}));
+				"font-size" : 11,
+				stroke : "#FFFFFF",
+				"text-anchor" : "start"
+			}).rotate(45, textStartX, this.textStartY));
 			
 			this.lastTimeRegionNum[serverName] = sumRegionNum;
 
 			count++;
 		}
+		
+//		var textElemList = $("div#graphArea svg text");
+//
+//		var textElemListLength = textElemList.length;
+//
+//		for (var index = 0; index < textElemListLength; index++) {
+////			$(textElemList[index]).css("text-anchor", "start");
+//			$(textElemList[index]).set("writing-mode", "tb");
+//		}
 
 		return maxRegionNum;
 	},

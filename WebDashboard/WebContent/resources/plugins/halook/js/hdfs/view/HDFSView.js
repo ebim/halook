@@ -37,6 +37,7 @@ halook.HDFS.center = {};
 halook.HDFS.capacity = {};
 halook.HDFS.beforeUsage = {};
 halook.HDFS.isCompleteDraw = false;
+halook.HDFS.treeSettingId;
 
 var HDFSView = wgp.AbstractView
 		.extend({
@@ -49,7 +50,6 @@ var HDFSView = wgp.AbstractView
 				this.lastMeasurementTime_ = 0;
 				this.oldestMeasurementTime_ = 0;
 				this.capacityMax_ = 1;
-				this.treeSettingId_;
 				// vars
 				// setting view type
 				this.viewType = wgp.constants.VIEW_TYPE.VIEW;
@@ -58,10 +58,10 @@ var HDFSView = wgp.AbstractView
 
 				this.isRealTime = true;
 
-				this.treeSettingId_ = treeSetting.id;
+				halook.HDFS.treeSettingId = treeSetting.id;
 
 				var appView = wgp.AppView();
-				appView.addView(this, this.treeSettingId_ + '%');
+				appView.addView(this, halook.HDFS.treeSettingId + '%');
 				// set paper
 				this.render();
 
@@ -92,7 +92,7 @@ var HDFSView = wgp.AbstractView
 				var end = new Date();
 				var start = new Date(end.getTime() - 15000);
 				appView
-						.getTermData([ (this.treeSettingId_ + '%') ], start,
+						.getTermData([ (halook.HDFS.treeSettingId + '%') ], start,
 								end);
 
 			},
@@ -171,7 +171,7 @@ var HDFSView = wgp.AbstractView
 			getTermData : function() {
 				this._updateDraw();
 				if (this.isRealTime) {
-					appView.syncData([ (this.treeSettingId_ + "%") ]);
+					appView.syncData([ (halook.HDFS.treeSettingId + "%") ]);
 				}
 				
 			},
@@ -242,10 +242,14 @@ var HDFSView = wgp.AbstractView
 								function(model, id) {
 									var measurementItemName = model
 											.get(halook.ID.MEASUREMENT_ITEM_NAME);
-									var measurementItemNameSplit = measurementItemName
-											.split("/");
-									var hostname = measurementItemNameSplit[3];
-									var valueType = measurementItemNameSplit[4];
+									
+									var pathList = measurementItemName.split(halook.HDFS.treeSettingId);
+									
+									var childTreePath = pathList[1];
+									var childPathList = childTreePath.split("/");
+									
+									var hostname = childPathList[1];
+									var valueType = childPathList[2];
 									
 									var measurementValue = model
 											.get(halook.ID.MEASUREMENT_VALUE);
@@ -416,9 +420,9 @@ var HDFSView = wgp.AbstractView
 			_drawStaticDataNode : function(pastTime) {
 				var end = new Date(new Date().getTime() - pastTime);
 				var start = new Date(end.getTime() - 60 * 60 * 1000);
-				appView.stopSyncData([ (this.treeSettingId_ + '%') ]);
+				appView.stopSyncData([ (halook.HDFS.treeSettingId + '%') ]);
 				appView
-						.getTermData([ (this.treeSettingId_ + '%') ], start,
+						.getTermData([ (halook.HDFS.treeSettingId + '%') ], start,
 								end);
 			},
 			_addBlockTransfer : function(self) {
@@ -740,13 +744,13 @@ var HDFSView = wgp.AbstractView
 				if (pastTime == 0) {
 
 					if (this.isRealTime == false) {
-						appView.syncData([ (this.treeSettingId_ + "%") ]);
+						appView.syncData([ (halook.HDFS.treeSettingId + "%") ]);
 					}
 					this.isRealTime = true;
 
 					var end = new Date();
 					var start = new Date(end.getTime() - 60 * 60 * 1000);
-					appView.getTermData([ (this.treeSettingId_ + '%') ], start,
+					appView.getTermData([ (halook.HDFS.treeSettingId + '%') ], start,
 							end);
 				} else {
 					this.isRealTime = false;
