@@ -27,7 +27,7 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 		if (this.height == null) {
 			this.height = realTag.height();
 		}
-		var appView = wgp.AppView();
+		var appView = ENS.AppView();
 		appView.addView(this, this.treeSetting.treeId + '%');
 
 		var end = new Date();
@@ -80,13 +80,17 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 	onRemove : function(element) {
 		console.log('called removeModel (parent)');
 	},
-	onComplete : function() {
-		this.data = this._getData();
+	onComplete : function(type) {
+		if (type == wgp.constants.syncType.SEARCH) {
+			this._getTermData();
+		} else {
+			this.data = this._getData();
 
-		var maxRegionNum = this._createMap();
-		this._drawYDivision(maxRegionNum);
+			var maxRegionNum = this._createMap();
+			this._drawYDivision(maxRegionNum);
+		}
 	},
-	getTermData : function() {
+	_getTermData : function() {
 		// this._updateDraw();
 		if (this.isRealTime) {
 			appView.syncData([ (this.treeSetting.treeId + "%") ]);

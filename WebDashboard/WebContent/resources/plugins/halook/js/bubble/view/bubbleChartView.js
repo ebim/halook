@@ -62,7 +62,7 @@ halook.BubbleChartView = wgp.AbstractView
 			},
 
 			destroy : function() {
-				var appTmpView = new wgp.AppView();
+				var appTmpView = new ENS.AppView();
 				appTmpView.removeView(this.graph);
 			},
 			// htmlタグの定義

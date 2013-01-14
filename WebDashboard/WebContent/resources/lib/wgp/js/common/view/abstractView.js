@@ -47,9 +47,6 @@ wgp.AbstractView = Backbone.View.extend({
 	onComplete : function(element) {
 		console.log('called completeModel');
 	},
-	getTermData : function() {
-		console.log('called getTermData');
-	},
 	registerCollectionEvent : function() {
 
 		// When Collection Add Model
@@ -63,9 +60,6 @@ wgp.AbstractView = Backbone.View.extend({
 		
 		// When Collection Complete Model
 		this.collection.on('complete', this.onComplete, this);
-
-		// When Collection get Term Data.
-		this.collection.on('getTermData', this.getTermData, this);
 	},
 	stopRegisterCollectionEvent : function() {
 		if (this.collection) {
@@ -80,9 +74,6 @@ wgp.AbstractView = Backbone.View.extend({
 			
 			// When Collection Complete Model
 			this.collection.off('complete', this.onComplete, this);
-
-			// When Collection get Term Data.
-			this.collection.off('getTermData', this.getTermData, this);
 		}
 	},
 	getAttributes : function(attributesKey) {
@@ -98,7 +89,7 @@ wgp.AbstractView = Backbone.View.extend({
 			if (value != null && value != undefined) {
 				attributeValues[attribute] = value;
 			}
-		})
+		});
 		return attributeValues;
 	},
 	getRegisterViews : function() {

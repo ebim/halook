@@ -37,7 +37,7 @@ halook.BubbleElementView = wgp.DygraphElementView
 				var finishTime = new Date(
 						this.jobInfo.finishTime.getTime() + 120 * 1000);
 
-				var appView = new wgp.AppView();
+				var appView = new ENS.AppView();
 				appView.addView(this, (this.treeSettings.id + "%"));
 				appView.getTermData([ (this.treeSettings.id + "%") ],
 						this.jobInfo.startTime, finishTime);
@@ -104,7 +104,7 @@ halook.BubbleElementView = wgp.DygraphElementView
 			onAdd : function(graphModel) {
 			},
 			destory : function() {
-				var tmpAppView = new wgp.AppView();
+				var tmpAppView = new ENS.AppView();
 				tmpAppView.removeView(this);
 			},
 			_getData : function() {
@@ -165,7 +165,12 @@ halook.BubbleElementView = wgp.DygraphElementView
 					}
 				}
 			},
-			getTermData : function() {
+			onComplete : function(type) {
+				if (type == wgp.constants.syncType.SEARCH) {
+					this._getTermData();
+				}
+			},
+			_getTermData : function() {
 				this.render();
 			},
 			// IDを登録する処理
@@ -187,7 +192,7 @@ halook.BubbleElementView = wgp.DygraphElementView
 				};
 				var finishTime = new Date(
 						this.jobInfo.finishTime.getTime() + 120 * 1000);
-				var appView = new wgp.AppView();
+				var appView = new ENS.AppView();
 				appView.getTermData([ (this.treeSettings.id + "%") ],
 						this.jobInfo.startTime, finishTime);
 			},

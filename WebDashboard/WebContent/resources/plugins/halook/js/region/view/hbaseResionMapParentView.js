@@ -85,9 +85,9 @@ halook.HbaseResionMapParentView = wgp.AbstractView
 			_addSlider : function(self) {
 				$(this.viewId).append(
 						'<div id="slider"></div>');
-				$('#slider').css(halook.nodeinfo.parent.css.dualSliderArea);
-				$('#slider').css(halook.nodeinfo.parent.css.dualSliderArea);
-				this.singleSliderView = new halook.SingleSliderView({
+				$('#slider').css(ENS.nodeinfo.parent.css.dualSliderArea);
+				$('#slider').css(ENS.nodeinfo.parent.css.dualSliderArea);
+				this.singleSliderView = new ENS.SingleSliderView({
 					id : "slider",
 					rootView : this
 				});

@@ -33,7 +33,7 @@ var HbaseView = wgp.AbstractView.extend({
 		this.annotationRichDataDict = {};
 		this.entity = null;
 		
-		var appView = new wgp.AppView();
+		var appView = new ENS.AppView();
 		appView.addView(this, arguments.treeSettings.id);
 		this.nowDate = new Date();
 		appView.getTermData([arguments.treeSettings.id], 
@@ -78,7 +78,12 @@ var HbaseView = wgp.AbstractView.extend({
 	onRemove : function(element){
 		console.log('called removeModel');
 	},
-	getTermData : function() {
+	onComplete : function(type) {
+		if (type == wgp.constants.syncType.SEARCH) {
+			this._getTermData();
+		}
+	},
+	_getTermData : function() {
 		
 		// set the attributes of dygraph
 		this.dygraphAttributes = halook.hbase.graph.attributes;

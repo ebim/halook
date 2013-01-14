@@ -60,7 +60,7 @@ var HDFSView = wgp.AbstractView
 
 				halook.HDFS.treeSettingId = treeSetting.id;
 
-				var appView = wgp.AppView();
+				var appView = ENS.AppView();
 				appView.addView(this, halook.HDFS.treeSettingId + '%');
 				// set paper
 				this.render();
@@ -156,9 +156,13 @@ var HDFSView = wgp.AbstractView
 			},
 			onAdd : function(mapElement) {
 			},
-			onComplete : function() {
-				this._updateDraw();
-				this._animateBlockTransfer();
+			onComplete : function(type) {
+				if (type == wgp.constants.syncType.SEARCH) {
+					this._getTermData();
+				} else {
+					this._updateDraw();
+					this._animateBlockTransfer();
+				}
 			},
 			onChange : function(mapElement) {
 				this.viewCollection[mapElement.id].update(mapElement);
@@ -168,7 +172,7 @@ var HDFSView = wgp.AbstractView
 				this.viewCollection[objectId].remove(mapElement);
 				delete this.viewCollection[objectId];
 			},
-			getTermData : function() {
+			_getTermData : function() {
 				this._updateDraw();
 				if (this.isRealTime) {
 					appView.syncData([ (halook.HDFS.treeSettingId + "%") ]);
@@ -378,9 +382,9 @@ var HDFSView = wgp.AbstractView
 			_addSlider : function(self) {
 				$("#" + this.$el.attr("id")).parent().prepend(
 						'<div id="slider"></div>');
-				$('#slider').css(halook.nodeinfo.parent.css.dualSliderArea);
-				$('#slider').css(halook.nodeinfo.parent.css.dualSliderArea);
-				this.singleSliderView = new halook.SingleSliderView({
+				$('#slider').css(ENS.nodeinfo.parent.css.dualSliderArea);
+				$('#slider').css(ENS.nodeinfo.parent.css.dualSliderArea);
+				this.singleSliderView = new ENS.SingleSliderView({
 					id : "slider",
 					rootView : this
 				});

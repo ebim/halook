@@ -177,7 +177,7 @@ halook.ArrowParentView = wgp.AbstractView
 				var finishTime = new Date(
 						this.jobInfo.finishTime.getTime() + 60 * 1000);
 
-				var appView = new wgp.AppView();
+				var appView = new ENS.AppView();
 				appView.addView(this, (treeSettings.id + "%"));
 				appView.getTermData([ (treeSettings.id + "%") ],
 						this.jobInfo.startTime, finishTime);
@@ -647,7 +647,12 @@ halook.ArrowParentView = wgp.AbstractView
 				}
 				halook.taskDataForShow = resultCollection;
 			},
-			getTermData : function() {
+			onComplete : function(type) {
+				if (type == wgp.constants.syncType.SEARCH) {
+					this._getTermData();
+				}
+			},
+			_getTermData : function() {
 				if (this.isFirst) {
 					this.render();
 					var instance = this;
@@ -681,7 +686,7 @@ halook.ArrowParentView = wgp.AbstractView
 				
 			},
 			destroy : function() {
-				var tmpView = new wgp.AppView();
+				var tmpView = new ENS.AppView();
 				tmpView.removeView(this.treeSettings.id);
 				$("#" + this.$el.attr("id")).children().remove();
 

@@ -46,7 +46,7 @@
 		<servlet-class>jp.co.acroquest.endosnipe.web.dashboard.servlet.DashBoardNotifyServlet</servlet-class>
 		<init-param>
 			<param-name>collector.property</param-name>
-			<param-value>C:\VisualHadoop\conf\collector.properties</param-value>
+			<param-value>C:\AcroWorks\SVN\IntraProject\halook\github\halook\WebDashboard\conf\collector.properties</param-value>
 		</init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>

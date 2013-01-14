@@ -269,7 +269,7 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 				this.element[num].object.click(function(e) {
 
 					if (instance.childView) {
-						var tmpAppView = new wgp.AppView();
+						var tmpAppView = new ENS.AppView();
 						tmpAppView.removeView(inctance.childView);
 						this.childView = null;
 					}

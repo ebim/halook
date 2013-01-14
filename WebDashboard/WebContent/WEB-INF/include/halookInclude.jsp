@@ -12,6 +12,9 @@
 
 <%-- static values --%>
 <script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/plugins/halook/js/constants.js">
+	</script>
+<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/plugins/halook/js/grow/staticValues.js">
 	</script>
 <script type="text/javascript"

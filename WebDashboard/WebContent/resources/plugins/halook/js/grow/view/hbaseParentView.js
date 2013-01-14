@@ -50,7 +50,7 @@ var HbaseParentView = wgp.AbstractView
 				$(this.viewId).append(
 						'<div id="' + idDict.dualSliderArea + '"></div>');
 				$('#' + idDict.dualSliderArea).css(cssDict.dualSliderArea);
-				this.dualSliderView = new halook.DualSliderView({
+				this.dualSliderView = new ENS.DualSliderView({
 					id : idDict.dualSliderArea,
 					rootView : this
 				});

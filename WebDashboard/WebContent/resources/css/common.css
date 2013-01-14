@@ -66,6 +66,7 @@ body {
 	background: -moz-linear-gradient(-45deg, #696969 0%, #333333 100%) repeat scroll 0 0 transparent;
     border: 7px outset #333333;
     margin: 10px 0px 0px 10px;
+    overflow: auto;
 }
 
 .contentHeader h1 {
@@ -80,7 +81,4 @@ body {
 	width: 120px;
 	height: 26px;
 	background-image : url("../images/ENdoSnipe_logo.png");
-}
-#logo {
-	height : 50px;
 }

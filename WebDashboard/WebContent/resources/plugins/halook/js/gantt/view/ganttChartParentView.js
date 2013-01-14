@@ -15,7 +15,7 @@ var ganttChartParentView = wgp.AbstractView
 				var dateE = new Date();
 				var dateS = new Date(dateE.getTime() - 60 * 1000 * 60);
 
-				var appView = new wgp.AppView();
+				var appView = new ENS.AppView();
 				appView.addView(this, (treeSettings.id + "%"));
 				appView.getTermData([ (treeSettings.id + "%") ], dateS, dateE);
 
@@ -86,7 +86,7 @@ var ganttChartParentView = wgp.AbstractView
 									background : "-moz-linear-gradient(-45deg, #555555 0%, #111111 100%) repeat scroll 0 0 transparent",
 									margin : "10px 0px 0px 0px"
 								});
-				this.dualSliderView = new halook.DualSliderView({
+				this.dualSliderView = new ENS.DualSliderView({
 					id : "ganttChartSliderArea",
 					rootView : this
 				});
@@ -139,8 +139,12 @@ var ganttChartParentView = wgp.AbstractView
 			destoroy : function() {
 				console.log("test dest");
 			},
-
-			getTermData : function() {
+			onComplete : function(type){
+				if (type == wgp.constants.syncType.SEARCH) {
+					this._getTermData();
+				}
+			},
+			_getTermData : function() {
 				var instance = this;
 				this.masterDataArray = [];
 				var max = 0;
@@ -243,7 +247,7 @@ var ganttChartParentView = wgp.AbstractView
 			updateDisplaySpan : function(from, to) {
 				this.termData.startDate = new Date().getTime() - from;
 				this.termData.endDate = new Date().getTime() - to;
-				var appView = new wgp.AppView();
+				var appView = new ENS.AppView();
 				appView.getTermData([ (this.treeSettings.id + "%") ], new Date(
 						this.termData.startDate), new Date(
 						this.termData.endDate));
