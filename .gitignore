@@ -2,10 +2,11 @@
 ## Eclipse
 #################
 .metadata
-bin/
 tmp/
+classes/
 
 #################
 ## Web
 #################
 work/
+target/
