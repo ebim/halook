@@ -41,6 +41,24 @@
 　(9)(7)で出力されたファイルを、(6)で作成したディレクトリに配置し、
 　　　コミット、syncしてください。
 
+３．ローカルビルド(開発時)
+  ■HalookJavelinのビルド
+  (1)Javelinを修正した場合、修正したJavelinの媒体を、
+　　halook/HalookJavelin/libに配置してください。
+
+  (2)halook/HalookJavelinに移動して、以下を実行してください。
+　　> ant
+　　> ant -f build_merge.xml
+
+  (3)halook/HalookJavelin/distにビルド結果が出力されます。
+
+  ■Webdashboardのビルド
+  (1)halook/WebDashboardに移動して、以下を実行してください。
+　　> ant
+
+  (2)halook/WebDashboard/targetにビルド結果が出力されます。
+
+
 以上
 
 
