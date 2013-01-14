@@ -26,8 +26,15 @@ $dest.CopyHere($zip.Items())
 # ビルドを実行する。
 pushd HalookJavelin
 ant
+ant -f build_merge.xml
 popd
 
 pushd WebDashboard
 ant
 popd
+
+mkdir release
+copy HalookJavelin\dist\*.zip release
+copy WebDashboard\target\HalookDashboard.war release
+
+echo "すべてのビルドプロセスを終了しました。"
