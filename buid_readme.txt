@@ -1,64 +1,64 @@
-             ¡¡¡ halook ƒrƒ‹ƒhè‡ ¡¡¡
+             â– â– â–  halook ãƒ“ãƒ«ãƒ‰æ‰‹é † â– â– â– 
 
-‚PDƒc[ƒ‹‚Ì€”õ
+ï¼‘ï¼ãƒ„ãƒ¼ãƒ«ã®æº–å‚™
   (1) JDK
-    Java6 ‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ª‘O’ñ‚Å‚·B
+    Java6 ãŒã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã•ã‚Œã¦ã„ã‚‹ã“ã¨ãŒå‰æã§ã™ã€‚
     
-  (2) Ant —pƒ‰ƒCƒuƒ‰ƒŠ
-   @Ant ‚Ìƒo[ƒWƒ‡ƒ“‚Í 1.7.0 ˆÈ~‚ª•K—v‚Å‚·B
+  (2) Ant ç”¨ãƒ©ã‚¤ãƒ–ãƒ©ãƒª
+   ã€€Ant ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã¯ 1.7.0 ä»¥é™ãŒå¿…è¦ã§ã™ã€‚
 
-‚QDƒrƒ‹ƒh
-  (1)GitHub‚©‚çAˆÈ‰º‚ÌƒvƒƒWƒFƒNƒg‚ğclone‚µ‚Ä‚­‚¾‚³‚¢B
-@@(‚·‚Å‚ÉcloneÏ‚İ‚Ìê‡‚Í•s—v‚Å‚·B)
+ï¼’ï¼ãƒ“ãƒ«ãƒ‰
+  (1)GitHubã‹ã‚‰ã€ä»¥ä¸‹ã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã‚’cloneã—ã¦ãã ã•ã„ã€‚
+ã€€ã€€(ã™ã§ã«cloneæ¸ˆã¿ã®å ´åˆã¯ä¸è¦ã§ã™ã€‚)
   
      endosnipe/halook
 
-  (2)HalookJavelin‚Ìƒx[ƒX‚Æ‚µ‚Äg—p‚·‚éJavelin‚Ì
-@@”}‘Ì‚ğAGitHub‚Ìendosnipe/downloads‚©‚çæ“¾‚µ‚Ä‚­‚¾‚³‚¢B
+  (2)HalookJavelinã®ãƒ™ãƒ¼ã‚¹ã¨ã—ã¦ä½¿ç”¨ã™ã‚‹Javelinã®
+ã€€ã€€åª’ä½“ã‚’ã€GitHubã®endosnipe/downloadsã‹ã‚‰å–å¾—ã—ã¦ãã ã•ã„ã€‚
 
-  (3)æ“¾‚µ‚½Javelin‚Ìzipƒtƒ@ƒCƒ‹‚ğ
-@@endosnipe/halook/HalookJavelin/lib‚ÉƒRƒ~ƒbƒgAsync‚µ‚Ä‚­‚¾‚³‚¢B
+  (3)å–å¾—ã—ãŸJavelinã®zipãƒ•ã‚¡ã‚¤ãƒ«ã‚’
+ã€€ã€€endosnipe/halook/HalookJavelin/libã«ã‚³ãƒŸãƒƒãƒˆã€syncã—ã¦ãã ã•ã„ã€‚
 
-  (4)build.ps1 ‚ğŠJ‚«AˆÈ‰º‚ÌŠÂ‹«•Ï”‚ğİ’è‚µ‚Ä‚©‚çƒRƒ~ƒbƒgA
-@@sync‚µ‚Ä‚­‚¾‚³‚¢B
-     E$tags   ¨ƒ^ƒO–¼Ì(ƒo[ƒWƒ‡ƒ“-ƒrƒ‹ƒh”Ô†)
-                 —áF5.0.1-001
+  (4)build.ps1 ã‚’é–‹ãã€ä»¥ä¸‹ã®ç’°å¢ƒå¤‰æ•°ã‚’è¨­å®šã—ã¦ã‹ã‚‰ã‚³ãƒŸãƒƒãƒˆã€
+ã€€ã€€syncã—ã¦ãã ã•ã„ã€‚
+     ãƒ»$tags   â†’ã‚¿ã‚°åç§°(ãƒãƒ¼ã‚¸ãƒ§ãƒ³-ãƒ“ãƒ«ãƒ‰ç•ªå·)
+                 ä¾‹ï¼š5.0.1-001
 
-  (5)endosnipe/halook/build.properties‚ğŠJ‚«A
-@@ˆÈ‰º‚Ìİ’è‚ğs‚Á‚Ä‚­‚¾‚³‚¢B
-    Ejavelin.version¨Javelinƒo[ƒWƒ‡ƒ“
-    Ehalook.version¨Halookƒo[ƒWƒ‡ƒ“
+  (5)endosnipe/halook/build.propertiesã‚’é–‹ãã€
+ã€€ã€€ä»¥ä¸‹ã®è¨­å®šã‚’è¡Œã£ã¦ãã ã•ã„ã€‚
+    ãƒ»javelin.versionâ†’Javelinãƒãƒ¼ã‚¸ãƒ§ãƒ³
+    ãƒ»halook.versionâ†’Halookãƒãƒ¼ã‚¸ãƒ§ãƒ³
 
-  (6)Git Shell‚ÌPowerShell‚ğŠJ‚«Abuild.ps1‚Ì‚ ‚éƒfƒBƒŒƒNƒgƒŠ‚É
-@@@ˆÚ“®‚µ‚Ä‚­‚¾‚³‚¢B
+  (6)Git Shellã®PowerShellã‚’é–‹ãã€build.ps1ã®ã‚ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«
+ã€€ã€€ã€€ç§»å‹•ã—ã¦ãã ã•ã„ã€‚
   
-  (7)ˆÈ‰º‚ÌƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ğÀs‚µ‚Ü‚·B
+  (7)ä»¥ä¸‹ã®ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
     > build.ps1
   
-@(8)ƒŠƒ|ƒWƒgƒŠ‚ÌdownloadsƒfƒBƒŒƒNƒgƒŠ“à‚ÉA
-@@@ƒ^ƒO–¼Ì‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚µ‚Ä‚­‚¾‚³‚¢B
+ã€€(8)ãƒªãƒã‚¸ãƒˆãƒªã®downloadsãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå†…ã«ã€
+ã€€ã€€ã€€ã‚¿ã‚°åç§°ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ä½œæˆã—ã¦ãã ã•ã„ã€‚
 
-@(9)(7)‚Åo—Í‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğA(6)‚Åì¬‚µ‚½ƒfƒBƒŒƒNƒgƒŠ‚É”z’u‚µA
-@@@ƒRƒ~ƒbƒgAsync‚µ‚Ä‚­‚¾‚³‚¢B
+ã€€(9)(7)ã§å‡ºåŠ›ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã€(6)ã§ä½œæˆã—ãŸãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«é…ç½®ã—ã€
+ã€€ã€€ã€€ã‚³ãƒŸãƒƒãƒˆã€syncã—ã¦ãã ã•ã„ã€‚
 
-‚RDƒ[ƒJƒ‹ƒrƒ‹ƒh(ŠJ”­)
-  ¡HalookJavelin‚Ìƒrƒ‹ƒh
-  (1)Javelin‚ğC³‚µ‚½ê‡AC³‚µ‚½Javelin‚Ì”}‘Ì‚ğA
-@@halook/HalookJavelin/lib‚É”z’u‚µ‚Ä‚­‚¾‚³‚¢B
+ï¼“ï¼ãƒ­ãƒ¼ã‚«ãƒ«ãƒ“ãƒ«ãƒ‰(é–‹ç™ºæ™‚)
+  â– HalookJavelinã®ãƒ“ãƒ«ãƒ‰
+  (1)Javelinã‚’ä¿®æ­£ã—ãŸå ´åˆã€ä¿®æ­£ã—ãŸJavelinã®åª’ä½“ã‚’ã€
+ã€€ã€€halook/HalookJavelin/libã«é…ç½®ã—ã¦ãã ã•ã„ã€‚
 
-  (2)halook/HalookJavelin‚ÉˆÚ“®‚µ‚ÄAˆÈ‰º‚ğÀs‚µ‚Ä‚­‚¾‚³‚¢B
-@@> ant
-@@> ant -f build_merge.xml
+  (2)halook/HalookJavelinã«ç§»å‹•ã—ã¦ã€ä»¥ä¸‹ã‚’å®Ÿè¡Œã—ã¦ãã ã•ã„ã€‚
+ã€€ã€€> ant
+ã€€ã€€> ant -f build_merge.xml
 
-  (3)halook/HalookJavelin/dist‚Éƒrƒ‹ƒhŒ‹‰Ê‚ªo—Í‚³‚ê‚Ü‚·B
+  (3)halook/HalookJavelin/distã«ãƒ“ãƒ«ãƒ‰çµæœãŒå‡ºåŠ›ã•ã‚Œã¾ã™ã€‚
 
-  ¡Webdashboard‚Ìƒrƒ‹ƒh
-  (1)halook/WebDashboard‚ÉˆÚ“®‚µ‚ÄAˆÈ‰º‚ğÀs‚µ‚Ä‚­‚¾‚³‚¢B
-@@> ant
+  â– Webdashboardã®ãƒ“ãƒ«ãƒ‰
+  (1)halook/WebDashboardã«ç§»å‹•ã—ã¦ã€ä»¥ä¸‹ã‚’å®Ÿè¡Œã—ã¦ãã ã•ã„ã€‚
+ã€€ã€€> ant
 
-  (2)halook/WebDashboard/target‚Éƒrƒ‹ƒhŒ‹‰Ê‚ªo—Í‚³‚ê‚Ü‚·B
+  (2)halook/WebDashboard/targetã«ãƒ“ãƒ«ãƒ‰çµæœãŒå‡ºåŠ›ã•ã‚Œã¾ã™ã€‚
 
 
-ˆÈã
+ä»¥ä¸Š
 
 
