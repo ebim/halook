@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="HalookJavelin" default="release" basedir=".">
+    <!-- 環境固有設定ファイルの読込 -->
+    <property file="../build.properties" />
+
     <!-- Project settings -->
     <property name="jarname" value="halookJavelin" />
     <property name="zipname" value="HalookJavelin" />
 
     <!-- Local system paths -->
-    <property name="version" value="5.0.0" />
+    <property name="version" value="${halook.version}" />
     <property name="src.dir" location="src/main/java" />
     <property name="src.test.dir" location="src/test/java" />
     <property name="resources.dir" location="src/main/resources" />

@@ -24,6 +24,11 @@
      ・$tags   →タグ名称(バージョン-ビルド番号)
                  例：5.0.1-001
 
+  (6)endosnipe/halook/HalookJavelin/build.xmlを開き、
+　　以下の設定を行ってください。
+    ・javelin.version→Javelinバージョン
+    ・halook.version→Halookバージョン
+
   (6)endosnipe/halook/HalookJavelin/build_merge.xmlを開き、
 　　以下の設定を行ってください。
     ・javelin.version→Javelinバージョン

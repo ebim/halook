@@ -7,6 +7,8 @@
   == それぞれのdistディレクトリにzipファイルがあること。
   -->
 <project name="HalookJavelinMerge" default="merge" basedir=".">
+    <!-- 環境固有設定ファイルの読込 -->
+    <property file="../build.properties" />
 
     <!-- Javelinの媒体が存在するディレクトリ -->
     <property name="javelin.dest.dir" value="../HalookJavelin/lib" />
@@ -18,11 +20,9 @@
     <property name="tmp.dir" value="dist/merge_temp" />
 
     <!-- 元となるJavelinのzip -->
-    <property name="javelin.version" value="5.0.1" />
     <property name="javelin.zip" value="${javelin.dest.dir}/Javelin_${javelin.version}.zip" />
     
     <!-- マージ対象となるHalookJavelinのzip -->
-    <property name="halook.version" value="5.0.1" />
     <property name="halook-javelin.zip" value="${halook.javelin.dest.dir}/HalookJavelin_${halook.version}.zip" />
     
     <!-- マージ先となるHalookJavelinのzip -->
