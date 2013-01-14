@@ -57,7 +57,7 @@ halook.HbaseResionMapParentView = wgp.AbstractView
 				idName = 'logo';
 				$(this.viewId).append('<div id="' + idName + '" class="contentHeader"></div>');
 				$('#' + idName).append(
-						'<h1>Hbase RegionMap</h1>');
+						'<h1>HBase RegionMap</h1>');
 				
 				var context = $("#context").val();
 				

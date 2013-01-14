@@ -21,6 +21,12 @@ halook.task.KILLED = "KILLED";
 halook.task.COMMIT_PENDING = "COMMIT_PENDING";
 halook.task.RUNNING = "running";
 
+halook.job = {};
+halook.job.SUCCESS = "success";
+halook.job.FAIL = "fail";
+halook.job.KILL = "kill";
+halook.job.RUNNING = "running";
+
 halook.HDFS = {};
 halook.HDFS.MESURE_TERM = 13000;
 

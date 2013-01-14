@@ -47,11 +47,11 @@ halook.arrowChart.marginTop = 5;
 halook.arrowChart.background = "-moz-linear-gradient(-45deg, #FFFFFF 0%, #AAAAAA 100%) repeat scroll 0 0 transparent";
 
 halook.dygraphChart = {};
-halook.dygraphChart.width = "730px";
+halook.dygraphChart.width = "710px";
 halook.dygraphChart.height = "200px";
 halook.dygraphChart.backgroundColor = "#EEEEEE";
 halook.dygraphChart.float = "left";
-halook.dygraphChart.leftMargin = "45px";
+halook.dygraphChart.leftMargin = "40px";
 halook.dygraphChart.rigntMargin = "7px";
 halook.dygraphChart.topMargin = "5px";
 halook.dygraphChart.borderStyle = "outset";
@@ -175,7 +175,7 @@ halook.ArrowParentView = wgp.AbstractView
 
 				this.jobInfo = arguments.jobInfo;
 				var finishTime = new Date(
-						this.jobInfo.finishTime.getTime() + 60 * 1000);
+						this.jobInfo.finishTime.getTime() + 120 * 1000);
 
 				var appView = new ENS.AppView();
 				appView.addView(this, (treeSettings.id + "%"));
@@ -199,10 +199,8 @@ halook.ArrowParentView = wgp.AbstractView
 				this._insertInitHtml();
 
 				this._initDataProcesser();
-
 			},
 			render : function() {
-				this.getData
 			},
 			onAdd : function(element) {
 				// console.log('call onAdd');
@@ -320,13 +318,13 @@ halook.ArrowParentView = wgp.AbstractView
 				$("#jobInfoImage").css({
 					float : "right"
 				});
-				if (this.jobInfo.jobStatus == halook.task.SUCCESSED) {
+				if (this.jobInfo.jobStatus == halook.job.SUCCESS) {
 					jobColor = wgp.constants.STATE_COLOR[wgp.constants.STATE.SUCCESS];
-				} else if (this.jobInfo.jobStatus ==halook.task.FAILED) {
+				} else if (this.jobInfo.jobStatus ==halook.job.FAIL) {
 					jobColor = wgp.constants.STATE_COLOR[wgp.constants.STATE.FAIL];
-				} else if (this.jobInfo.jobStatus == halook.task.KILLED) {
+				} else if (this.jobInfo.jobStatus == halook.job.KILL) {
 					jobColor = wgp.constants.STATE_COLOR[wgp.constants.STATE.KILLED];
-				} else if (this.jobInfo.jobStatus == halook.task.RUNNING) {
+				} else if (this.jobInfo.jobStatus == halook.job.RUNNING) {
 					jobColor = wgp.constants.STATE_COLOR[wgp.constants.STATE.RUNNING];
 				}　else {
 					jobColor = wgp.constants.STATE_COLOR[wgp.constants.STATE.KILLED];

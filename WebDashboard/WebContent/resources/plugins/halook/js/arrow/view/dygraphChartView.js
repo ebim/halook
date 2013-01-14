@@ -56,8 +56,8 @@ halook.DygraphChartView = wgp.DygraphElementView.extend({
 			ylabel : "Concurrent task num",
 			labels : [ "Date", "Task num" ],
 			drawPoints : true,
-			pointSize : 5,
-			strokeWidth : 5,
+			pointSize : 2,
+			strokeWidth : 3,
 			drawXGrid : true,
 			axisLabelFontSize : 12,
 			axisLabelColor : halook.graph.axisLabelColor,
@@ -76,7 +76,7 @@ halook.DygraphChartView = wgp.DygraphElementView.extend({
 		}
 
 		var dataArray = executeTaskCount(halook.parentView.minGraphTime,
-				halook.parentView.maxGraphTime, halook.taskDataForShow, 30);
+				halook.parentView.maxGraphTime, halook.taskDataForShow, 100);
 
 		this.entity = null;
 		if (dataArray && dataArray.length > 0) {

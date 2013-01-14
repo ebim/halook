@@ -9,7 +9,7 @@ halook.arrowChart.startLineX = 100;
 halook.arrowChart.cellHeight = 30;
 // アローチャート部分の長さ
 halook.arrowChart.arrowChartWidth = halook.arrowChart.paperWidth
-		- halook.arrowChart.startLineX - 30;
+		- halook.arrowChart.startLineX - 4;
 
 // string offset
 halook.arrowChart.stringHeightOffset = -10;

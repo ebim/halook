@@ -86,41 +86,8 @@ halook.BubbleChartView = wgp.AbstractView
 				var sd = this.jobInfo.startTime;
 				var fd = this.jobInfo.finishTime;
 				var subd = new Date();
-				// TODO submitTime
+				// TODO show submitTime 
 				subd.setTime("");
-
-				var jobColor;
-				if (this.jobInfo.jobStatus == "success") {
-					jobColor = "#00FF00";
-				} else if (this.jobInfo.jobStatus == "killed") {
-					jobColor = "#777777";
-				} else if (this.jobInfo.jobStatus == "failed") {
-					jobColor = "#FF0000";
-				} else if (this.jobInfo.jobStatus == "running") {
-					jobColor = "#0000FF";
-				}
-				// submitTime 補完用
-				// $("#jobInfoSpaceHtml").html(
-				// "<p><font size='6' face='Comic Sans MS' ><b>"
-				// + this.jobInfo.jobId + " : </b></font>"
-				// + "<font size='6' color='" + jobColor + "'><b>"
-				// + this.jobInfo.jobStatus + "</b></font></br> "
-				// + "<font size='5'>(" + this.jobInfo.jobName
-				// + ")</font></br>" + " "
-				// + " <font face='Comic Sans MS'> "
-				// + sd.toLocaleString() + " - "
-				// + fd.toLocaleString() + "( SUBMIT_TIME:"
-				// + subd.toLocaleString() + " )</font></br></p>");
-				$("#jobInfoSpaceHtml").html(
-						"<p><font size='6' face='Comic Sans MS' ><b>"
-								+ this.jobInfo.jobId + " : </b></font>"
-								+ "<font size='6' color='" + jobColor + "'><b>"
-								+ this.jobInfo.jobStatus + "</b></font></br> "
-								+ "<font size='5'>(" + this.jobInfo.jobName
-								+ ")</font></br>" + "  "
-								+ " <font  face='Comic Sans MS'> "
-								+ sd.toLocaleString() + "  -  "
-								+ fd.toLocaleString() + " </font></br></p>");
 				$("#jobInfoSpaceHtml").css({
 					float : "left"
 				});
