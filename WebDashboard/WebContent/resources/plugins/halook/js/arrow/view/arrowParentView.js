@@ -2,7 +2,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-DisplayMode = "node";// "task";
 // starttime; finishtime
 
 halook.arrow = {};
@@ -10,6 +9,8 @@ halook.arrow.buttonSize = {};
 halook.arrow.buttonSize.width = "120px";
 halook.arrow.buttonSize.height = "40px";
 halook.arrow.buttonSize.marginLeft = "5px";
+
+halook.arrow.DisplayMode = "node";// "task";
 
 halook.arrow.ignoretask = {
 	"COMMIT_PENDING" : true
@@ -57,13 +58,6 @@ halook.dygraphChart.topMargin = "5px";
 halook.dygraphChart.borderStyle = "outset";
 
 halook.parentView = {};
-halook.parentView.taskSortFunctionTable = {
-	"task" : _taskIDSort,
-	"node" : _nodeSort,
-	"starttime" : _startTimeSort,
-	"finishtime" : _finishTimeSort,
-};
-
 halook.arrowChartView;
 
 // グラフ最小の時間 1346160591446 1346843780000
@@ -81,7 +75,7 @@ halook.parentView.intervalTime = 0;
 // 同じIDの表に複数の行が入るときの lineNumももつ
 halook.parentView.taskAttemptInfoDictionary = {};
 
-getFromServerDatas = [];
+halook.parentView.getFromServerDatas = [];
 
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ////////////////データの整理をするところ
@@ -90,8 +84,6 @@ getFromServerDatas = [];
 
 // //////////ソートの関数の実装///////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ソートのモードを設定///
-var sortString = "default";
 // ソートのモードとソート用関数の対応付け辞書
 // 新しくソートを追加するときは、ここにその名前と、比較関数の定義を対応付ける。
 // デフォルトは、taskID順に表示
@@ -99,7 +91,7 @@ var sortString = "default";
 // ソートを実際に行う関数
 
 // 以下ソート関数群
-function _taskIDSort(first, second) {
+halook.parentView._taskIDSort = function(first, second){
 	var firstNumID = first.SimpleID;
 	var secondNumID = second.SimpleID;
 	var firstAttemptTime = first.attemptTime;
@@ -130,7 +122,7 @@ function _taskIDSort(first, second) {
 	return -1;
 }
 
-function _nodeSort(first, second) {
+halook.parentView._nodeSort = function(first, second) {
 	// そのまんま
 	if (first.Hostname < second.Hostname)
 		return -1;
@@ -145,19 +137,26 @@ function _nodeSort(first, second) {
 
 // 偶数か奇数かで値がかわる
 
-var startTimeOdd = -1;
-function _startTimeSort(first, second) {
+halook.parentView.startTimeOdd = -1;
+halook.parentView._startTimeSort = function(first, second) {
 	if (first.StartTime > second.StartTime)
-		return 1 * startTimeOdd;
-	return -1 * startTimeOdd;
+		return 1 * halook.parentView.startTimeOdd;
+	return -1 * halook.parentView.startTimeOdd;
 }
 
-var finishTimeOdd = -1;
-function _finishTimeSort(first, second) {
+halook.parentView.finishTimeOdd = -1;
+halook.parentView._finishTimeSort = function(first, second) {
 	if (first.FinishTime > second.FinishTime)
-		return 1 * finishTimeOdd;
-	return -1 * finishTimeOdd;
+		return 1 * halook.parentView.finishTimeOdd;
+	return -1 * halook.parentView.finishTimeOdd;
 }
+halook.parentView.taskSortFunctionTable = {
+		"task" : halook.parentView._taskIDSort,
+		"node" : halook.parentView._nodeSort,
+		"starttime" : halook.parentView._startTimeSort,
+		"finishtime" : halook.parentView._finishTimeSort,
+};
+
 
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -530,50 +529,50 @@ halook.ArrowParentView = wgp.AbstractView
 				$(elem).mousedown();
 			},
 			_changeToTask : function() {
-				// console.log("change to task " + DisplayMode + " node");
+				// console.log("change to task " + halook.arrow.DisplayMode + " node");
 
-				if (DisplayMode != "task" || halook.filterMode != null) {
-					DisplayMode = "task";
+				if (halook.arrow.DisplayMode != "task" || halook.filterMode != null) {
+					halook.arrow.DisplayMode = "task";
 					halook.taskDataForShow = halook.taskDataOriginal;
 					halook.filterMode = null;
-					this._executeTaskSort(halook.taskDataForShow, DisplayMode);
+					this._executeTaskSort(halook.taskDataForShow, halook.arrow.DisplayMode);
 					// console.log("change to task " + this);
 					this.arrowChartView.redraw("task");
 				}
 			},
 			_changeToNode : function() {
-				// console.log("change to node " + DisplayMode + " task");
-				if (DisplayMode != "node" || halook.filterMode != null) {
+				// console.log("change to node " + halook.arrow.DisplayMode + " task");
+				if (halook.arrow.DisplayMode != "node" || halook.filterMode != null) {
 					halook.taskDataForShow = halook.taskDataOriginal;
 					halook.filterMode = null;
 
-					DisplayMode = "node";
-					this._executeTaskSort(halook.taskDataForShow, DisplayMode);
+					halook.arrow.DisplayMode = "node";
+					this._executeTaskSort(halook.taskDataForShow, halook.arrow.DisplayMode);
 					// console.log("change to node " + this);
 					this.arrowChartView.redraw("node");
 				}
 			},
 			_changeToStart : function() {
 
-				startTimeOdd *= (-1);
-				// console.log("change to node " + DisplayMode + " task");
+				halook.parentView.startTimeOdd *= (-1);
+				// console.log("change to node " + halook.arrow.DisplayMode + " task");
 				halook.taskDataForShow = halook.taskDataOriginal;
 				halook.filterMode = null;
 
-				DisplayMode = "starttime";
-				this._executeTaskSort(halook.taskDataForShow, DisplayMode);
+				halook.arrow.DisplayMode = "starttime";
+				this._executeTaskSort(halook.taskDataForShow, halook.arrow.DisplayMode);
 				// console.log("change to node " + this);
 				this.arrowChartView.redraw("node");
 
 			},
 			_changeToFinish : function() {
-				finishTimeOdd *= (-1);
-				// console.log("change to node " + DisplayMode + " task");
+				halook.parentView.finishTimeOdd *= (-1);
+				// console.log("change to node " + halook.arrow.DisplayMode + " task");
 				halook.taskDataForShow = halook.taskDataOriginal;
 				halook.filterMode = null;
 
-				DisplayMode = "finishtime";
-				this._executeTaskSort(halook.taskDataForShow, DisplayMode);
+				halook.arrow.DisplayMode = "finishtime";
+				this._executeTaskSort(halook.taskDataForShow, halook.arrow.DisplayMode);
 				// console.log("change to node " + this);
 				this.arrowChartView.redraw("node");
 
@@ -582,14 +581,14 @@ halook.ArrowParentView = wgp.AbstractView
 				if (halook.filterMode != "fail") {
 					halook.filterMode = "fail";
 					this._executeFilter();
-					this.arrowChartView.redraw(DisplayMode);
+					this.arrowChartView.redraw(halook.arrow.DisplayMode);
 				}
 			},
 			_changeToKilled : function() {
 				if (halook.filterMode != "killed") {
 					halook.filterMode = "killed";
 					this._executeFilter();
-					this.arrowChartView.redraw(DisplayMode);
+					this.arrowChartView.redraw(halook.arrow.DisplayMode);
 				}
 			},
 			addCollection : function(dataArray) {
@@ -630,11 +629,11 @@ halook.ArrowParentView = wgp.AbstractView
 			_executeFilter : function(array, mode) {
 				var resultCollection;
 				if (halook.filterMode == "fail") {
-					resultCollection = _.filter(getFromServerDatas, function(model){
+					resultCollection = _.filter(halook.parentView.getFromServerDatas, function(model){
 						return model.Status == wgp.constants.JOB_STATE.FAILED;
 					});
 				} else if (halook.filterMode == "killed") {
-					resultCollection = _.filter(getFromServerDatas, function(model){
+					resultCollection = _.filter(halook.parentView.getFromServerDatas, function(model){
 						if (model.Status == wgp.constants.JOB_STATE.KILLED){
 							return true;
 						} else if (model.Status == wgp.constants.JOB_STATE.KILLED_UNCLEAN) {
@@ -654,7 +653,7 @@ halook.ArrowParentView = wgp.AbstractView
 				if (this.isFirst) {
 					this.render();
 					var instance = this;
-					getFromServerDatas = [];
+					halook.parentView.getFromServerDatas = [];
 					
 					_.each(this.collection.models, function(model) {
 						var deleteFlag = false;
@@ -670,7 +669,7 @@ halook.ArrowParentView = wgp.AbstractView
 								continue;
 							}
 							if (value[i].JobID == instance.jobInfo.jobId) {
-								getFromServerDatas.push(value[i]);
+								halook.parentView.getFromServerDatas.push(value[i]);
 							}
 						}
 					});
@@ -694,12 +693,12 @@ halook.ArrowParentView = wgp.AbstractView
 			},
 			_initDataProcesser : function() {
 				// 取得したデータを保存用の部位に代入する。
-				halook.taskDataOriginal = getFromServerDatas;
-				halook.taskDataForShow = getFromServerDatas;
+				halook.taskDataOriginal = halook.parentView.getFromServerDatas;
+				halook.taskDataForShow = halook.parentView.getFromServerDatas;
 
 				this._rearrangeDatas(halook.taskDataForShow);
 				// /sortを実施
-				this._executeTaskSort(halook.taskDataForShow, DisplayMode);
+				this._executeTaskSort(halook.taskDataForShow, halook.arrow.DisplayMode);
 				// halook.arrowChartView.redraw("node");
 
 			},

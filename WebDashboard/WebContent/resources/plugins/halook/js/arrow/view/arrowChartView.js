@@ -1,5 +1,5 @@
 //paperの高さ
-halook.arrowChart.paperHeight = getFromServerDatas.length
+halook.arrowChart.paperHeight = halook.parentView.getFromServerDatas.length
 		* halook.arrowChart.cellHeight;
 // paperの幅
 halook.arrowChart.paperWidth = 750;
@@ -36,26 +36,16 @@ halook.arrowChart.InfoElementObjectID = 50000;
 halook.arrowChart.infoElementFontSize = 15;
 
 // //////////////////////////////////////アロー関数群////////////////////////////////////////////////////////////
-
-// アローチャート座標をチャート全体座標系に直す。
-function getChartPosition(x, y) {
-	return {
-		posX : x + halook.arrowChart.startLineX,
-		posY : y
-	};
-}
-
 halook.ArrowChartView = wgp.AbstractView
 		.extend({
 			initialize : function(arguments) {
 				var jobColor;
 				this.jobInfo = arguments.jobInfo;
 				this.viewType = wgp.constants.VIEW_TYPE.VIEW;
-				this.collection = new arrowModelCollection();
 				this.attributes = {};
 				this.paper = new Raphael(document.getElementById(this.$el
 						.attr("id")), this.width, this.height);
-				halook.arrowChart.paperHeight = getFromServerDatas.length
+				halook.arrowChart.paperHeight = halook.parentView.getFromServerDatas.length
 						* halook.arrowChart.cellHeight;
 
 				this.paper.setSize(halook.arrowChart.paperWidth,
@@ -133,7 +123,7 @@ halook.ArrowChartView = wgp.AbstractView
 					var modelInfoArray = [];
 					var stateString;
 
-					if (DisplayMode == "task") {
+					if (halook.arrow.DisplayMode == "task") {
 					// if (halook.parentView.taskAttemptInfoDictionary[data.Mapreduce
 					// + "_" + data.SimpleID].maxTime > 1) {
 					// totalInCell = 2;
@@ -146,7 +136,7 @@ halook.ArrowChartView = wgp.AbstractView
 						modelInfo = this._calcArrowLengthAndStartPos(
 								data.StartTime, data.FinishTime, indexInCell,
 								totalInCell, rowCounter);
-					} else if (DisplayMode == "node") {
+					} else if (halook.arrow.DisplayMode == "node") {
 						modelInfo = this._calcArrowLengthAndStartPos(
 								data.StartTime, data.FinishTime,
 								halook.arrowChart.defaultIndexInCell,
@@ -168,11 +158,11 @@ halook.ArrowChartView = wgp.AbstractView
 							|| data.Status == wgp.constants.JOB_STATE.KILLED
 							|| data.Status == wgp.constants.JOB_STATE.KILLED_UNCLEAN) {
 						var errorInfo;
-						if (DisplayMode == "task") {
+						if (halook.arrow.DisplayMode == "task") {
 							errorInfo = this._calcErrorLengthAndStartPos(
 									data.FinishTime, indexInCell, totalInCell,
 									rowCounter);
-						} else if (DisplayMode == "node") {
+						} else if (halook.arrow.DisplayMode == "node") {
 							errorInfo = this._calcErrorLengthAndStartPos(
 									data.FinishTime, 1, 1, rowCounter);
 						}
@@ -224,7 +214,7 @@ halook.ArrowChartView = wgp.AbstractView
 					});
 
 					rowCounter++;
-//					if (DisplayMode == "task"
+//					if (halook.arrow.DisplayMode == "task"
 //							&& (i != halook.taskDataOriginal.length - 1 && halook.taskDataOriginal[i + 1].attemptTime != 1)) {
 // 						rowCounter--;
 //					}
@@ -279,7 +269,7 @@ halook.ArrowChartView = wgp.AbstractView
 				var tmpLabelArray;
 				
 				var taskDataForAhowLength = halook.taskDataForShow.length;
-				if (DisplayMode == "task") {
+				if (halook.arrow.DisplayMode == "task") {
 					
 					for ( var i = 0; i < taskDataForAhowLength; i++) {
 						data = halook.taskDataForShow[i];
@@ -305,7 +295,7 @@ halook.ArrowChartView = wgp.AbstractView
 						});
 						textRowCounter++;
 					}
-				} else if (DisplayMode == "node") {
+				} else if (halook.arrow.DisplayMode == "node") {
 					for ( var i = 0; i < taskDataForAhowLength; i++) {
 						labelString = halook.taskDataForShow[i].Hostname;
 						tmpLabelArray = labelString.split('/');
@@ -447,11 +437,11 @@ halook.ArrowChartView = wgp.AbstractView
 				this.paper.clear();
 				this.paper.setSize(halook.arrowChart.paperWidth,
 						halook.arrowChart.paperHeight);
-				DisplayMode = mode;
+				halook.arrow.DisplayMode = mode;
 				// 基本となるテーブルの線を描く
 				this._drawTableLines();
 				// 矢印たちと×印の絵画の作成
-				halook.arrowChart.paperHeight = getFromServerDatas.length
+				halook.arrowChart.paperHeight = halook.parentView.getFromServerDatas.length
 						* halook.arrowChart.cellHeight;
 
 				this._drawArrowAndError();

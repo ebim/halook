@@ -1,6 +1,6 @@
 // //////////////////////////////////////グラフ関数群/////////////////////////////////////////////////////////////////////////////
 
-wgp.NumAttribute = [ "colors", "labels", "valueRange", "xlabel", "ylabel",
+halook.parentView.NumAttribute = [ "colors", "labels", "valueRange", "xlabel", "ylabel",
 		"strokeWidth", "legend", "labelsDiv", "width", "height", "drawPoints",
 		"pointSize", "drawXGrid", "axisLabelFontSize", "axisLabelColor", "labelsDivStyles"
 ];
@@ -15,7 +15,7 @@ function isTaskMovingOnTime(taskAttemptInfo, markTime) {
 }
 
 // ある時間帯にいくつのtaskが稼働しているかどうかを返す関数
-function tasksCounter(tasks, markTime) {
+halook.tasksCounter = function(tasks, markTime) {
 	var counter = 0;
 	for ( var i = 0; i < tasks.length; i++) {
 		if (isTaskMovingOnTime(tasks[i], markTime))
@@ -26,7 +26,7 @@ function tasksCounter(tasks, markTime) {
 
 // 等間隔の時間でtaskの数を数えて時間と結果を辞書式でを返す関数
 // Job始まりの時間、Job終わりの時間、taskAttemptの配列、区切り回数
-function executeTaskCount(startTime, endTime, tasks, times) {
+halook.executeTaskCount = function(startTime, endTime, tasks, times) {
 	if (times <= 0)
 		return null;
 	var interval = halook.parentView.intervalTime / times;
@@ -38,7 +38,7 @@ function executeTaskCount(startTime, endTime, tasks, times) {
 		tmpDate.setTime(tmpTime);
 		tmpDictionary = {
 			time : tmpDate,
-			counter : tasksCounter(tasks, tmpTime)
+			counter : halook.tasksCounter(tasks, tmpTime)
 		};
 		resultReturnArray.push(tmpDictionary);
 	}
@@ -50,7 +50,7 @@ function executeTaskCount(startTime, endTime, tasks, times) {
 halook.DygraphChartView = wgp.DygraphElementView.extend({
 	initialize : function() {
 		this.viewType = wgp.constants.VIEW_TYPE.VIEW;
-		this.collection = new dygraphModelCollection();
+		this.collection = new halook.dygraphModelCollection();
 		this.attributes = {
 			xlabel : "time [Date]",
 			ylabel : "Concurrent task num",
@@ -75,7 +75,7 @@ halook.DygraphChartView = wgp.DygraphElementView.extend({
 			this.height = realTag.height();
 		}
 
-		var dataArray = executeTaskCount(halook.parentView.minGraphTime,
+		var dataArray = halook.executeTaskCount(halook.parentView.minGraphTime,
 				halook.parentView.maxGraphTime, halook.taskDataForShow, 100);
 
 		this.entity = null;
@@ -87,7 +87,7 @@ halook.DygraphChartView = wgp.DygraphElementView.extend({
 	render : function() {
 		var data = this.getData();
 		this.entity = new Dygraph(document.getElementById(this.$el.attr("id")),
-				data, this.getAttributes(wgp.NumAttribute));
+				data, this.getAttributes(halook.parentView.NumAttribute));
 
 		// this.entity.resize(this.width, this.height);
 
