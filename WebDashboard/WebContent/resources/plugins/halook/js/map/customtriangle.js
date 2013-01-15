@@ -12,7 +12,7 @@ halook.customTriangle.width = 30;
 halook.customTriangle.height = 15;
 halook.customTriangle.rate = 1;
 
-function customtriangle(elementProperty, paper, rate){
+halook.customtriangle = function (elementProperty, paper, rate){
 
 	// 設定が取得できない場合は処理を終了する。
 	if(!elementProperty){
@@ -59,9 +59,9 @@ if(halook.customTriangle.rate < 0.4)
 
     return this;
 };
-customtriangle.prototype = new mapElement();
+halook.customtriangle.prototype = new mapElement();
 
-customtriangle.prototype.createPositionArray = function(elementProperty){
+halook.customtriangle.prototype.createPositionArray = function(elementProperty){
 
 	// ポジションのリスト
 	var positionArray = new Array();
@@ -78,7 +78,7 @@ customtriangle.prototype.createPositionArray = function(elementProperty){
     return positionArray;
 };
 
-customtriangle.prototype.createMapElement = function(positionArray, paper){
+halook.customtriangle.prototype.createMapElement = function(positionArray, paper){
     // パス情報
     var path = this.createPathString(positionArray);
     // オブジェクト生成

@@ -23,7 +23,7 @@ var tabViewElement = {
 };
 
 var nodeInfoParentView = {
-	viewClassName : "halook.NodeInfoParentView",
+	viewClassName : "ENS.NodeInfoParentView",
 	viewAttribute : {
 		ids : {
 			dualSliderArea : "sliderArea",
@@ -33,7 +33,7 @@ var nodeInfoParentView = {
 
 };
 var hbaseGrowthGraphView = {
-	viewClassName : "HbaseView"
+	viewClassName : "halook.HbaseView"
 };
 
 var sliderView = {
@@ -47,7 +47,7 @@ var nodeInfoField = {
 };
 
 var hbaseGrowthGraphParentView = {
-	viewClassName : "HbaseParentView"
+	viewClassName : "halook.HbaseParentView"
 };
 
 var hbaseRegionMapView = {
@@ -75,27 +75,14 @@ var hbaseRegionMapView = {
 	
 };
 
-var hbaseGrowthGraphField = {
-	viewClassName : "wgp.MultiAreaView",
-	rootView : appView,
-	collection : [ hbaseGrowthGraphParentView ]
-};
 var parentTmpElement = {
 	viewClassName : "halook.ParentTmpView",
 	rootView : appView,
 	viewAttribute : {},
 };
 
-var ganttChartElement = {
-	viewClassName : "ganttChartView",
-};
-
-var ganttChartDetailElement = {
-	viewClassName : "ganttChartDetailView",
-};
-
 var ganttChartParentElement = {
-	viewClassName : "ganttChartParentView",
+	viewClassName : "halook.ganttChartParentView",
 	rootView : appView,
 };
 
@@ -117,7 +104,7 @@ var bubbleMultiElement = {
 };
 
 var HDFSViewElement = {
-	viewClassName : "HDFSView",
+	viewClassName : "halook.HDFSView",
 	tabTitle : "HDFSView",
 };
 
@@ -146,8 +133,7 @@ var mapReduceTabViewElement = {
 };
 
 wgp.constants.VIEW_SETTINGS = {
-	"default" : graphViewElement,
-	"process" : nodeInfoField,
+	"default" : nodeInfoField,
 	"/hdfs" : HDFSParentElement,
 	"/hbase/event" : hbaseGrowthGraphParentView,
 	"/hbase/table" : hbaseRegionMapView,

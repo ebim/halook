@@ -1,5 +1,5 @@
 /*******************************************************************************
- * WGP 0.2 - Web Graphical Platform (https://sourceforge.net/projects/wgp/)
+ * ENdoSnipe 5.0 - (https://github.com/endosnipe)
  * 
  * The MIT License (MIT)
  * 
@@ -61,7 +61,7 @@ halook.ganttChartAxisNameView = Backbone.View
 								
 				var timeWidth = timeWidthInit;
 //					console.log("時刻表示？");
-//					console.log(comDateFormat(new Date(this.model.attributes.text),
+//					console.log(halook.comDateFormat(new Date(this.model.attributes.text),
 //							halook.DATE_FORMAT_HOUR));
 
 				var unixTime = new Date(this.model.attributes.text) / 1000 + timeWidthSplitter;
@@ -109,19 +109,19 @@ halook.ganttChartAxisNameView = Backbone.View
 				this.element = [];
 				this.element.push(new line(this.model.attributes, this._paper));
 				this._paper.text(this.model.attributes.pointX,
-						this.model.attributes.pointY + 10, comDateFormat(
+						this.model.attributes.pointY + 10, halook.comDateFormat(
 								new Date(this.model.attributes.text),
 								halook.DATE_FORMAT_HOUR));
 
 				for ( var num = 0; num < timeLabel.length; num++) {
-//					console.log(comDateFormat(new Date(
+//					console.log(halook.comDateFormat(new Date(
 //							timeLabel[num].attributes.text),
 //							halook.DATE_FORMAT_HOUR));
 					this.element.push(new line(timeLine[num].attributes,
 							this._paper));
 					var labelElement = this._paper.text(timeLabel[num].attributes.pointX,
 							timeLabel[num].attributes.pointY + 10,
-							comDateFormat(new Date(
+							halook.comDateFormat(new Date(
 									timeLabel[num].attributes.text),
 									halook.DATE_FORMAT_HOUR));
 				}

@@ -168,7 +168,6 @@ halook.ArrowParentView = wgp.AbstractView
 				this.viewId = arguments.viewId;
 				this.treeSettings = treeSettings;
 				this.maxId = 0;
-				this.collections = new arrowChartModel();
 				var realTag = $("#" + this.$el.attr("id"));
 				var dt = new Date();
 

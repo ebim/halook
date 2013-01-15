@@ -1,5 +1,5 @@
 /*******************************************************************************
- * WGP 0.2 - Web Graphical Platform (https://sourceforge.net/projects/wgp/)
+ * ENdoSnipe 5.0 - (https://github.com/endosnipe)
  * 
  * The MIT License (MIT)
  * 

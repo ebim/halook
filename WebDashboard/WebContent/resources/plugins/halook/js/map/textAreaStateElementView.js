@@ -1,5 +1,5 @@
 
-wgp.TextAreaStateElementView = Backbone.View.extend({
+halook.TextAreaStateElementView = Backbone.View.extend({
     initialize:function(argument){
     	_.bindAll();
         this._paper = argument.paper;

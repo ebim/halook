@@ -1,31 +1,7 @@
 /////////////////////////////////////////////////////////
-//               Following is constant                 //
-/////////////////////////////////////////////////////////
-wgp.DygraphAttribute = [
-    "colors",
-    "labels",
-    "valueRange",
-    "xlabel",
-    "ylabel",
-    "strokeWidth",
-    "legend",
-    "labelsDiv",
-    "labelsDivWidth",
-    "labelsDivStyles",
-    "hideOverlayOnMouseOut",
-    "width",
-    "height",
-    "highlightCallback",
-    "pointClickCallback",
-    "zoomCallback",
-    "drawCallback",
-    "dateWindow"
-];
-
-/////////////////////////////////////////////////////////
 //                       Class                         //
 /////////////////////////////////////////////////////////
-var HbaseView = wgp.AbstractView.extend({
+halook.HbaseView = wgp.AbstractView.extend({
 	initialize: function(arguments){
 		this.viewtype = wgp.constants.VIEW_TYPE.VIEW;
 		this.maxId = 0;
@@ -41,37 +17,6 @@ var HbaseView = wgp.AbstractView.extend({
 		appView.syncData([arguments.treeSettings.id]);
         
 	},
-	/*
-	onAdd : function(element){
-		console.log('call onAdd (graph)');
-		
-		var dataArray = [];
-		//if(this.collection.length > graphMaxNumber){
-		//	this.collection.shift(wgp.constants.BACKBONE_EVENT.SILENT);
-		//}
-		
-		_.each(this.collection.models, function(model,index){
-			
-			var modelData = model.get("data");
-			var timestamp = modelData.timestamp;
-			var region_number = modelData.data.region_number;
-			var eventString = modelData.event;
-			
-			// push data
-			var tmpArray = [];
-			tmpArray.push(new Date(timestamp));
-			tmpArray.push(region_number);
-			dataArray.push(tmpArray);
-		});
-		
-		
-		if(this.entity == null){
-			this.render();
-		}else{
-			this.entity.updateOptions({file: dataArray});
-		};
-		
-	},*/
 	onChange : function(element){
 		console.log('called changeModel');
 	},
@@ -126,7 +71,6 @@ var HbaseView = wgp.AbstractView.extend({
 		this.entity = new Dygraph(
 				document.getElementById(this.$el.attr("id")),
 				data,
-				//this.getAttributes(wgp.DygraphAttribute)
 				this.dygraphAttributes
 			);
 		

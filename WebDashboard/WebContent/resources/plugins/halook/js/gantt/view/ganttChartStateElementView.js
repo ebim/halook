@@ -1,5 +1,5 @@
 /*******************************************************************************
- * WGP 0.2 - Web Graphical Platform (https://sourceforge.net/projects/wgp/)
+ * ENdoSnipe 5.0 - (https://github.com/endosnipe)
  * 
  * The MIT License (MIT)
  * 
@@ -178,13 +178,13 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 					// + "<br /> submitTime : "
 					// + this.model.attributes.submitTime
 					+ "<br /> startTime : "
-					+ comDateFormat(new Date(this.model.attributes.startTime),
+					+ halook.comDateFormat(new Date(this.model.attributes.startTime),
 							halook.DATE_FORMAT_DETAIL)
 					+ "<br /> finishTime : "
-					+ comDateFormat(new Date(this.model.attributes.finishTime),
+					+ halook.comDateFormat(new Date(this.model.attributes.finishTime),
 							halook.DATE_FORMAT_DETAIL)
 					+ "<br /> submitTime : "
-					+ comDateFormat(new Date(this.model.attributes.submitTime),
+					+ halook.comDateFormat(new Date(this.model.attributes.submitTime),
 							halook.DATE_FORMAT_DETAIL),
 			fontSize : 12
 		});

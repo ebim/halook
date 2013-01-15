@@ -39,7 +39,7 @@ halook.HDFS.beforeUsage = {};
 halook.HDFS.isCompleteDraw = false;
 halook.HDFS.treeSettingId;
 
-var HDFSView = wgp.AbstractView
+halook.HDFSView = wgp.AbstractView
 		.extend({
 			initialize : function(argument, treeSetting) {
 				halook.HDFS.self = this;
@@ -506,7 +506,7 @@ var HDFSView = wgp.AbstractView
 					// prepare temporary vars in order to make codes readable
 					var host = this.hostsList_[i];
 					var capacity = this.hdfsState_[host].capacityLength;
-					var angle = this.angleUnit * i + utility.toRadian(90);
+					var angle = this.angleUnit * i + halook.utility.toRadian(90);
 					var cos = Math.cos(angle);
 					var sin = Math.sin(angle);
 					var c = halook.HDFS.center;
@@ -560,7 +560,7 @@ var HDFSView = wgp.AbstractView
 					// prepare temporary vars in order to make codes readable
 					var host = this.hostsList_[i];
 					var h = this.hdfsState_[host].dfsusedLength;
-					var angle = this.angleUnit * i + utility.toRadian(90);
+					var angle = this.angleUnit * i + halook.utility.toRadian(90);
 					var cos = Math.cos(angle);
 					var sin = Math.sin(angle);
 					var c = halook.HDFS.center;
@@ -643,7 +643,7 @@ var HDFSView = wgp.AbstractView
 					// prepare temporary vars in order to make codes readable
 					var host = this.hostsList_[i]
 					var h = halook.hdfs.constants.rack.height;
-					var angle = this.angleUnit * i + utility.toRadian(90);
+					var angle = this.angleUnit * i + halook.utility.toRadian(90);
 					var cos = Math.cos(angle);
 					var sin = Math.sin(angle);
 					var c = halook.HDFS.center;
@@ -806,7 +806,7 @@ var HDFSView = wgp.AbstractView
 					x : viewArea2.width / 2,
 					y : viewArea2.height / 2 - 90
 				};
-				this.angleUnit = utility.toRadian(360 / this.numberOfDataNode);
+				this.angleUnit = halook.utility.toRadian(360 / this.numberOfDataNode);
 
 				// block transfer
 				this.blockTransferChangeType = wgp.constants.CHANGE_TYPE.ADD;

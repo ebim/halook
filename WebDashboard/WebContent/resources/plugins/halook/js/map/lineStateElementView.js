@@ -1,6 +1,6 @@
 
 
-wgp.LineStateElementView = Backbone.View.extend({
+halook.LineStateElementView = Backbone.View.extend({
     initialize:function(argument){
     	_.bindAll();
         this._paper = argument.paper;

@@ -22,9 +22,6 @@
 </script>
 
 <%-- hbase graph --%>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/plugins/halook/js/grow/model/hbaseModel.js">
-	
 </script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/plugins/halook/js/grow/view/hbaseView.js">
@@ -43,10 +40,7 @@
 	
 </script>
 
-<%-- parent view --%>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/plugins/halook/js/grow/model/hbaseParentModel.js">
-	
+<%-- parent view --%>	
 </script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/plugins/halook/js/grow/view/hbaseParentView.js">
@@ -65,8 +59,6 @@
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/plugins/halook/js/arrow/view/arrowChartView.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/plugins/halook/js/arrow/model/arrowChartModel.js"></script>
-<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/plugins/halook/js/map/arrowStateElementView.js"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/plugins/halook/js/map/errorStateElementView.js"></script>
@@ -75,17 +67,11 @@
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/plugins/halook/js/map/textAreaStateElementView.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/plugins/halook/js/map/arrowInfoStateElementView.js"></script>
-<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/plugins/halook/js/map/InfoTextAreaStateElementView.js"></script>
 
 <%-- gantt view --%>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/plugins/halook/js/gantt/view/ganttChartView.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/plugins/halook/js/gantt/model/ganttChartModel.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/plugins/halook/js/gantt/view/ganttChartDetailView.js"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/plugins/halook/js/gantt/view/ganttChartParentView.js"></script>
 <script type="text/javascript"
@@ -104,9 +90,5 @@
 <%-- hdfs view --%>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/plugins/halook/js/hdfs/view/HDFSView.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/plugins/halook/js/hdfs/model/HDFSModel.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/plugins/halook/js/hdfs/testData.js"></script>
 <script
 	src="<%=request.getContextPath()%>/resources/plugins/halook/js/utility/utility.js"></script>

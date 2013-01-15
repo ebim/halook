@@ -1,4 +1,4 @@
-function plusMinus(num) {
+halook.plusMinus = function(num) {
 	if (num > 0)
 		return 1;
 	else if (num < 0)
@@ -7,11 +7,11 @@ function plusMinus(num) {
 		return 1;
 
 }
-
 halook.errorState = {};
 halook.errorState.rate = 0.5;
+halook.errorXOffset = 5;
 
-function addMouseover(errorElement) {
+halook.addMouseover = function(errorElement) {
 	if ($.isArray(errorElement)) {
 		for ( var i = 0; i < errorElement.length; i++) {
 			errorElement[i].object.mouseover(function() {
@@ -23,11 +23,7 @@ function addMouseover(errorElement) {
 	}
 }
 
-var errorXOffset = 5;
-
-var tmpElement;
-
-wgp.ErrorStateElementView = Backbone.View.extend({
+halook.ErrorStateElementView = Backbone.View.extend({
 	// /stateを渡す。NORMAL or ERROR or WARN
 	initialize : function(argument) {
 		_.bindAll();
@@ -76,11 +72,11 @@ wgp.ErrorStateElementView = Backbone.View.extend({
 			objectId : 102,
 			objectName : null,
 			height : this.model.attributes.height
-					* plusMinus(this.model.attributes.height),
+					* halook.plusMinus(this.model.attributes.height),
 			width : -this.model.attributes.width
-					* plusMinus(this.model.attributes.width),
+					* halook.plusMinus(this.model.attributes.width),
 			pointX : this.model.attributes.pointX + this.model.attributes.width
-					/ 2 + errorXOffset,
+					/ 2 + halook.errorXOffset,
 			pointY : this.model.attributes.pointY
 					- this.model.attributes.height / 2
 		});
@@ -88,11 +84,11 @@ wgp.ErrorStateElementView = Backbone.View.extend({
 			objectId : 103,
 			objectName : null,
 			height : -this.model.attributes.height
-					* plusMinus(this.model.attributes.height),
+					* halook.plusMinus(this.model.attributes.height),
 			width : -this.model.attributes.width
-					* plusMinus(this.model.attributes.width),
+					* halook.plusMinus(this.model.attributes.width),
 			pointX : this.model.attributes.pointX + this.model.attributes.width
-					/ 2 + errorXOffset,
+					/ 2 + halook.errorXOffset,
 			pointY : this.model.attributes.pointY
 					+ this.model.attributes.height / 2
 		});
@@ -130,7 +126,7 @@ wgp.ErrorStateElementView = Backbone.View.extend({
 		
 		//this.element[1].object.animate(anim1);
 
-		addMouseover(this.element);
+		halook.addMouseover(this.element);
 	},
 	update : function(model) {
 		var instance = this;

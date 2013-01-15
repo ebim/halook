@@ -1,41 +1,7 @@
 /////////////////////////////////////////////////////////
-//               Following is constant                 //
-/////////////////////////////////////////////////////////
-/*
- halook.hbase.parent;
- halook.hbase.parent.css = {};
- halook.hbase.parent.css.informationArea = {
- fontSize	: "14px",
- float		: "right",
- width		: "180px",
- height		: "350px",
- border		: "1px #dcdcdc solid",
- margin		: "190px 20px 0px 0px"
- };
- halook.hbase.parent.css.legendArea = {
- height	: "40px",
- margin	: "5px 5px 5px 5px"
- };
- halook.hbase.parent.css.annotationLegendArea = {
- margin	: "0px 0px 0px 0px",
- padding	: "5px 5px 5px 5px"
- };
- halook.hbase.parent.css.dualSliderArea = {
- float	: "left",
- width	: "600px",
- margin	: "50px 0px 0px 60px",
- };
- halook.hbase.parent.css.graphArea = {
- float	: "left",
- width	: "650px",
- margin	: "30px 0px 0px 10px"
- };
- */
-
-/////////////////////////////////////////////////////////
 //                       Class                         //
 /////////////////////////////////////////////////////////
-var HbaseParentView = wgp.AbstractView
+halook.HbaseParentView = wgp.AbstractView
 		.extend({
 			initialize : function(arguments, treeSettings) {
 				this.viewtype = wgp.constants.VIEW_TYPE.VIEW;
@@ -75,7 +41,7 @@ var HbaseParentView = wgp.AbstractView
 				$(this.viewId).append(
 						'<div id="' + idDict.graphArea + '"></div>');
 				$('#' + idDict.graphArea).css(cssDict.graphArea);
-				this.hbaseView = new HbaseView({
+				this.hbaseView = new halook.HbaseView({
 					id : idDict.graphArea,
 					rootView : this,
 					treeSettings : treeSettings

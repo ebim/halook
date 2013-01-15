@@ -1,12 +1,3 @@
-function plusMinus(num) {
-	if (num > 0)
-		return 1;
-	else if (num < 0)
-		return -1;
-	else
-		return 1;
-
-}
 
 var arrowMinLength = 10;
 var arrowMaxLength = 20;
@@ -19,7 +10,7 @@ halook.arrowState.xOffset = halook.customTriangle.width;
 halook.arrowState.changableFlag = true;
 halook.arrowState.minLength = 30;
 
-wgp.ArrowStateElementView = Backbone.View.extend({
+halook.ArrowStateElementView = Backbone.View.extend({
 	// /stateを渡す。NORMAL or ERROR or WARN
 	initialize : function(argument) {
 		_.bindAll();
@@ -99,7 +90,7 @@ wgp.ArrowStateElementView = Backbone.View.extend({
 		this.element = [];
 
 		this.element[0] = new line(this.model.attributes, this._paper);
-		this.element[1] = new customtriangle(triangleData.attributes,
+		this.element[1] = new halook.customtriangle(triangleData.attributes,
 				this._paper, rate);
 		// this.element[1] = new line(overModelData.attributes, this._paper);
 		// this.element[2] = new line(underModelData.attributes, this._paper);
@@ -211,13 +202,6 @@ wgp.ArrowStateElementView = Backbone.View.extend({
 					text : "testTextArea",
 					fontSize : 20
 				});
-				// var arrowInfoElement = new wgp.ArrowInfoStateElementView({
-				// model : modelData5,
-				// paper : this._paper,
-				// state : "merror"
-				// });
-				// this.arrowInfo = arrowInfoElement;
-				// console.log("this is : ", this);
 				var attemptIDArray = arrow.TaskAttemptID.split("_");
 				var infoString = " ID:</br>" + attemptIDArray[0] + "</br>"
 						+ "_" + attemptIDArray[1] + "</br>" + "_"

@@ -188,7 +188,7 @@ halook.ArrowChartView = wgp.AbstractView
 						// + " error state " + errorStateString + " "
 						// + data.SimpleID);
 						if (data.Status == wgp.constants.JOB_STATE.FAIL) {
-							new wgp.ErrorStateElementView({
+							new halook.ErrorStateElementView({
 								model : modelDataForError,
 								paper : this.paper,
 								state : errorStateString,
@@ -206,7 +206,7 @@ halook.ArrowChartView = wgp.AbstractView
 					}
 					// console.log("state " + stateString + " " + data.Mapreduce
 					// + data.SimpleID + " " + (data.attemptTime - 1));
-					new wgp.ArrowStateElementView({
+					new halook.ArrowStateElementView({
 						model : modelDataForArrow,
 						paper : this.paper,
 						state : stateString,
@@ -288,7 +288,7 @@ halook.ArrowChartView = wgp.AbstractView
 									text : data.Mapreduce + "_" + data.SimpleID,
 									fontSize : halook.arrowChart.cellTitleFontSize
 								});
-						new wgp.TextAreaStateElementView({
+						new halook.TextAreaStateElementView({
 							model : modelDataForCellTitle,
 							paper : this.paper,
 							state : "merror"
@@ -315,7 +315,7 @@ halook.ArrowChartView = wgp.AbstractView
 									text : labelString,
 									fontSize : halook.arrowChart.cellTitleFontSizeForNode
 								});
-						new wgp.TextAreaStateElementView({
+						new halook.TextAreaStateElementView({
 							model : modelDataForCellTitle,
 							paper : this.paper,
 							state : "merror"
@@ -335,7 +335,7 @@ halook.ArrowChartView = wgp.AbstractView
 					pointY : 0,
 					color : halook.arrowChart.TableLineColor
 				});
-				new wgp.LineStateElementView({
+				new halook.LineStateElementView({
 					model : modelDataForTableLines,
 					paper : this.paper,
 					state : "rerror"
@@ -361,7 +361,7 @@ halook.ArrowChartView = wgp.AbstractView
 						color : halook.arrowChart.CellLineColor,
 						strokeWidth : 2
 					});
-					new wgp.LineStateElementView({
+					new halook.LineStateElementView({
 						model : modelDataForCellLine,
 						paper : this.paper,
 						state : "rerror"
@@ -385,7 +385,7 @@ halook.ArrowChartView = wgp.AbstractView
 					strokeWidth : 4,
 					title : "JobFinishTime"
 				});
-				var elem = new wgp.LineStateElementView({
+				var elem = new halook.LineStateElementView({
 					model : jobFinishTimeLine,
 					paper : this.paper,
 					state : "rerror"
@@ -403,7 +403,7 @@ halook.ArrowChartView = wgp.AbstractView
 					text : "",
 					fontSize : halook.arrowChart.infoElementFontSize
 				});
-				new wgp.InfoTextAreaStateElementView({
+				new halook.InfoTextAreaStateElementView({
 					model : modelDataForInfoElement,
 					paper : this.paper,
 					state : "rerror"

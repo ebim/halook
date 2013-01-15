@@ -14,7 +14,7 @@ halook.infoText.defaultPath = [ [ "M", halook.infoText.x, halook.infoText.y ],
 halook.infoText.inTransfer = [ [ "M", halook.infoText.x, halook.infoText.y ],
 		[ "l", 0, 0 ], [ "l", 0, 0 ], [ "l", 0, 0 ], [ "z" ] ];
 
-wgp.InfoTextAreaStateElementView = Backbone.View
+halook.InfoTextAreaStateElementView = Backbone.View
 		.extend({
 			initialize : function(argument) {
 				_.bindAll();
@@ -95,15 +95,6 @@ wgp.InfoTextAreaStateElementView = Backbone.View
 			},
 			animationAppear : function(info) {
 				this._makePath(info.event);
-/*				this.element[0].attr({
-					path : halook.infoText.inTransfer,
-					text : "ohhhhhhh"
-				});
-				this.element[1].textObject.attr({
-					x : halook.infoText.x + halook.infoText.width / 2,
-					y : halook.infoText.y + halook.infoText.textObjectOffsety,
-					text : info.text
-				});*/
 				var tmpText = info.text;
 				var scrollHeight = $("#arrowChart").scrollTop();
 				$("#textArea").val(tmpText);
@@ -113,69 +104,13 @@ wgp.InfoTextAreaStateElementView = Backbone.View
 					top : halook.infoText.y + halook.infoText.textObjectOffsety - scrollHeight + 225
 				});
 
-				// $("#" + this.$el.attr("id")).html("world is mine");
 				this.hide = false;
-/*				this.element[0].attr({
-					"fill" : "white",
-					"stroke" : "blue",
-					fontSize : 10,
-
-				}).animate({
-					path : halook.infoText.defaultPath,
-					"stroke-opacity" : 1,
-					"fill-opacity" : 1,
-				}, 100, function() {
-					endAnimation();
-				});
-
-				this.element[1].object.attr({
-					"fill" : "white",
-					"stroke" : "blue"
-				}).animate({
-					path : halook.infoText.defaultPath,
-					"stroke-opacity" : 1,
-					"fill-opacity" : 1,
-					r : 10,
-				}, 100, function() {
-					endAnimation();
-				});*/
 			},
 			animationDisappear : function(info) {
 				$("#taskInfoDiv").css({
 					display : "none"
 				});
 				this.hide = true;
-/*				instance = this.element[0];
-				this.element[0].animate({
-					path : halook.infoText.inTransfer,
-					"stroke-opacity" : 0,
-					"fill-opacity" : 0,
-					r : 0,
-				}, 100, function() {
-					endAnimation;
-				});
-				halook.arrowChart.detailInfoElement.element[1].textObject
-						.attr({
-							text : ""
-						});
-
-				this.element[1].object.animate({
-					path : halook.infoText.inTransfer,
-					"stroke-opacity" : 0,
-					"fill-opacity" : 0,
-				}, 100, function() {
-					endAnimation;
-				});
-				// this.hide = true;
-				// this.text = info.text;
-				// var anim1 = Raphael.animation({
-				// "stroke-opacity" : 0,
-				// r : 0,
-				// width : 0,
-				// height : 0,
-				// "fill-opacity" : 0,
-				// }, 1500, "easeOut", endAnimationDisappear());
-				// this.element[0].object.animate(anim1);*/
 			},
 			_makePath : function(event) {
 				halook.infoText.x = event.layerX;
@@ -201,30 +136,3 @@ wgp.InfoTextAreaStateElementView = Backbone.View
 			}
 
 		});
-
-// function endAnimationAppear() {
-// console.log("endAnimation");
-// }
-
-function endAnimation(instance) {
-	if (halook.arrowChart.detailInfoElement.hide == true) {
-		halook.arrowChart.detailInfoElement.element[0].attr({
-			path : halook.infoText.inTransfer,
-			"fill-opacity" : 0,
-		});
-		halook.arrowChart.detailInfoElement.element[1].object.attr({
-			path : halook.infoText.inTransfer,
-			"fill-opacity" : 0,
-		});
-		halook.arrowChart.detailInfoElement.element[1].textObject.attr({
-			text : ""
-		});
-	} else
-		halook.arrowChart.detailInfoElement.element[0].attr({
-			path : halook.infoText.defaultPath
-		});
-	halook.arrowChart.detailInfoElement.element[1].object.attr({
-		path : halook.infoText.defaultPath
-	});
-
-}
