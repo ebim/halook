@@ -226,17 +226,17 @@ halook.ganttChartView = wgp.AbstractView
 			},
 			_getStatus : function(status) {
 				if (status.match("SUCCEEDED")) {
-					return wgp.constants.STATE.SUCCESS;
+					return halook.constants.STATE.SUCCESS;
 				} else if (status.match("ERROR")) {
-					return wgp.constants.STATE.ERROR;
+					return halook.constants.STATE.ERROR;
 				} else if (status.match("KILLED")) {
-					return wgp.constants.STATE.KILLED;
+					return halook.constants.STATE.KILLED;
 				} else if (status.match("FAILED")) {
-					return wgp.constants.STATE.FAILED;
+					return halook.constants.STATE.FAILED;
 				} else if (status.match("RUNNING")) {
-					return wgp.constants.STATE.RUNNING;
+					return halook.constants.STATE.RUNNING;
 				} else {
-					return wgp.constants.STATE.NORMAL;
+					return halook.constants.STATE.NORMAL;
 				}
 			},
 			setDataArray : function(dataArray) {

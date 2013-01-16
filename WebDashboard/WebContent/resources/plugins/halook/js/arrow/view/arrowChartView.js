@@ -154,9 +154,9 @@ halook.ArrowChartView = wgp.AbstractView
 					});
 
 					// ///statusがエラーの場合の処理はこれも行う
-					if (data.Status == wgp.constants.JOB_STATE.FAIL
-							|| data.Status == wgp.constants.JOB_STATE.KILLED
-							|| data.Status == wgp.constants.JOB_STATE.KILLED_UNCLEAN) {
+					if (data.Status == halook.constants.JOB_STATE.FAIL
+							|| data.Status == halook.constants.JOB_STATE.KILLED
+							|| data.Status == halook.constants.JOB_STATE.KILLED_UNCLEAN) {
 						var errorInfo;
 						if (halook.arrow.DisplayMode == "task") {
 							errorInfo = this._calcErrorLengthAndStartPos(
@@ -176,18 +176,18 @@ halook.ArrowChartView = wgp.AbstractView
 							pointY : errorInfo.posY
 						});
 						stateString = wgp.constants.STATE[data.Status];
-						// if (data.Status == wgp.constants.JOB_STATE.FAIL)
+						// if (data.Status == halook.constants.JOB_STATE.FAIL)
 						// stateString = "fail";
 						// else if (data.Status ==
-						// wgp.constants.JOB_STATE.KILLED)
-						// stateString = wgp.constants.JOB_STATE.KILLED;
+						// halook.constants.JOB_STATE.KILLED)
+						// stateString = halook.constants.JOB_STATE.KILLED;
 						var errorStateString = stateString;
 						stateString = data.Mapreduce + stateString;
 
 						// console.log("state string : " + stateString
 						// + " error state " + errorStateString + " "
 						// + data.SimpleID);
-						if (data.Status == wgp.constants.JOB_STATE.FAIL) {
+						if (data.Status == halook.constants.JOB_STATE.FAIL) {
 							new halook.ErrorStateElementView({
 								model : modelDataForError,
 								paper : this.paper,

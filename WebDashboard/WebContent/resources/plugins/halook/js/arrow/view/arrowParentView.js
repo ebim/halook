@@ -317,15 +317,15 @@ halook.ArrowParentView = wgp.AbstractView
 					float : "right"
 				});
 				if (this.jobInfo.jobStatus == halook.job.SUCCESS) {
-					jobColor = wgp.constants.STATE_COLOR[wgp.constants.STATE.SUCCESS];
+					jobColor = halook.constants.STATE_COLOR[halook.constants.STATE.SUCCESS];
 				} else if (this.jobInfo.jobStatus ==halook.job.FAIL) {
-					jobColor = wgp.constants.STATE_COLOR[wgp.constants.STATE.FAIL];
+					jobColor = halook.constants.STATE_COLOR[halook.constants.STATE.FAIL];
 				} else if (this.jobInfo.jobStatus == halook.job.KILL) {
-					jobColor = wgp.constants.STATE_COLOR[wgp.constants.STATE.KILLED];
+					jobColor = halook.constants.STATE_COLOR[halook.constants.STATE.KILLED];
 				} else if (this.jobInfo.jobStatus == halook.job.RUNNING) {
-					jobColor = wgp.constants.STATE_COLOR[wgp.constants.STATE.RUNNING];
+					jobColor = halook.constants.STATE_COLOR[halook.constants.STATE.RUNNING];
 				}　else {
-					jobColor = wgp.constants.STATE_COLOR[wgp.constants.STATE.KILLED];
+					jobColor = halook.constants.STATE_COLOR[halook.constants.STATE.KILLED];
 				}	
 				$("#jobInfoSpaceHtml").append(
 						"<p><font size='6' face='Comic Sans MS'><b>"
@@ -629,13 +629,13 @@ halook.ArrowParentView = wgp.AbstractView
 				var resultCollection;
 				if (halook.filterMode == "fail") {
 					resultCollection = _.filter(halook.parentView.getFromServerDatas, function(model){
-						return model.Status == wgp.constants.JOB_STATE.FAILED;
+						return model.Status == halook.constants.JOB_STATE.FAILED;
 					});
 				} else if (halook.filterMode == "killed") {
 					resultCollection = _.filter(halook.parentView.getFromServerDatas, function(model){
-						if (model.Status == wgp.constants.JOB_STATE.KILLED){
+						if (model.Status == halook.constants.JOB_STATE.KILLED){
 							return true;
-						} else if (model.Status == wgp.constants.JOB_STATE.KILLED_UNCLEAN) {
+						} else if (model.Status == halook.constants.JOB_STATE.KILLED_UNCLEAN) {
 							return true;
 						}
 						return false;

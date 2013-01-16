@@ -87,9 +87,9 @@ halook.InfoTextAreaStateElementView = Backbone.View
 			},
 			getStateColor : function() {
 				var state = this.model.get("state");
-				var color = wgp.constants.STATE_COLOR[state];
+				var color = halook.constants.STATE_COLOR[state];
 				if (color == null) {
-					color = wgp.constants.STATE_COLOR[wgp.constants.STATE.NORMAL];
+					color = halook.constants.STATE_COLOR[halook.constants.STATE.NORMAL];
 				}
 				return color;
 			},
