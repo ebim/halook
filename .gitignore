@@ -4,6 +4,7 @@
 .metadata
 tmp/
 classes/
+dist/
 
 #################
 ## Web
