@@ -45,9 +45,7 @@
 
 2. PostgreSQL  
 	[PostgreSQLユーザ会のWebサイト](http://www.postgresql.jp/)から、PostgreSQLをダウンロードしてインストールしてください。
-	
 	DataCollectorをインストールする(した)サーバからのアクセスを許可しておいてください。(pg_hba.confの編集と、PostgreSQLサーバの再起動が必要です)
-		
 	halook／ENdoSnipeが使用するデータベースやテーブルは、DataCollectorが自動的に作成します。  
 
 3. Tomcat  
