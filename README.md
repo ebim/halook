@@ -1,6 +1,6 @@
-# halook 
+![halook](https://raw.github.com/endosnipe/halook/master/halook_logo.png)
 
-<img src="https://github.com/endosnipe/halook/blob/master/halook_logo.png">
+# halook 
 
 **Welcome to the halook project!** 
 
