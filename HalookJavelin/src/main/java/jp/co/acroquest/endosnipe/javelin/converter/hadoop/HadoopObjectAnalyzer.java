@@ -42,6 +42,12 @@ import jp.co.acroquest.endosnipe.javelin.util.ArrayList;
  */
 public class HadoopObjectAnalyzer
 {
+	/** setupタスクのステータスを表す文字列。 */
+	private static final String SETUP_TASK_STATE = "setup";
+	
+	/** cleanupタスクのステータスを表す文字列。 */
+	private static final String CLEANUP_TASK_STATE = "cleanup";
+	
     /** JobStatus.getRunState()の戻り値 */
     public enum HadoopJobStatus
     {
@@ -197,6 +203,14 @@ public class HadoopObjectAnalyzer
         // HadoopTaskStatusの設定
         for (Object taskStatus : taskList)
         {
+        	// Taskのステータスを確認し、setupもしくはcleanupであった場合は無視する
+            Method getStateStringMethod = taskStatus.getClass().getSuperclass().getDeclaredMethod("getStateString", new Class[]{});
+            getAccessibleMethod(getStateStringMethod);
+            String stateString = getStateStringMethod.invoke(taskStatus, new Object[]{}).toString();
+            if (SETUP_TASK_STATE.equals(stateString) || CLEANUP_TASK_STATE.equals(stateString)) {
+            	continue;
+            }
+            
             HadoopTaskStatus hadoopTaskStatus = new HadoopTaskStatus();
 
             // state

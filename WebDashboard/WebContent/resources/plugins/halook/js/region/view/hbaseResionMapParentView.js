@@ -51,7 +51,8 @@ halook.HbaseResionMapParentView = wgp.AbstractView
 			},
 			destroy : function() {
 				// ツリー移動時に呼ばれる
-				this.hbaseView.destroy();
+				var appView = ENS.AppView();
+				appView.removeView(this.hbaseView);
 			},
 			makeLogoArea : function() {
 				idName = 'logo';

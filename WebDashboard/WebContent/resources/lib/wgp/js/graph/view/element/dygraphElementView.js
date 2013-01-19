@@ -153,6 +153,10 @@ wgp.DygraphElementView = wgp.AbstractView.extend({
 		this.stopRegisterCollectionEvent();
 		var tmpAppView = new wgp.AppView();
 		tmpAppView.stopSyncData([ this.graphId ]);
+		if (this.collection) {
+			this.collection.reset();
+		}
+		
 		this.entity = null;
 	},
 	_parseModel : function (model) {

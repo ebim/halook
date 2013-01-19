@@ -399,5 +399,13 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 				break;
 			}
 		}
+	},
+	destroy : function() {
+		this.stopRegisterCollectionEvent();
+		var appView = ENS.AppView();
+		appView.stopSyncData([this.treeSetting]);
+		if (this.collection) {
+			this.collection.reset();
+		}
 	}
 });

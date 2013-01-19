@@ -103,9 +103,13 @@ halook.BubbleElementView = wgp.DygraphElementView
 			},
 			onAdd : function(graphModel) {
 			},
-			destory : function() {
-				var tmpAppView = new ENS.AppView();
-				tmpAppView.removeView(this);
+			destroy : function() {
+				this.stopRegisterCollectionEvent();
+				var appView = new ENS.AppView();
+				appView.stopSyncData([this.treeSettings.id + "%"]);
+				if (this.collection) {
+					this.collection.reset();
+				}
 			},
 			_getData : function() {
 				this.dataArray = [];

@@ -272,7 +272,9 @@ halook.ArrowParentView = wgp.AbstractView
 				}
 
 				// collectionのリセット
-				this.collection.reset();
+				if (this.collection) {
+					this.collection.reset();
+				}
 
 				if (halook.taskDataForShow && halook.taskDataForShow.length > 0) {
 					this.addCollection(halook.taskDataForShow);
@@ -682,9 +684,13 @@ halook.ArrowParentView = wgp.AbstractView
 				
 			},
 			destroy : function() {
-				var tmpView = new ENS.AppView();
-				tmpView.removeView(this.treeSettings.id);
-				$("#" + this.$el.attr("id")).children().remove();
+				var appView = new ENS.AppView();
+				appView.removeView(this.arrowChartView);
+				this.stopRegisterCollectionEvent();
+				appView.stopSyncData([this.treeSettings.id]);
+				if (this.collection) {
+					this.collection.reset();
+				}
 
 			},
 			getRegisterId : function() {

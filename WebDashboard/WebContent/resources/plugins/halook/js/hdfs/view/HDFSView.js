@@ -834,6 +834,14 @@ halook.HDFSView = wgp.AbstractView
 					data : data
 				} ];
 				appView.notifyEvent(addData);
+			},
+			destroy : function() {
+				this.stopRegisterCollectionEvent();
+				var appView = ENS.AppView();
+				appView.stopSyncData([halook.HDFS.treeSettingId + '%']);
+				if (this.collection) {
+					this.collection.reset();
+				}
 			}
 		});
 
