@@ -343,6 +343,8 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 	},
 	destroy : function() {
 		var appView = ENS.AppView();
-		appView.removeView(halook.ganttchart.childView);
+		if (halook.ganttchart.childView) {
+			appView.removeView(halook.ganttchart.childView);
+		}
 	}
 });
