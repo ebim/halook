@@ -102,10 +102,6 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 
 		this._drawYDivision(maxRegionNum);
 	},
-	destroy : function() {
-		// ツリー移動時に呼ばれる
-		this.stopRegisterCollectionEvent();
-	},
 	_getData : function() {
 
 		var instance = this;

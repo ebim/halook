@@ -208,5 +208,13 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 			children : childrenData
 		};
 		return data;
+	},
+	destroy : function() {
+		var viewList = ENS.nodeinfo.viewList;
+		for (key in viewList) {
+			var instance = viewList[key];
+			
+			instance.destroy();
+		}
 	}
 });

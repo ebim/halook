@@ -124,15 +124,7 @@ halook.ArrowChartView = wgp.AbstractView
 					var stateString;
 
 					if (halook.arrow.DisplayMode == "task") {
-					// if (halook.parentView.taskAttemptInfoDictionary[data.Mapreduce
-					// + "_" + data.SimpleID].maxTime > 1) {
-					// totalInCell = 2;
-					// }
-					// if (0 == data.attemptTime % 2) {
-					// indexInCell = 2;
-					// } else {
-					// indexInCell = 1;
-					// }
+						
 						modelInfo = this._calcArrowLengthAndStartPos(
 								data.StartTime, data.FinishTime, indexInCell,
 								totalInCell, rowCounter);
@@ -155,6 +147,7 @@ halook.ArrowChartView = wgp.AbstractView
 
 					// ///statusがエラーの場合の処理はこれも行う
 					if (data.Status == halook.constants.JOB_STATE.FAIL
+							|| data.Status == halook.constants.JOB_STATE.FAILED_UNCLEAN
 							|| data.Status == halook.constants.JOB_STATE.KILLED
 							|| data.Status == halook.constants.JOB_STATE.KILLED_UNCLEAN) {
 						var errorInfo;
@@ -176,17 +169,10 @@ halook.ArrowChartView = wgp.AbstractView
 							pointY : errorInfo.posY
 						});
 						stateString = wgp.constants.STATE[data.Status];
-						// if (data.Status == halook.constants.JOB_STATE.FAIL)
-						// stateString = "fail";
-						// else if (data.Status ==
-						// halook.constants.JOB_STATE.KILLED)
-						// stateString = halook.constants.JOB_STATE.KILLED;
+						
 						var errorStateString = stateString;
 						stateString = data.Mapreduce + stateString;
 
-						// console.log("state string : " + stateString
-						// + " error state " + errorStateString + " "
-						// + data.SimpleID);
 						if (data.Status == halook.constants.JOB_STATE.FAIL) {
 							new halook.ErrorStateElementView({
 								model : modelDataForError,
@@ -197,8 +183,10 @@ halook.ArrowChartView = wgp.AbstractView
 						}
 
 					} else if (data.Status == "RUNNING") {
-						// console.log("these are running");
 						stateString = "run";
+						stateString = data.Mapreduce + stateString;
+					} else if (data.Status == "UNASSIGNED") {
+						stateString = "unassigned";
 						stateString = data.Mapreduce + stateString;
 					} else {
 						stateString = "normal";
@@ -410,7 +398,7 @@ halook.ArrowChartView = wgp.AbstractView
 				});
 			},
 			_setJobStartTimeToZeroTask : function() {
-				var jobStartTime = this.jobInfo.startTime;
+				var jobStartTime = (this.jobInfo.startTime).getTime();
 				
 				var dataArrayTmp = halook.taskDataForShow;
 				var dataArrayLength = dataArrayTmp.length;
@@ -418,18 +406,17 @@ halook.ArrowChartView = wgp.AbstractView
 				for (var index = 0; index < dataArrayLength; index++) {
 					var date = dataArrayTmp[index];
 					
-					if (date.StartTime == 0) {
+					if (date.StartTime == 0 && date.FinishTime == 0) {
 						dataArrayTmp[index].StartTime = jobStartTime;
-					}
-					
-					if (date.FinishTime == 0) {
 						dataArrayTmp[index].FinishTime = jobStartTime;
+					} else if (date.StartTime == 0) {
+						dataArrayTmp[index].StartTime = date.FinishTime;
+					} else if (date.FinishTime == 0) {
+						dataArrayTmp[index].FinishTime = date.StartTime;
 					}
 				}
 				
 				halook.taskDataForShow = dataArrayTmp;
-				
-				halook.taskDataForShow
 			},
 			redraw : function(mode) {
 				halook.arrowChart.paperHeight = halook.taskDataForShow.length
