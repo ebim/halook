@@ -34,7 +34,7 @@
 		Hadoop^HBase‚ª“®ì‚·‚éŠÂ‹«(Linux)‚É€‚¶‚Ü‚·
 		Java 5ˆÈ~
 
-	(2) Dashboard
+	(2) DataCollector
 		Windows‚Ü‚½‚ÍLinux
 		PostgreSQL 8.4ˆÈ~
 		Java 5ˆÈ~

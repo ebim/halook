@@ -4,16 +4,16 @@
 本書は、halookを用いてHadoop／HBaseの監視を行うための環境を構築する手順を説明します。
 
 ## 1. 提供ファイル
-1. HalookJavelin_5.0.0.zip  
+1. HalookJavelin_5.0.1.zip  
 	halook用Javelinのみを持つ差分ファイル媒体です。既存のJavelin動作環境に上書きすることでhalook用のJavelinを利用可能にします。
 
-2. HalookJavelinFull_5.0.0.zip  
+2. HalookJavelinFull_5.0.1.zip  
 	Javelinの媒体にHalookJavelinをマージした媒体です。新規環境にまとめてインストールする際に利用します。
 
 3. HalookDashboard.war  
 	halook用のUIを提供するDashboardの媒体です。Tomcatにデプロイして使用します。
 
-4. endosnipe-datacollector-5.0.0.zip / endosnipe-datacollector-5.0.0.tar.gz  
+4. endosnipe-datacollector-5.0.1.zip / endosnipe-datacollector-5.0.1.tar.gz  
 	DataCollectorの媒体です。ENdoSnipeの媒体に含まれています。(halookとしてのリリース媒体には含まれません)
 
 ## 2. インストール方法
@@ -65,7 +65,7 @@
 
 ### 2.3. HalookJavelin
 1. (a) 新規インストールの場合  
-	HalookJavelinFull_5.0.0.zip を任意のディレクトリに展開してください。
+	HalookJavelinFull_x.x.x.zip を任意のディレクトリに展開してください。
 
 	※ここでは、/opt/ENdoSnipe の下に展開したものと仮定します
 
@@ -73,7 +73,7 @@
 	
 
 	(b) 既存動作中のJavelinに上書きする場合  
-	HalookJavelin_5.0.0.zip を、任意の一時ディレクトリに展開してください。
+	HalookJavelin_x.x.x.zip を、任意の一時ディレクトリに展開してください。
 
 	※ここでは、/tmp/halook の下に展開したものと仮定します
 	
@@ -135,7 +135,7 @@
 
 ### 2.4. DataCollector
 1. 媒体を展開する  
-	Windows環境で使用する場合は endosnipe-datacollector-5.0.0.zip を、Linux環境で使用する場合は endosnipe-datacollector-5.0.0.tar.gz を任意のディレクトリに展開してください。  
+	Windows環境で使用する場合は endosnipe-datacollector-x.x.x.zip を、Linux環境で使用する場合は endosnipe-datacollector-x.x.x.tar.gz を任意のディレクトリに展開してください。  
 
 	※ここでは、Linux環境で /opt/ENdoSnipe の下に展開したものと仮定します
 	`COLLECTOR_HOME=/opt/ENdoSnipe/DataCollector`
@@ -185,7 +185,6 @@
 	`http://(HalookDashboard実行サーバ):8080/HalookDashboard/halook`
 
 ## 3. 特記事項
-特にありません。
-
+- 2013/01/19 改版
 
 以上
