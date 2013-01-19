@@ -16,7 +16,7 @@ halookは、[Acroquest Technology](http://www.acroquest.co.jp/)の夏期イン�
 
 以下の環境構築手順を実施することで、halookを使用することができます。
 
-[Halook環境構築手順.txt](https://github.com/endosnipe/halook/blob/master/Halook%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89%E6%89%8B%E9%A0%86.txt)
+[SETUP.md](https://github.com/endosnipe/halook/blob/master/SETUP.md)
 
 ## メーリングリスト
 
