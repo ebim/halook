@@ -18,39 +18,39 @@
 
 ## 2. インストール方法
 ### 2.1. 動作環境
-1. HalookJavelin
+1. HalookJavelin  
 	Hadoop／HBaseが動作する環境(Linux)に準じます  
 	Java 5以降
 
-2. Dashboard
+2. DataCollector  
 	WindowsまたはLinux  
 	PostgreSQL 8.4以降  
 	Java 5以降
 
-3. HalookDashboard
+3. HalookDashboard  
 	WindowsまたはLinux  
 	Tomcat 7.0.29以降  
 	Java 6以降
 
-4. halookクライアント(ブラウザ)
+4. halookクライアント(ブラウザ)  
 	Firefox 13以降
 
 ### 2.2. 事前準備
-1.   Java
+1.   Java  
 	[OracleのWebサイト](http://www.oracle.com/technetwork/java/javase/downloads/index.html)から、Javaをダウンロードしてインストールしてください。
-	- Java 6 ※Java SE Downloadsにある最新版(JDK)を取得してください
-	- Java 5 ※Java SE Downloadsから「Previous Releases」をたどってください
+	- Java 6  
+	※Java SE Downloadsにある最新版(JDK)を取得してください
+	- Java 5  
+	※Java SE Downloadsから「Previous Releases」をたどってください
 
-
-2. PostgreSQL
+2. PostgreSQL  
 	[PostgreSQLユーザ会のWebサイト](http://www.postgresql.jp/)から、PostgreSQLをダウンロードしてインストールしてください。
 	
 	DataCollectorをインストールする(した)サーバからのアクセスを許可しておいてください。(pg_hba.confの編集と、PostgreSQLサーバの再起動が必要です)
 		
-	halook／ENdoSnipeが使用するデータベースやテーブルは、DataCollectorが自動的に作成します。
+	halook／ENdoSnipeが使用するデータベースやテーブルは、DataCollectorが自動的に作成します。  
 
-
-3. Tomcat
+3. Tomcat  
 	[Apache TomcatのWebサイト](http://tomcat.apache.org/download-70.cgi)から、Tomcatをダウンロードしてインストールしてください。
 	- Tomcat 7 Downloads
 		
@@ -66,7 +66,7 @@
 
 
 ### 2.3. HalookJavelin
-1. (a) 新規インストールの場合
+1. (a) 新規インストールの場合  
 	HalookJavelinFull_5.0.0.zip を任意のディレクトリに展開してください。
 
 	※ここでは、/opt/ENdoSnipe の下に展開したものと仮定します
@@ -74,7 +74,7 @@
 	` JAVELIN_HOME=/opt/ENdoSnipe/Javelin`
 	
 
-	(b) 既存動作中のJavelinに上書きする場合
+	(b) 既存動作中のJavelinに上書きする場合  
 	HalookJavelin_5.0.0.zip を、任意の一時ディレクトリに展開してください。
 
 	※ここでは、/tmp/halook の下に展開したものと仮定します
@@ -122,7 +122,7 @@
 	# JobTrackerへの設定
 	export HADOOP_JOBTRACKER_OPTS="-javaagent:/opt/ENdoSnipe/Javelin/lib/HalookJavelin.jar ...(以下略)
 	```
-	※NameNodeとJobTrackerを同一サーバ内で動作させる場合は、Javelinのインストールディレクトリをそれぞれ分けてください
+	※NameNodeとJobTrackerを同一サーバ内で動作させる場合は、Javelinのインストールディレクトリをそれぞれ分けてください。
 		
 	```
 	[/etc/hbase/conf/hbase-env.sh]
@@ -130,13 +130,13 @@
 	export HBASE_MASTER_OPTS="-javaagent:/opt/ENdoSnipe/Javelin/lib/HalookJavelin.jar ...(以下略)"
 	```
 
-	※NameNodeやJobTrackerなどと同一サーバで動作させる場合は、Javelinのインストールディレクトリをそれぞれ分けてください
-
+	※NameNodeやJobTrackerなどと同一サーバで動作させる場合は、Javelinのインストールディレクトリをそれぞれ分けてください。
+  
 	
 4. 設定後、NameNode、JobTracker、HMasterをそれぞれ再起動すれば、完了となります。
 
 ### 2.4. DataCollector
-1. 媒体を展開する
+1. 媒体を展開する  
 	Windows環境で使用する場合は endosnipe-datacollector-5.0.0.zip を、Linux環境で使用する場合は endosnipe-datacollector-5.0.0.tar.gz を任意のディレクトリに展開してください。  
 
 	※ここでは、Linux環境で /opt/ENdoSnipe の下に展開したものと仮定します
@@ -160,13 +160,11 @@
 	accept.port=19000
 	```
 
-	
 3. 設定が完了したら、起動してください
 
 ### 2.5. HalookDashboard
 1. TomcatのManagerUIを表示して、warファイルをデプロイしてください
 	
-
 2. 初回起動後、すぐに終了させ、`${CATALINA_HOME}/webapps/WebDashboard/WEB-INF`ディレクトリ内にある web.xml ファイルを編集してください。
 
 	※変更箇所付近を抜粋
@@ -180,7 +178,6 @@
 	    <param-value>/path/to/WebDashboard/conf/collector.properties</param-value>
 	  </init-param>
 	```
-
     
 3. 設定が完了したら、改めてTomcatを起動してください
 
