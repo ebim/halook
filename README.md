@@ -1,5 +1,8 @@
 # halook 
-**Welcome to the halook project!** ![halook](halook_logo.png)
+
+![halook](https://github.com/endosnipe/halook/blob/master/halook_logo.png)
+
+**Welcome to the halook project!** 
 
 Please see [halook wiki](https://github.com/endosnipe/halook/wiki) for details.
 
