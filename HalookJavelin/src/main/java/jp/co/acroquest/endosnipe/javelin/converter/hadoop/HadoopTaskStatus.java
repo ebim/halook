@@ -80,10 +80,10 @@ public class HadoopTaskStatus
     private String hostname_;
 
     /** 開始時間 */
-    private long startTime_;
+    private long startTime_ = System.currentTimeMillis();
 
     /** 終了時間 */
-    private long finishTime_;
+    private long finishTime_ = System.currentTimeMillis();
 
     /** タスクフェーズマップ */
     private static final Map<String, Phase> PHASE_MAP = new HashMap<String, Phase>() {
