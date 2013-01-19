@@ -160,12 +160,18 @@ halook.ganttChartParentView = wgp.AbstractView
 			onRemove : function(element) {
 				// console.log('called removeModel');
 			},
-			destoroy : function() {
-				console.log("test dest");
-			},
 			onComplete : function(type){
 				if (type == wgp.constants.syncType.SEARCH) {
 					this._getTermData();
+				}
+			},
+			destroy : function() {
+				var appView = ENS.AppView();
+				appView.removeView(this.gantt);
+				this.stopRegisterCollectionEvent();
+				appView.stopSyncData([this.treeSettings.id + "%"]);
+				if (this.collection) {
+					this.collection.reset();
 				}
 			},
 			_getTermData : function() {

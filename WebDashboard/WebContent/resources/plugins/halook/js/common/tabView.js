@@ -84,8 +84,9 @@ halook.TabView = wgp.AbstractView.extend({
 		$("#" + this.divId).tabs("remove", tabModel.id);
 	},
 	destroy : function() {
+		var appView = ENS.AppView();
 		_.each(this.viewList, function(view) {
-			view.destroy();
+			appView.removeView(view);
 		})
 	}
 });

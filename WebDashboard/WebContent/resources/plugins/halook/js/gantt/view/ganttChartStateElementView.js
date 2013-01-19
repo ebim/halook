@@ -25,6 +25,7 @@
  ******************************************************************************/
 halook.ganttchart = {};
 halook.ganttchart.treeSettings;
+halook.ganttchart.childView;
 
 halook.ganttchartStateElementView = Backbone.View.extend({
 	initialize : function(argument, treeSettings) {
@@ -308,7 +309,7 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 						rootView : appView,
 						id : "contents_area",
 					});
-					instance.childView = eval("new " + viewClassName
+					halook.ganttchart.childView = eval("new " + viewClassName
 							+ "(viewSettings, treeSettings)");
 
 				});
@@ -339,5 +340,9 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 	getStateStrokeWidth : function() {
 		var width = this.model.get("stroke");
 		return width;
-	}	
+	},
+	destroy : function() {
+		var appView = ENS.AppView();
+		appView.removeView(halook.ganttchart.childView);
+	}
 });

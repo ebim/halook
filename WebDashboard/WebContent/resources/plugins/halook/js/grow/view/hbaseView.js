@@ -8,6 +8,7 @@ halook.HbaseView = wgp.AbstractView.extend({
 		this.annotationArray = [];
 		this.annotationRichDataDict = {};
 		this.entity = null;
+		this.treeSetting = arguments.treeSettings.id;
 		
 		var appView = new ENS.AppView();
 		appView.addView(this, arguments.treeSettings.id);
@@ -246,8 +247,14 @@ halook.HbaseView = wgp.AbstractView.extend({
 		});
 		
 		this._setAnnotationCss();
+	},
+	destroy : function() {
+		this.stopRegisterCollectionEvent();
+		var appView = ENS.AppView();
+		appView.stopSyncData([this.treeSetting]);
+		if (this.collection) {
+			this.collection.reset();
+		}
 	}
-	
-	
 });
 

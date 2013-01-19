@@ -211,10 +211,10 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 	},
 	destroy : function() {
 		var viewList = ENS.nodeinfo.viewList;
+		var appView = ENS.AppView();
 		for (key in viewList) {
 			var instance = viewList[key];
-			
-			instance.destroy();
+			appView.removeView(instance);
 		}
 	}
 });

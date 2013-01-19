@@ -139,7 +139,7 @@ halook.ganttChartView = wgp.AbstractView
 								finishTime : this.dataArray[0].FinishTime,
 								stroke : 6
 							});
-							new halook.ganttchartStateElementView({
+							this.childView = new halook.ganttchartStateElementView({
 								model : ganttChartProperty,
 								treeSettings : this.treeSettings,
 								paper : this.paper
@@ -172,7 +172,7 @@ halook.ganttChartView = wgp.AbstractView
 									finishTime : targetData.FinishTime,
 									stroke : 6
 							});
-							new halook.ganttchartStateElementView({
+							this.childView = new halook.ganttchartStateElementView({
 								model : ganttChartProperty,
 								treeSettings : this.treeSettings,
 								paper : this.paper
@@ -242,5 +242,10 @@ halook.ganttChartView = wgp.AbstractView
 			setDataArray : function(dataArray) {
 				this.dataArray = dataArray;
 				this.render();
+			},
+			destroy : function() {
+				if (this.childView) {
+					this.childView.destroy();
+				}
 			}
 		});
