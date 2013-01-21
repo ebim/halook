@@ -24,7 +24,7 @@
 
 2. DataCollector  
 	WindowsまたはLinux  
-	PostgreSQL 8.4以降  
+	PostgreSQL 9.1以降  
 	Java 5以降
 
 3. HalookDashboard  
@@ -94,6 +94,7 @@
 	javelin.connectHost=localhost
 	
 	# 接続先となるDataCollectorのポート番号を記述してください
+	# (DataCollectorのaccept.portと合わせる)
 	javelin.connectPort=19000
 		
 	# 計測値を保存するデータベース名を記述してください
@@ -101,16 +102,13 @@
 	javelin.databaseName=endosnipedb
 		
 	# オプション
-	# 計測項目名(ID)の接頭辞にする文字列
-	javelin.resource.itemName.prefix=/javelin
-		
-	# オプション
-	# 計測項目名(ID)に接頭辞を付与しない項目の前方一致パターンリスト
-	#javelin.resource.itemName.noPrefixList=/hdfs,/mapreduce
+	# ツリーに表示するクラスタ名
+	javelin.clusterName=default
 	```
 
 	
-3. NameNode、JobTracker、HMasterへの設定以下の各ファイルを編集して、Javelinの設定をを行ってください。
+3. NameNode、JobTracker、HMasterへの設定
+	以下の各ファイルを編集して、Javelinの設定を行ってください。
 
 	```
 	[/etc/hadoop/conf/hadoop-env.sh]
@@ -145,16 +143,17 @@
 
 	(以下はデフォルト時の設定値です)
 	```
-	# 受信した値を保存するデータベースサーバ名を記述してください
+	# 受信した値を保存するデータベースのホスト名またはIPアドレスを記述してください
 	database.host=localhost
 			
 	# Javelinからの接続を受け付けるため、server としてください
 	connection.mode=server
 	
-	# Javelinからの接続を待ち受けるホスト名(IPアドレス)を記述してください
+	# DataCollectorをインストールしたサーバのホスト名(IPアドレス)を記述してください
 	accept.host=localhost
 	
 	# Javelinからの接続を待ち受けるポート番号を記述してください
+	# (Javelinのjavelin.connectPortと合わせる)
 	accept.port=19000
 	```
 
@@ -164,6 +163,23 @@
 1. TomcatのManagerUIを表示して、warファイルをデプロイしてください
 	
 2. 初回起動後、すぐに終了させ、`${CATALINA_HOME}/webapps/WebDashboard/WEB-INF`ディレクトリ内にある web.xml ファイルを編集してください。
+
+	(1) DataCollectorと同じサーバにインストールする場合
+	※変更箇所付近を抜粋
+	```
+	<servlet>
+	  <servlet-name>DashBoardNotifyServlet</servlet-name>
+	  <servlet-class>jp.co.acroquest.endosnipe.web.dashboard.servlet.DashBoardNotifyServlet</servlet-class>
+	  <init-param>
+	  <param-name>collector.property</param-name>
+	  <!-- 以下の値を、collector.properties があるディレクトリに設定してください -->
+	    <param-value>/path/to/WebDashboard/conf/collector.properties</param-value>
+	  </init-param>
+	```
+
+	(2) DataCollectorと別のサーバにインストールする場合
+	DataCollectorのcollector.propertiesをHalookDashboardをインストールするサーバにコピーし、
+	以下の様にコピーしたパスをweb.xmlに指定してください。
 
 	※変更箇所付近を抜粋
 	```
@@ -176,6 +192,7 @@
 	    <param-value>/path/to/WebDashboard/conf/collector.properties</param-value>
 	  </init-param>
 	```
+
     
 3. 設定が完了したら、改めてTomcatを起動してください
 
@@ -185,6 +202,6 @@
 	`http://(HalookDashboard実行サーバ):8080/HalookDashboard/halook`
 
 ## 3. 特記事項
-- 2013/01/19 改版
+- 2013/01/21 改版
 
 以上
