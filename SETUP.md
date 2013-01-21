@@ -165,6 +165,7 @@
 2. 初回起動後、すぐに終了させ、`${CATALINA_HOME}/webapps/WebDashboard/WEB-INF`ディレクトリ内にある web.xml ファイルを編集してください。
 
 	(1) DataCollectorと同じサーバにインストールする場合
+
 	※変更箇所付近を抜粋
 	```
 	<servlet>
@@ -178,6 +179,7 @@
 	```
 
 	(2) DataCollectorと別のサーバにインストールする場合
+
 	DataCollectorのcollector.propertiesをHalookDashboardをインストールするサーバにコピーし、
 	以下の様にコピーしたパスをweb.xmlに指定してください。
 
