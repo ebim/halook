@@ -94,10 +94,6 @@
 	# (DataCollectorのaccept.portと合わせる)
 	javelin.connectPort=19000
 		
-	# 計測値を保存するデータベース名を記述してください
-	# Javelin側で設定した名前に従って、DataCollectorがデータベースを作成します
-	javelin.databaseName=endosnipedb
-		
 	# オプション
 	# ツリーに表示するクラスタ名
 	javelin.clusterName=default
@@ -128,9 +124,19 @@
 4. インストールしたHalookJavelinのディレクトリは、NameNode、JobTracker、HMasterを起動する各ユーザから書き込みができる必要があります。
 	HalookJavelinをインストールしたディレクトリで以下のコマンドを実行し、所有者を変更してください。
 	
-	※ここでは、NameNodeをhadoopユーザで実行する場合の例を示します。
+	(1) NameNodeをhdfsユーザで実行する場合の例
 	
-	`chown -R hadoop:hadoop /opt/ENdoSnipe/HalookJavelin`
+	`chown -R hdfs:hdfs /opt/ENdoSnipe/HalookJavelin`
+
+	(2) JobTrackerをmapredユーザで実行する場合の例
+	
+	`chown -R hdfs:hdfs /opt/ENdoSnipe/HalookJavelin`
+
+	(3) NameNodeをhbaseユーザで実行する場合の例
+	
+	`chown -R hbase:hbase /opt/ENdoSnipe/HalookJavelin`
+	
+	それぞれ、`/opt/ENdoSnipe/HalookJavelin`のパスやユーザ名が異なる場合は、環境に合わせて設定してください。
 
 5. 設定後、NameNode、JobTracker、HMasterをそれぞれ再起動すれば、完了となります。
 
@@ -148,7 +154,10 @@
 	```
 	# 受信した値を保存するデータベースのホスト名またはIPアドレスを記述してください
 	database.host=localhost
-			
+	
+	# 受信した値を保存するデータベース名を記述してください
+	database.name=endosnipedb
+	
 	# Javelinからの接続を受け付けるため、server としてください
 	connection.mode=server
 	
@@ -179,7 +188,7 @@
 	  <init-param>
 	  <param-name>collector.property</param-name>
 	  <!-- 以下の値を、collector.properties があるディレクトリに設定してください -->
-	    <param-value>/path/to/WebDashboard/conf/collector.properties</param-value>
+	    <param-value>/opt/ENdoSnipe/DataCollector/conf/collector.properties</param-value>
 	  </init-param>
 	```
 
@@ -196,11 +205,12 @@
 	  <init-param>
 	  <param-name>collector.property</param-name>
 	  <!-- 以下の値を、collector.properties があるディレクトリに設定してください -->
-	    <param-value>/path/to/WebDashboard/conf/collector.properties</param-value>
+	    <param-value>/opt/ENdoSnipe/DataCollector/conf/collector.properties</param-value>
 	  </init-param>
 	```
 
-    
+	DataCollectorを`/opt/ENdoSnipe/DataCollector`とは異なるディレクトリにインストールしている場合は、環境に合わせてパスを変更してください。
+
 3. 設定が完了したら、改めてTomcatを起動してください
 
 ### 2.6. Webブラウザからのアクセス
@@ -209,6 +219,6 @@
 	`http://(HalookDashboard実行サーバ):8080/HalookDashboard/halook`
 
 ## 3. 特記事項
-- 2013/01/21 改版
+- 2013/02/18 改版
 
 以上
