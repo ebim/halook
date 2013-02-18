@@ -62,15 +62,13 @@
 	</tomcat-users>
 	```
 
-
 ### 2.3. HalookJavelin
 1. (a) 新規インストールの場合  
 	HalookJavelinFull_x.x.x.zip を任意のディレクトリに展開してください。
 
 	※ここでは、/opt/ENdoSnipe の下に展開したものと仮定します
 
-	` JAVELIN_HOME=/opt/ENdoSnipe/Javelin`
-	
+	`JAVELIN_HOME=/opt/ENdoSnipe/HalookJavelin`
 
 	(b) 既存動作中のJavelinに上書きする場合  
 	HalookJavelin_x.x.x.zip を、任意の一時ディレクトリに展開してください。
@@ -79,8 +77,7 @@
 	
 	その後、展開したファイルのうち、HalookJavelin ディレクトリの中身を既存の Javelin ディレクトリに上書きしてください。
 
-	`JAVELIN_HOME=/opt/ENdoSnipe/Javelin` 
-
+	`cp -rp /tmp/halook/HalookJavelin/* /opt/ENdoSnipe/HalookJavelin` 
 
 2. 展開後、`${JAVELIN_HOME}/conf/javelin.properties`を編集し、以下の値を環境に合わせて設定してください。
 
@@ -92,7 +89,7 @@
 		
 	# 接続先となるDataCollectorが動作するホスト名を記述してください
 	javelin.connectHost=localhost
-	
+		
 	# 接続先となるDataCollectorのポート番号を記述してください
 	# (DataCollectorのaccept.portと合わせる)
 	javelin.connectPort=19000
@@ -106,30 +103,36 @@
 	javelin.clusterName=default
 	```
 
-	
 3. NameNode、JobTracker、HMasterへの設定
+
 	以下の各ファイルを編集して、Javelinの設定を行ってください。
 
 	```
 	[/etc/hadoop/conf/hadoop-env.sh]
 	# NameNodeへの設定
-	export HADOOP_NAMENODE_OPTS="-javaagent:/opt/ENdoSnipe/Javelin/lib/HalookJavelin.jar ...(以下略)
+	export HADOOP_NAMENODE_OPTS="-javaagent:/opt/ENdoSnipe/HalookJavelin/lib/HalookJavelin.jar ...(以下略)
 	
 	# JobTrackerへの設定
-	export HADOOP_JOBTRACKER_OPTS="-javaagent:/opt/ENdoSnipe/Javelin/lib/HalookJavelin.jar ...(以下略)
+	export HADOOP_JOBTRACKER_OPTS="-javaagent:/opt/ENdoSnipe/HalookJavelin/lib/HalookJavelin.jar ...(以下略)
 	```
 	※NameNodeとJobTrackerを同一サーバ内で動作させる場合は、Javelinのインストールディレクトリをそれぞれ分けてください。
 		
 	```
 	[/etc/hbase/conf/hbase-env.sh]
 	# HMasterへの設定
-	export HBASE_MASTER_OPTS="-javaagent:/opt/ENdoSnipe/Javelin/lib/HalookJavelin.jar ...(以下略)"
+	export HBASE_MASTER_OPTS="-javaagent:/opt/ENdoSnipe/HalookJavelin/lib/HalookJavelin.jar ...(以下略)"
 	```
 
 	※NameNodeやJobTrackerなどと同一サーバで動作させる場合は、Javelinのインストールディレクトリをそれぞれ分けてください。
-  
+
+4. インストールしたHalookJavelinのディレクトリは、NameNode、JobTracker、HMasterを起動する各ユーザから書き込みができる必要があります。
+	HalookJavelinをインストールしたディレクトリで以下のコマンドを実行し、所有者を変更してください。
 	
-4. 設定後、NameNode、JobTracker、HMasterをそれぞれ再起動すれば、完了となります。
+	※ここでは、NameNodeをhadoopユーザで実行する場合の例を示します。
+	
+	`chown -R hadoop:hadoop /opt/ENdoSnipe/HalookJavelin`
+
+5. 設定後、NameNode、JobTracker、HMasterをそれぞれ再起動すれば、完了となります。
 
 ### 2.4. DataCollector
 1. 媒体を展開する  
@@ -162,7 +165,9 @@
 ### 2.5. HalookDashboard
 1. TomcatのManagerUIを表示して、warファイルをデプロイしてください
 	
-2. 初回起動後、すぐに終了させ、`${CATALINA_HOME}/webapps/WebDashboard/WEB-INF`ディレクトリ内にある web.xml ファイルを編集してください。
+	※ManagerUIからのデプロイが正しく完了しない場合は、warファイルを`${CATALINA_HOME}/webapps`ディレクトリに配置し、Tomcatを起動してください。
+	
+2. 初回起動後、すぐに終了させ、`${CATALINA_HOME}/webapps/HalookDashboard/WEB-INF`ディレクトリ内にある web.xml ファイルを編集してください。
 
 	(1) DataCollectorと同じサーバにインストールする場合
 
