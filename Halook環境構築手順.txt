@@ -180,8 +180,11 @@
 2.5. HalookDashboard
 	(1) TomcatのManagerUIを表示して、warファイルをデプロイしてください
 	
-	(2) 初回起動後、すぐに終了させ、${CATALINA_HOME}/webapps/WebDashboard/WEB-INF
-		ディレクトリ内にある web.xml ファイルを編集してください
+	(2) Tomcatを起動してください
+	
+	 ※ collector.propertiesの配置場所を2.4で示した場所以外にする場合は、
+		初回起動後、Tomcatを一度終了させ、${CATALINA_HOME}/webapps/WebDashboard/WEB-INF
+		ディレクトリ内にある web.xml ファイルを編集する必要があります
 		
 		※変更箇所付近を抜粋
 		------------------------------------------------------------
@@ -191,11 +194,11 @@
 			<init-param>
 				<param-name>collector.property</param-name>
 				<!-- 以下の値を、collector.properties があるディレクトリに設定してください -->
-				<param-value>/path/to/WebDashboard/conf/collector.properties</param-value>
+				<param-value>/opt/ENdoSnipe/DataCollector/conf/collector.properties</param-value>
 			</init-param>
 		------------------------------------------------------------
 	
-	(3) 設定が完了したら、改めてTomcatを起動してください
+		 設定が完了したら、改めてTomcatを起動してください
 
 2.6. Webブラウザからのアクセス
 	(1) Webブラウザ(Firefox)から、以下のURLを開いてください
