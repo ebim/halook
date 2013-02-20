@@ -94,8 +94,8 @@
 	# (DataCollectorのaccept.portと合わせる)
 	javelin.connectPort=19000
 		
-	# オプション
 	# ツリーに表示するクラスタ名
+	# ★"default"というクラスタ名は必ず変更してください★
 	javelin.clusterName=default
 	```
 
