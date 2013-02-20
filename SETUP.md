@@ -4,16 +4,16 @@
 本書は、halookを用いてHadoop／HBaseの監視を行うための環境を構築する手順を説明します。
 
 ## 1. 提供ファイル
-1. HalookJavelin_5.0.1.zip  
+1. HalookJavelin_x.x.x.zip  
 	halook用Javelinのみを持つ差分ファイル媒体です。既存のJavelin動作環境に上書きすることでhalook用のJavelinを利用可能にします。
 
-2. HalookJavelinFull_5.0.1.zip  
+2. HalookJavelinFull_x.x.x.zip  
 	Javelinの媒体にHalookJavelinをマージした媒体です。新規環境にまとめてインストールする際に利用します。
 
 3. HalookDashboard.war  
 	halook用のUIを提供するDashboardの媒体です。Tomcatにデプロイして使用します。
 
-4. endosnipe-datacollector-5.0.1.zip / endosnipe-datacollector-5.0.1.tar.gz  
+4. endosnipe-datacollector-x.x.x.zip / endosnipe-datacollector-x.x.x.tar.gz  
 	DataCollectorの媒体です。ENdoSnipeの媒体に含まれています。(halookとしてのリリース媒体には含まれません)
 
 ## 2. インストール方法
