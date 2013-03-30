@@ -133,7 +133,6 @@ var mapReduceTabViewElement = {
 };
 
 wgp.constants.VIEW_SETTINGS = {
-	"default" : nodeInfoField,
 	"/hdfs" : HDFSParentElement,
 	"/hbase/event" : hbaseGrowthGraphParentView,
 	"/hbase/table" : hbaseRegionMapView,
