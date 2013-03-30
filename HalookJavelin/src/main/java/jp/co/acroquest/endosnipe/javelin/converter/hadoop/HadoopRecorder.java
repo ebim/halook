@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
@@ -577,8 +578,8 @@ public class HadoopRecorder
                 && recordedInvocationNum >= config__.getRecordInvocationMax())
         {
             Invocation removedInvoction = component.addAndDeleteOldestInvocation(invocation);
-            sendInvocationFullEvent(component, className, recordedInvocationNum, invocation,
-                                    removedInvoction);
+            sendInvocationFullEvent(component, className, recordedInvocationNum, invocation, 
+                    removedInvoction);
         }
         else
         {
@@ -1393,23 +1394,7 @@ public class HadoopRecorder
             return false;
         }
 
-        // TaskTrackerStatusをJobID毎にまとめる
-        HashMap<String, ArrayList<HadoopTaskStatus>> arrangedMap = new HashMap<String, ArrayList<HadoopTaskStatus>>();
-        for (HadoopTaskStatus status : taskStatusList)
-        {
-            String jobID = status.getJobID();
-            ArrayList<HadoopTaskStatus> temp;
-            if (arrangedMap.containsKey(jobID))
-            {
-                temp = arrangedMap.get(jobID);
-            }
-            else
-            {
-                temp = new ArrayList<HadoopTaskStatus>(1);
-            }
-            temp.add(status);
-            arrangedMap.put(jobID, temp);
-        }
+        Map<String, ArrayList<HadoopTaskStatus>> arrangedMap = getStatusListMap(taskStatusList);
 
         // ルート呼び出し時に、例外発生フラグをクリアする
         callTreeRecorder.setExceptionOccured(false);
@@ -1465,6 +1450,34 @@ public class HadoopRecorder
 
         return true;
     }
+
+    /**
+     * TaskStatusのリストをJobIDごとにまとめる。
+     * 
+     * @param taskStatusList TaskStatusのリスト
+     * @return　JobIDをキー、TaskStatusのリストを値としたマップ。
+     */
+	private static Map<String, ArrayList<HadoopTaskStatus>> getStatusListMap(
+			ArrayList<HadoopTaskStatus> taskStatusList) {
+		// TaskTrackerStatusをJobID毎にまとめる
+        HashMap<String, ArrayList<HadoopTaskStatus>> arrangedMap = new HashMap<String, ArrayList<HadoopTaskStatus>>();
+        for (HadoopTaskStatus status : taskStatusList)
+        {
+            String jobID = status.getJobID();
+            ArrayList<HadoopTaskStatus> temp;
+            if (arrangedMap.containsKey(jobID))
+            {
+                temp = arrangedMap.get(jobID);
+            }
+            else
+            {
+                temp = new ArrayList<HadoopTaskStatus>(1);
+            }
+            temp.add(status);
+            arrangedMap.put(jobID, temp);
+        }
+		return arrangedMap;
+	}
 
     /**
      * Heartbeat()の後処理を行う。
@@ -1538,17 +1551,22 @@ public class HadoopRecorder
 
             // 例外を保存したかどうかのフラグ
             boolean saveException = false;
-
+            
             Set<String> jobIDSet = callTreeMap.keySet();
             for (String jobID : jobIDSet)
             {
                 CallTree callTree = callTreeMap.get(jobID);
                 HadoopCallTreeNode node = callTreeNodeMap.get(jobID);
-
+                
                 // CallTreeNodeが取得できない場合は処理を中断する。
                 if (node == null)
                     return false;
-                
+
+                // 状態値の更新を確認する。
+				ArrayList<HadoopTaskStatus> taskStatusList = node
+						.getHadoopInfo().getTaskStatuses();
+				HadoopObjectAnalyzer.updateTaskStatuses(thisObject, taskStatusList);
+				
                 // 計測情報の保存を行う
                 HadoopMeasurementInfo measurementInfo = HadoopMeasurementInfo.getInstance();
                 measurementInfo.addToTaskTrackerStatusList(node.getHadoopInfo());

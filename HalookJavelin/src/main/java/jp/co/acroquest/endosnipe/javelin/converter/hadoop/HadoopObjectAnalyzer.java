@@ -30,6 +30,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 import jp.co.acroquest.endosnipe.javelin.converter.hadoop.HadoopAction.ActionType;
 import jp.co.acroquest.endosnipe.javelin.converter.hadoop.HadoopTaskStatus.State;
 import jp.co.acroquest.endosnipe.javelin.util.ArrayList;
@@ -573,5 +574,43 @@ public class HadoopObjectAnalyzer
         
         return info;
     }
+
+    /**
+     * TaskStatusを最新の状態に更新する。
+     * 
+     * @param jobTracker TaskStatusを取得するためのJotTracker。
+     * @param taskStatusList TaskStatusのリスト。
+     */
+	public static void updateTaskStatuses(Object jobTracker, 
+			ArrayList<HadoopTaskStatus> taskStatusList) {
+		for (HadoopTaskStatus status : taskStatusList) {
+			String taskID = status.getTaskID();
+			try {
+				Class<?> taskAttemptIDClass = Class.forName(
+						"org.apache.hadoop.mapred.TaskAttemptID", true, Thread
+								.currentThread().getContextClassLoader());
+				Object taskAttemptID = getAccessibleMethod(
+						taskAttemptIDClass.getMethod("forName", new Class[] { String.class}))
+						.invoke(null, new Object[] { taskID });
+				
+				Method method = jobTracker.getClass().getDeclaredMethod(
+						"getTaskStatus",
+						new Class[] { taskAttemptIDClass });
+				Object newStatus = getAccessibleMethod(method).invoke(jobTracker,
+						new Object[] { taskAttemptID });
+				
+				String state = getAccessibleMethod(
+						newStatus.getClass().getMethod("getRunState",
+								new Class[] {})).invoke(newStatus,
+						new Object[] {}).toString();
+				
+				status.setState(state);
+				
+			} catch (Exception e) {
+				SystemLogger.getInstance().warn(e);
+			}
+		}
+        
+	}
 }
 	
