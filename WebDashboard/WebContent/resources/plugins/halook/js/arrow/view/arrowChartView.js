@@ -145,11 +145,15 @@ halook.ArrowChartView = wgp.AbstractView
 						pointY : modelInfo.posY
 					});
 
+					// KILLED_UNCLEANはKILLEDとみなす
+					if (data.Status == halook.constants.JOB_STATE.KILLED_UNCLEAN) {
+						data.Status = halook.constants.JOB_STATE.KILLED;
+					}
+					
 					// ///statusがエラーの場合の処理はこれも行う
 					if (data.Status == halook.constants.JOB_STATE.FAIL
 							|| data.Status == halook.constants.JOB_STATE.FAILED_UNCLEAN
-							|| data.Status == halook.constants.JOB_STATE.KILLED
-							|| data.Status == halook.constants.JOB_STATE.KILLED_UNCLEAN) {
+							|| data.Status == halook.constants.JOB_STATE.KILLED) {
 						var errorInfo;
 						if (halook.arrow.DisplayMode == "task") {
 							errorInfo = this._calcErrorLengthAndStartPos(
@@ -168,7 +172,7 @@ halook.ArrowChartView = wgp.AbstractView
 							pointX : errorInfo.posX,
 							pointY : errorInfo.posY
 						});
-						stateString = wgp.constants.STATE[data.Status];
+						stateString = halook.constants.STATE[data.Status];
 						
 						var errorStateString = stateString;
 						stateString = data.Mapreduce + stateString;
@@ -192,8 +196,6 @@ halook.ArrowChartView = wgp.AbstractView
 						stateString = "normal";
 						stateString = data.Mapreduce + stateString;
 					}
-					// console.log("state " + stateString + " " + data.Mapreduce
-					// + data.SimpleID + " " + (data.attemptTime - 1));
 					new halook.ArrowStateElementView({
 						model : modelDataForArrow,
 						paper : this.paper,
@@ -202,15 +204,11 @@ halook.ArrowChartView = wgp.AbstractView
 					});
 
 					rowCounter++;
-//					if (halook.arrow.DisplayMode == "task"
-//							&& (i != halook.taskDataOriginal.length - 1 && halook.taskDataOriginal[i + 1].attemptTime != 1)) {
-// 						rowCounter--;
-//					}
 				}
 			},
 			_calcErrorLengthAndStartPos : function(eventTime, trialTime,
 					allTrialTime, rowNum) {
-				// /////////ここで長さとスタート位置の計算
+				// ここで長さとスタート位置の計算
 				var x = 0, y = 0;
 				x = halook.arrowChart.startLineX
 						+ halook.arrowChart.arrowChartWidth
@@ -242,7 +240,6 @@ halook.ArrowChartView = wgp.AbstractView
 				y = halook.arrowChart.cellHeight * trialTime
 						/ (1 + allTrialTime) + rowNum
 						* halook.arrowChart.cellHeight;
-				// console.log("x = " + x + " y = " + y + " width = " + width);
 				return {
 					posX : x,
 					posY : y,

@@ -128,12 +128,9 @@ var arrowTabViewElement = {
 var mapReduceTabViewElement = {
 	viewClassName : "halook.TabView",
 	 collection : [ arrowTabViewElement, bubbleTabViewElement ],
-	// collection : [ bubbleTabViewElement ],
-//	collection : [ arrowTabViewElement ],
 };
 
 wgp.constants.VIEW_SETTINGS = {
-	"default" : nodeInfoField,
 	"/hdfs" : HDFSParentElement,
 	"/hbase/event" : hbaseGrowthGraphParentView,
 	"/hbase/table" : hbaseRegionMapView,
