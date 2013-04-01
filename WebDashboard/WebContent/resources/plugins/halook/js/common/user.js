@@ -65,7 +65,7 @@ var hbaseRegionMapView = {
 		graphSVGWidth : 880,
 		graphSVGHeight : 540,
 		colorList : [
-		 　　　"#AFEEEE",
+		    "#AFEEEE",
 		    "#FFC0CB",
 		    "#ADFF2F",
 		    "#FFA500",
