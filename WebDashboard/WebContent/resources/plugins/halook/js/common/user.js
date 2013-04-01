@@ -65,7 +65,7 @@ var hbaseRegionMapView = {
 		graphSVGWidth : 880,
 		graphSVGHeight : 540,
 		colorList : [
-		    "#AFEEEE",
+		 　　　"#AFEEEE",
 		    "#FFC0CB",
 		    "#ADFF2F",
 		    "#FFA500",
@@ -136,4 +136,5 @@ wgp.constants.VIEW_SETTINGS = {
 	"/hbase/table" : hbaseRegionMapView,
 	"/mapreduce/job" : ganttChartViewElement,
 	"/mapreduce/task" : mapReduceTabViewElement,
+	"default" : nodeInfoField
 };
