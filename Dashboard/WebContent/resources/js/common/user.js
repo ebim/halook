@@ -39,9 +39,16 @@ ENS.nodeInfoField = {
 	collection : [ ENS.nodeInfoParentView ]
 };
 
+ENS.ResourceMapField = {
+	viewClassName : "ENS.ResourceMapView",
+	rootView : appView,
+	collection : []
+};
+
 if (!wgp.constants.VIEW_SETTINGS) {
 	wgp.constants.VIEW_SETTINGS = {};
 }
 wgp.constants.VIEW_SETTINGS = $.extend(wgp.constants.VIEW_SETTINGS, {
-	"default" : ENS.nodeInfoField
+	"default" : ENS.nodeInfoField,
+	"ENS.ResourceMapView" : ENS.ResourceMapField
 });

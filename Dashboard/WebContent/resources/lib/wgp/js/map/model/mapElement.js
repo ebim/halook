@@ -34,10 +34,8 @@ wgp.MapElement = Backbone.Model.extend({
         width : null,
         height : null,
         zIndex : null,
-        URL : null,
-        text : null
     },
-    idAttribute:"objectId"
+    idAttribute:"objectId",
 });
 
 var MapElementList = Backbone.Collection.extend({

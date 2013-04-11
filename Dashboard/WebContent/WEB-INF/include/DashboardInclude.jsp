@@ -42,6 +42,11 @@
 	src="<%=request.getContextPath()%>/resources/js/common/ensAppView.js">	
 </script>
 
+<%-- resource tree --%>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceTreeView.js">	
+</script>
+
 <%-- nodeInfo graph --%>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/nodeInfoParentView.js">
@@ -51,4 +56,7 @@
 </script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/model/resourceGraphModel.js">	
+</script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/tree/ensTreeView.js">	
 </script>
