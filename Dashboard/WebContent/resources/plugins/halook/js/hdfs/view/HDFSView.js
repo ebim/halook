@@ -161,7 +161,7 @@ halook.HDFSView = wgp.AbstractView
 				$(document.getElementById(this.$el
 						.attr("id")))
 				.append(
-						"<div id='hdfs_data' style='width:625px;height:600px; float:right'></div>");
+						"<div id='hdfs_data' style='width:625px;height:630px; float:right'></div>");
 				// set paper
 				this.paper = new Raphael('hdfs_data');
 			},
@@ -192,7 +192,7 @@ halook.HDFSView = wgp.AbstractView
 			},
 			_initView : function() {
 				// enlarge area
-				$("#contents_area_0").css("height", 600);
+				$("#contents_area_0").css("height", 630);
 				// set bg olor
 				$("#" + this.$el.attr("id")).css("background-color",
 						halook.hdfs.constants.bgColor);
@@ -292,41 +292,23 @@ halook.HDFSView = wgp.AbstractView
 								});
 			},
 			_animateBlockTransfer : function() {
-				var animate_duration = 2000;
-				for ( var index = 0; index < this.numberOfDataNode; index++) {
-					
+				for ( var i = 0; i < this.numberOfDataNode; i++) {
 					// prepare temporary vars in order to make codes readable
-					var host = this.hostsList_[index];
-					
-					var temp_access=this.paper;
-					
-					// getting the double of the radius of inner circle of hdfs
-					var max_moving_size=halook.hdfs.constants.mainCircle.radius * halook.hdfs.constants.mainCircle.innerRate * 2;
+					var host = this.hostsList_[i];
 					
 					if (halook.HDFS.usageList[host] != undefined) {
 					
-						var height = this.hdfsState_[host].dfsusedLength;
+						var h = this.hdfsState_[host].dfsusedLength;
 						var centerX = halook.HDFS.center.x;
 						var centerY = halook.HDFS.center.y;
 						
 						// 前回の使用量ｋ
 						var beforeUsage = halook.HDFS.beforeUsage[host];
+						if (beforeUsage > h) {
 							
-						if (beforeUsage > height) {
+							var usageClone = halook.HDFS.usageList[host].clone();
 							
-							// getting removed data size
-							var capacity = beforeUsage-height;
-							
-							// checking the data is transferred data size is big
-							// than max size
-							if(capacity > max_moving_size){
-								capacity = max_moving_size;
-							}
-							
-							/*var usageClone = halook.HDFS.usageList[host].clone(); */
-							var temp_testing= this._drawingUsageTemporary(index,capacity,host,temp_access);
-							
-							var centerObjectClone = temp_access
+							var centerObjectClone = this.paper
 							.path(
 									[
 											[
@@ -340,27 +322,14 @@ halook.HDFSView = wgp.AbstractView
 									});
 							
 							
-							temp_testing.stop().animate({path: "M" + centerX + " "
-								+ centerY, fill: " rgb(256, 256, 256)"}, animate_duration, "", function() {
+							
+							usageClone.stop().animate({path: "M" + centerX + " "
+								+ centerY, fill: " rgb(256, 256, 256)"}, halook.HDFS.BLOCK_TRANSFER_SPEED, "", function() {
 									this.remove();
 								});
 						
-							this._drawUsage();
-						
-						} else if (beforeUsage < height) {
-							
-							// getting transferred data size
-							var capacity =  height-beforeUsage;
-							
-							// checking the data is transferred data size is big
-							// than max size
-							if(capacity > max_moving_size){
-								capacity = max_moving_size;
-							}
-							var temp_testing = this._drawingUsageTemporary(index,capacity,host,temp_access);
-							
-							
-							var centerObjectClone = temp_access
+						} else if (beforeUsage < h) {
+							var centerObjectClone = this.paper
 								.path(
 										[
 												[
@@ -374,16 +343,14 @@ halook.HDFSView = wgp.AbstractView
 										});
 
 							
-							 /* var pathValue = halook.HDFS.usageList[host].attrs;*/							 
+							var pathValue = halook.HDFS.usageList[host].attrs;				
 							
-							centerObjectClone.animate(temp_testing.attrs, animate_duration, "", function() {
+							centerObjectClone.animate(pathValue, halook.HDFS.BLOCK_TRANSFER_SPEED, "", function() {
 								this.remove();
 							});
-							
-							this._drawUsage();
 						}
 					}
-					halook.HDFS.beforeUsage[host] = height;
+					halook.HDFS.beforeUsage[host]　= h;
 				}
 			},
 			_drawingUsageTemporary : function(index,capacity,host,ref){
@@ -693,18 +660,6 @@ halook.HDFSView = wgp.AbstractView
 									});
 
 				}
-				
-//				var changedAngle = halook.HDFS.changeAngleFromUpdate;
-//
-//				for ( var host in halook.HDFS.capacityList) {
-//					var capacityObject = halook.HDFS.capacityList[host];
-//
-//					capacityObject.animate({
-//						transform : "r"
-//								+ [ halook.HDFS.changeAngleFromUpdate, halook.HDFS.center.x,
-//										halook.HDFS.center.y ]
-//					});
-//				}
 			},
 			_drawUsage : function() {
 				// prepare temporary vars in order to make codes readable
@@ -742,17 +697,6 @@ halook.HDFSView = wgp.AbstractView
 									+ postfix_value
 					});
 				}
-				
-//				var changedAngle = halook.HDFS.changeAngleFromUpdate;
-//
-//				for ( var host in halook.HDFS.usageList) {
-//					var usageObject = halook.HDFS.usageList[host];
-//					usageObject.animate({
-//						transform : "r"
-//								+ [ halook.HDFS.changeAngleFromUpdate, halook.HDFS.center.x,
-//										halook.HDFS.center.y ]
-//					});
-//				}
 			},
 			_setRotationButton : function() {
 				var butt1 = this.paper.set(),
@@ -852,17 +796,6 @@ halook.HDFSView = wgp.AbstractView
 									});
 
 				}
-				
-//				var changedAngle = halook.HDFS.changeAngleFromUpdate;
-//
-//				for ( var host in halook.HDFS.rackList) {
-//					var rackObject = halook.HDFS.rackList[host];
-//					rackObject.animate({
-//						transform : "r"
-//								+ [ halook.HDFS.changeAngleFromUpdate, halook.HDFS.center.x,
-//										halook.HDFS.center.y ]
-//					});
-//				}
 			},
 			_rotateNode : function(clickObject) {
 				var centerX = halook.HDFS.center.x;
@@ -871,15 +804,15 @@ halook.HDFSView = wgp.AbstractView
 					halook.HDFS.capacityList[host].animate({
 						transform : "r"
 								+ [ halook.HDFS.changeAngleFromUpdate, centerX, centerY ]
-					}, 1000, "<>");
+					}, halook.HDFS.BLOCK_ROTATE_SPEED, "<>");
 					halook.HDFS.usageList[host].animate({
 						transform : "r"
 								+ [ halook.HDFS.changeAngleFromUpdate, centerX, centerY ]
-					}, 1000, "<>");
+					}, halook.HDFS.BLOCK_ROTATE_SPEED, "<>");
 					halook.HDFS.rackList[host].animate({
 						transform : "r"
 								+ [ halook.HDFS.changeAngleFromUpdate, centerX, centerY ]
-					}, 1000, "<>");
+					}, halook.HDFS.BLOCK_ROTATE_SPEED, "<>");
 				}
 			},
 			_initIdManager : function() {

@@ -30,6 +30,8 @@ halook.job.RUNNING = "running";
 
 halook.HDFS = {};
 halook.HDFS.MESURE_TERM = 13000;
+halook.HDFS.BLOCK_TRANSFER_SPEED = 2000;
+halook.HDFS.BLOCK_ROTATE_SPEED = 1000;
 
 halook.hdfs = {};
 halook.hdfs.constants = {};

@@ -5,6 +5,7 @@
 <head>
 <%@ include file="../include/ext/javaScriptInclude.jsp"%>
 <%@ include file="../include/DashboardInclude.jsp"%>
+<title>ENdoSnipe Dashboard</title>
 </head>
 <body id="main" oncontextmenu="return false;" onload="self.focus();">
 	<div id="persArea"></div>
