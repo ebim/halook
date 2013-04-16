@@ -1,0 +1,4 @@
+eclipse.preferences.version=1
+included=WebContent/resources/js//*\:WebContent/resources/plugins/halook/js//*
+options=sub\:true, undef\:true, laxcomma\:true, laxbreak\:true, eqnull\:true
+projectSpecificOptions=true
