@@ -113,10 +113,10 @@ halook.ganttChartView = wgp.AbstractView
 
 					for ( var i = 0; i < this.dataArray.length; i++) {
 						if (i == 0) {
-							width = timeWidthInit * ((new Date(this.dataArray[0].FinishTime) / 1000 - new Date(
+							var width = timeWidthInit * ((new Date(this.dataArray[0].FinishTime) / 1000 - new Date(
 									this.dataArray[0].StartTime) / 1000));
-							status = this._getStatus(this.dataArray[0].Status);
-							ganttPointX = startX;
+							var status = this._getStatus(this.dataArray[0].Status);
+							var ganttPointX = startX;
 							if(new Date(this.dataArray[0].StartTime) / 1000 < new Date(this.termData.startDate) / 1000)
 								continue;
 							ganttPointX += timeWidthInit * ((new Date(
@@ -147,10 +147,10 @@ halook.ganttChartView = wgp.AbstractView
 						}
 						else {
 							var targetData = this.dataArray[i];
-							width = timeWidthInit * ((new Date(targetData.FinishTime) / 1000 - new Date(
+							var width = timeWidthInit * ((new Date(targetData.FinishTime) / 1000 - new Date(
 									targetData.StartTime) / 1000));
-							status = this._getStatus(targetData.Status);
-							ganttPointX = startX;
+							var status = this._getStatus(targetData.Status);
+							var ganttPointX = startX;
 							ganttPointX += timeWidthInit * ((new Date(
 									targetData.StartTime) / 1000 - new Date(
 										this.termData.startDate) / 1000));
