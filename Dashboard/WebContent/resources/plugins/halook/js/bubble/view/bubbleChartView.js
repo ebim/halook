@@ -1,11 +1,11 @@
 halook.BubbleChartView = wgp.AbstractView
 		.extend({
-			initialize : function(arguments, treeSettings) {
-				this.jobInfo = arguments.jobInfo;
+			initialize : function(argument, treeSettings) {
+				this.jobInfo = argument.jobInfo;
 				this.viewType = wgp.constants.VIEW_TYPE.VIEW;// ビュータイプ
 				this.treeSettings = treeSettings;
 				this.maxId = 0;// ???
-				this.viewId = arguments.viewId;
+				this.viewId = argument.viewId;
 				this.viewList = [];
 				// 何の処理か不明
 				var realTag = $("#" + this.$el.attr("id"));
@@ -126,7 +126,7 @@ halook.BubbleChartView = wgp.AbstractView
 				});
 
 				$("#rightTop").css({
-					float : "right",
+					float : "right"
 				});
 				$("#marginSpace").css({
 					clear : "both",
@@ -143,29 +143,31 @@ halook.BubbleChartView = wgp.AbstractView
 					$(elem).mousedown();
 				});
 				
+				var flagCheck = halook.bubble.flagCheck;
+				
 				$("#checkLeft").append(
 						'<input type="checkbox" value="MapSuccess" id="0" '
-								+ flagCheck(MAP_SUCCESS) + '>MapSuccess'
+								+ flagCheck(halook.bubble.MAP_SUCCESS) + '>MapSuccess'
 								+ '<br>');
 				$("#checkCenter")
 						.append(
 								'<input type="checkbox" value="MapFailed" id="1" '
-										+ flagCheck(MAP_FAILED) + '>MapFailed'
+										+ flagCheck(halook.bubble.MAP_FAILED) + '>MapFailed'
 										+ '<br>');
 				$("#checkRight")
 						.append(
 								'<input type="checkbox" value="MapKilled" id="2" '
-										+ flagCheck(MAP_KILLED) + '>MapKilled'
+										+ flagCheck(halook.bubble.MAP_KILLED) + '>MapKilled'
 										+ '<br>');
 				$("#checkLeft").append(
 						'<input type="checkbox" value="ReduceSuccess" id="3" '
-								+ flagCheck(REDUCE_SUCCESS) + '>ReduceSuccess');
+								+ flagCheck(halook.bubble.REDUCE_SUCCESS) + '>ReduceSuccess');
 				$("#checkCenter").append(
 						'<input type="checkbox" value="ReduceFailed" id="4" '
-								+ flagCheck(REDUCE_FAILED) + '>ReduceFailed');
+								+ flagCheck(halook.bubble.REDUCE_FAILED) + '>ReduceFailed');
 				$("#checkRight").append(
 						'<input type="checkbox" value="ReduceKilled" id="5" '
-								+ flagCheck(REDUCE_KILLED) + '>ReduceKilled');
+								+ flagCheck(halook.bubble.REDUCE_KILLED) + '>ReduceKilled');
 				$("#" + this.$el.attr("id")).append('<div id="Bubble"></div>');
 				$("#Bubble").css({
 					marginTop : 20,

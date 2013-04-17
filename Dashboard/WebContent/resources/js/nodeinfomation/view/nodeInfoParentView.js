@@ -60,11 +60,11 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 		var instance = this;
 		_.each(this.graphIds, function(graphName) {
 			instance._addGraphDivision(graphName);
-		})
+		});
 		
 		this.dualSliderView.setScaleMovedEvent(function(from, to) {
 			var viewList = ENS.nodeinfo.viewList;
-			for (key in viewList) {
+			for (var key in viewList) {
 				var instance = viewList[key];
 				// グラフの表示期間の幅を更新する
 				instance.updateDisplaySpan(from, to);
@@ -135,7 +135,6 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 		});
 		var view = eval("new " + viewClassName
 				+ "(viewAttribute, treeSettings)");
-//		var instance = view;
 		
 		var registerId = view.getRegisterId();
 		ENS.nodeinfo.viewList[registerId] = view;
@@ -154,13 +153,13 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 			var childrenData = [];
 			_.each(children, function(child, index) {
 				childrenData.push(instance.createTreeData(child));
-			})
+			});
 			attr["Id"] = treeModel.get("id");
 
 			// icon decided
 			var icon = null;
 
-		})
+		});
 	},
 	createParseData : function(parse, collection) {
 		var jsonData = [];
@@ -188,18 +187,18 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 		_.each(children, function(child, index) {
 			childrenData
 					.push(instance.createTreeData(parse, child, collection));
-		})
+		});
 		attr["Id"] = treeModel.get("id");
 
 		// icon decided
 		var icon = null;
-		if (children.length == 0) {
+		if (children.length === 0) {
 			if (treeModel.id.indexOf(parse) != -1) {
 				this.graphIds.push(treeModel.get("id"));
 			}
 		} else {
 		}
-		var data = {
+		var treeData = {
 			data : {
 				title : data,
 				attr : attr,
@@ -207,12 +206,12 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 			},
 			children : childrenData
 		};
-		return data;
+		return treeData;
 	},
 	destroy : function() {
 		var viewList = ENS.nodeinfo.viewList;
 		var appView = ENS.AppView();
-		for (key in viewList) {
+		for (var key in viewList) {
 			var instance = viewList[key];
 			appView.removeView(instance);
 		}

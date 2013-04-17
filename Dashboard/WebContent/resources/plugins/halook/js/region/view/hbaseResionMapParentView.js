@@ -1,6 +1,6 @@
 halook.HbaseResionMapParentView = wgp.AbstractView
 		.extend({
-			initialize : function(arguments, treeSettings) {
+			initialize : function(argument, treeSettings) {
 				this.viewtype = wgp.constants.VIEW_TYPE.VIEW;
 				this.viewId = '#' + this.$el.attr('id');
 				this.treeSettingId_ = treeSettings.treeId;
@@ -55,21 +55,23 @@ halook.HbaseResionMapParentView = wgp.AbstractView
 				appView.removeView(this.hbaseView);
 			},
 			makeLogoArea : function() {
-				idName = 'logo';
-				$(this.viewId).append('<div id="' + idName + '" class="contentHeader"></div>');
-				$('#' + idName).append(
-						'<h1>HBase RegionMap</h1>');
-				
+				var idName = 'logo';
+				$(this.viewId)
+						.append(
+								'<div id="' + idName
+										+ '" class="contentHeader"></div>');
+				$('#' + idName).append('<h1>HBase RegionMap</h1>');
+
 				var context = $("#context").val();
-				
+
 				$('#' + idName)
 						.append(
-								'<img src="' + context + '/resources/plugins/halook/images/halook_120x30.png">');
-				$('#' + idName)
-						.css(
-								{
-									margin : '10px 0px 0px 10px'
-								});
+								'<img src="'
+										+ context
+										+ '/resources/plugins/halook/images/halook_120x30.png">');
+				$('#' + idName).css({
+					margin : '10px 0px 0px 10px'
+				});
 				$('#' + idName + ' h1').css({
 					fontSize : '25px',
 					width : '600px',
@@ -84,8 +86,7 @@ halook.HbaseResionMapParentView = wgp.AbstractView
 				});
 			},
 			_addSlider : function(self) {
-				$(this.viewId).append(
-						'<div id="slider"></div>');
+				$(this.viewId).append('<div id="slider"></div>');
 				$('#slider').css(ENS.nodeinfo.parent.css.dualSliderArea);
 				$('#slider').css(ENS.nodeinfo.parent.css.dualSliderArea);
 				this.singleSliderView = new ENS.SingleSliderView({
@@ -98,9 +99,9 @@ halook.HbaseResionMapParentView = wgp.AbstractView
 				});
 			},
 			_updateDisplaySpan : function(pastTime) {
-				if (pastTime == 0) {
+				if (pastTime === 0) {
 
-					if (this.hbaseView.isRealTime == false) {
+					if (this.hbaseView.isRealTime === false) {
 						appView.syncData([ (this.treeSettingId_ + "%") ]);
 					}
 					this.hbaseView.isRealTime = true;
@@ -114,5 +115,5 @@ halook.HbaseResionMapParentView = wgp.AbstractView
 					this.hbaseView._drawStaticRegioniServer(pastTime);
 				}
 
-			},
+			}
 		});

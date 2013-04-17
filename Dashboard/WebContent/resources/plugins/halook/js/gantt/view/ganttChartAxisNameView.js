@@ -60,15 +60,9 @@ halook.ganttChartAxisNameView = Backbone.View
 				var timeWidthInit = 700 / splitter;
 								
 				var timeWidth = timeWidthInit;
-//					console.log("時刻表示？");
-//					console.log(halook.comDateFormat(new Date(this.model.attributes.text),
-//							halook.DATE_FORMAT_HOUR));
-
 				var unixTime = new Date(this.model.attributes.text) / 1000 + timeWidthSplitter;
 				var year, month, day, hour, minute, second;
 				for ( var num = 0; num < splitter; num++) {
-
-
 					timeLabel.push(new wgp.MapElement({
 						pointX : this.model.attributes.pointX + timeWidth,
 						pointY : this.model.attributes.pointY,
@@ -86,7 +80,7 @@ halook.ganttChartAxisNameView = Backbone.View
 						}
 					}, {
 						silent : true
-					})
+					});
 
 					timeWidth += timeWidthInit;
 					unixTime += timeWidthSplitter;
@@ -103,7 +97,7 @@ halook.ganttChartAxisNameView = Backbone.View
 						}
 					}, {
 						silent : true
-					})
+					});
 				}
 
 				this.element = [];
@@ -113,16 +107,13 @@ halook.ganttChartAxisNameView = Backbone.View
 								new Date(this.model.attributes.text),
 								halook.DATE_FORMAT_HOUR));
 
-				for ( var num = 0; num < timeLabel.length; num++) {
-//					console.log(halook.comDateFormat(new Date(
-//							timeLabel[num].attributes.text),
-//							halook.DATE_FORMAT_HOUR));
-					this.element.push(new line(timeLine[num].attributes,
+				for ( var num2 = 0; num2 < timeLabel.length; num2++) {
+					this.element.push(new line(timeLine[num2].attributes,
 							this._paper));
-					var labelElement = this._paper.text(timeLabel[num].attributes.pointX,
-							timeLabel[num].attributes.pointY + 10,
+					var labelElement = this._paper.text(timeLabel[num2].attributes.pointX,
+							timeLabel[num2].attributes.pointY + 10,
 							halook.comDateFormat(new Date(
-									timeLabel[num].attributes.text),
+									timeLabel[num2].attributes.text),
 									halook.DATE_FORMAT_HOUR));
 				}
 			},

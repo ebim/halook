@@ -27,7 +27,7 @@ halook.InfoTextAreaStateElementView = Backbone.View
 				this.id = this.model.get("objectId");
 				
 				// if initailized yet, initalize textarea
-				if ($("#taskInfoDiv").length == 0) {
+				if ($("#taskInfoDiv").length === 0) {
 					// task info area.
 					$("#arrowChart").before("<div id='taskInfoDiv'></div>");
 					$("#taskInfoDiv").append("<textarea id='textArea'></div>");

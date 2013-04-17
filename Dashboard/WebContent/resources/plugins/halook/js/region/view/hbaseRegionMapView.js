@@ -1,7 +1,7 @@
 halook.HbaseRegionMapView = wgp.AbstractView.extend({
 	initialize : function(argument) {
 		// set view size
-		var viewAttribute = argument.rootView.options.viewAttribute
+		var viewAttribute = argument.rootView.options.viewAttribute;
 
 		this.isRealTime = viewAttribute.realTime;
 		this.graphSVGWidth = viewAttribute.graphSVGWidth;
@@ -62,7 +62,7 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 			pointX : this.startXAxis,
 			pointY : this.startYAxis,
 			width : this.width,
-			height : 0,
+			height : 0
 		});
 
 		new halook.hbaseRegionMapAxisStateElementView({
@@ -112,13 +112,13 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 
 		var lastTime = this._getLastTime(collectionModels);
 		var lastUpdateTime = this
-				._getLastUpdateTime(collectionModels, lastTime)
+				._getLastUpdateTime(collectionModels, lastTime);
 
 		var data = {};
 
 		_.each(collectionModels, function(model, index) {
 			var timeString = model.get("measurementTime");
-			var time = parseInt(timeString);
+			var time = parseInt(timeString, 10);
 
 			if (time == lastTime) {
 				var parsedModel = instance._parseModel(model);
@@ -127,7 +127,7 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 
 				var dataList = data[serverName];
 
-				if (dataList == undefined) {
+				if (dataList === undefined) {
 					dataList = [];
 				}
 
@@ -161,8 +161,8 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 
 		var tmpData = {};
 		for ( var index = 0; index < serverNameArrayLength; index++) {
-			var serverName = serverNameArray[index];
-			tmpData[serverName] = data[serverName];
+			var tmpServerName = serverNameArray[index];
+			tmpData[tmpServerName] = data[tmpServerName];
 		}
 
 		data = tmpData;
@@ -171,17 +171,17 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 	},
 	_parseModel : function(model) {
 		var timeString = model.get("measurementTime");
-		var time = parseInt(timeString);
+		var time = parseInt(timeString, 10);
 		var date = new Date(time);
 
 		var treeId = this.treeSetting.treeId;
-		
+
 		var treePath = model.get("measurementItemName");
 		var pathList = treePath.split(treeId);
-		
+
 		var childTreePath = pathList[1];
 		var childPathList = childTreePath.split("/");
-		
+
 		var serverName = childPathList[2];
 		var tableName = childPathList[1];
 
@@ -202,7 +202,7 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 
 		_.each(collectionModels, function(model, id) {
 			var measurementTime = model.get(halook.ID.MEASUREMENT_TIME);
-			var tmpTime = parseInt(measurementTime);
+			var tmpTime = parseInt(measurementTime, 10);
 			if (lastTime < tmpTime) {
 				lastTime = tmpTime;
 			}
@@ -215,7 +215,7 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 
 		_.each(collectionModels, function(model, id) {
 			var measurementTime = model.get(halook.ID.MEASUREMENT_TIME);
-			var tmpTime = parseInt(measurementTime);
+			var tmpTime = parseInt(measurementTime, 10);
 			if ((lastupdateTime < tmpTime) && (lastTime != tmpTime)) {
 				lastupdateTime = tmpTime;
 			}
@@ -238,13 +238,13 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 			var length = regionList.length;
 			var regionNum = 0;
 
-			for ( var index = 0; index < length; index++) {
-				var region = regionList[index];
+			for ( var regionIndex = 0; regionIndex < length; regionIndex++) {
+				var region = regionList[regionIndex];
 				regionNum += region.regionNum;
 
 				var tableName = region.tableName;
 
-				if (tableColor[tableName] == undefined) {
+				if (tableColor[tableName] === undefined) {
 					tableColor[tableName] = colorList[colorCount
 							% colorList.length];
 					colorCount++;
@@ -257,17 +257,17 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 
 			serverNum++;
 		}
-		
+
 		// グラフの倍率
 		var magnification = 0;
-			
+
 		// 外枠と内側のグラフで、高さが高い方を基準にグラフの倍率を決める
 		if (maxRegionNum < this.lastMaxRegionNum) {
 			magnification = this.graphMaxValue / this.lastMaxRegionNum;
 		} else {
 			magnification = this.graphMaxValue / maxRegionNum;
 		}
-		
+
 		this.lastMaxRegionNum = maxRegionNum;
 
 		var unitAreaWidth = (this.width - this.startXAxis) / serverNum;
@@ -279,35 +279,36 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 		var isRemove = false;
 		var graphRectLength = this.graphRect.length;
 
-		for ( var index = 0; index < graphRectLength; index++) {
-			this.graphRect[index].remove();
+		for ( var graphRectIndex = 0; graphRectIndex < graphRectLength; graphRectIndex++) {
+			this.graphRect[graphRectIndex].remove();
 			isRemove = true;
 		}
 		if (isRemove) {
 			this.graphRect = [];
 		}
 
-		for ( var serverName in this.data) {
+		for ( var server in this.data) {
 
 			var textStartX = unitAreaWidth * count + unitAreaWidth / 2
 					+ this.startXAxis;
 			var startX = textStartX - unitNodeWidth / 2;
 
-			var regionNum = this.data[serverName];
-			var tableNum = regionNum.length;
+			var tableList = this.data[server];
+			var tableNum = tableList.length;
 
 			var sumRegionNum = 0;
 			var sumHeight = 0;
-			
+
 			// 先に外枠を作成
-			var lastRegionNum = this.lastTimeRegionNum[serverName];
-			
+			var lastRegionNum = this.lastTimeRegionNum[server];
+
 			if (lastRegionNum) {
 				var lastHeight = lastRegionNum * magnification;
-				
+
 				this.graphRect.push(this.paper.rect(startX - unitLastNodeWidth,
-						this.startYAxis - lastHeight, unitNodeWidth + unitLastNodeWidth * 2,
-						lastHeight).attr({
+						this.startYAxis - lastHeight,
+						unitNodeWidth + unitLastNodeWidth * 2, lastHeight)
+						.attr({
 							stroke : "#FFFFFF",
 							fill : "#FFFFFF",
 							"fill-opacity" : 0.2
@@ -315,20 +316,20 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 			}
 			// 中身を作成する。
 			for ( var index = 0; index < tableNum; index++) {
-				var model = regionNum[index];
+				var model = tableList[index];
 
 				var regionValue = model.regionNum;
-				var tableName = model.tableName;
-				var serverName = model.serverName;
+				var tmpTableName = model.tableName;
+				var tmpServerName = model.serverName;
 
 				var height = regionValue * magnification;
-				
+
 				this.graphRect.push(this.paper.rect(startX,
 						this.startYAxis - height - sumHeight, unitNodeWidth,
 						height).attr(
 						{
-							fill : tableColor[tableName],
-							title : serverName + ":" + tableName
+							fill : tableColor[tmpTableName],
+							title : tmpServerName + ":" + tmpTableName
 									+ " regionNumber: " + regionValue
 						}));
 
@@ -337,25 +338,25 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 			}
 
 			this.graphRect.push(this.paper.text(textStartX, this.textStartY,
-					serverName).attr({
+					tmpServerName).attr({
 				"font-size" : 11,
 				stroke : "#FFFFFF",
 				"text-anchor" : "start"
 			}).rotate(45, textStartX, this.textStartY));
-			
-			this.lastTimeRegionNum[serverName] = sumRegionNum;
+
+			this.lastTimeRegionNum[tmpServerName] = sumRegionNum;
 
 			count++;
 		}
-		
-//		var textElemList = $("div#graphArea svg text");
-//
-//		var textElemListLength = textElemList.length;
-//
-//		for (var index = 0; index < textElemListLength; index++) {
-////			$(textElemList[index]).css("text-anchor", "start");
-//			$(textElemList[index]).set("writing-mode", "tb");
-//		}
+
+		// var textElemList = $("div#graphArea svg text");
+		//
+		// var textElemListLength = textElemList.length;
+		//
+		// for (var index = 0; index < textElemListLength; index++) {
+		// // $(textElemList[index]).css("text-anchor", "start");
+		// $(textElemList[index]).set("writing-mode", "tb");
+		// }
 
 		return maxRegionNum;
 	},
@@ -403,7 +404,7 @@ halook.HbaseRegionMapView = wgp.AbstractView.extend({
 	destroy : function() {
 		this.stopRegisterCollectionEvent();
 		var appView = ENS.AppView();
-		appView.stopSyncData([this.treeSetting]);
+		appView.stopSyncData([ this.treeSetting ]);
 		if (this.collection) {
 			this.collection.reset();
 		}

@@ -58,7 +58,6 @@ halook.dygraphChart.topMargin = "5px";
 halook.dygraphChart.borderStyle = "outset";
 
 halook.parentView = {};
-halook.arrowChartView;
 
 // グラフ最小の時間 1346160591446 1346843780000
 halook.parentView.minGraphTime = 0;
@@ -97,13 +96,13 @@ halook.parentView._taskIDSort = function(first, second){
 	var firstAttemptTime = first.attemptTime;
 	var secondAttemptTime = second.attemptTime;
 
-	if (firstNumID == "") {
+	if (firstNumID === "") {
 		firstNumID = 0;
 	} else {
 		firstNumID -= 0;
 	}
 	
-	if (secondNumID == "") {
+	if (secondNumID === "") {
 		secondNumID = 0;
 	} else {
 		secondNumID -= 0;
@@ -120,7 +119,7 @@ halook.parentView._taskIDSort = function(first, second){
 		}
 	}
 	return -1;
-}
+};
 
 halook.parentView._nodeSort = function(first, second) {
 	// そのまんま
@@ -133,7 +132,7 @@ halook.parentView._nodeSort = function(first, second) {
 	if (first.StartTime > second.StartTime)
 		return 1;
 	return -1;
-}
+};
 
 // 偶数か奇数かで値がかわる
 
@@ -142,19 +141,19 @@ halook.parentView._startTimeSort = function(first, second) {
 	if (first.StartTime > second.StartTime)
 		return 1 * halook.parentView.startTimeOdd;
 	return -1 * halook.parentView.startTimeOdd;
-}
+};
 
 halook.parentView.finishTimeOdd = -1;
 halook.parentView._finishTimeSort = function(first, second) {
 	if (first.FinishTime > second.FinishTime)
 		return 1 * halook.parentView.finishTimeOdd;
 	return -1 * halook.parentView.finishTimeOdd;
-}
+};
 halook.parentView.taskSortFunctionTable = {
 		"task" : halook.parentView._taskIDSort,
 		"node" : halook.parentView._nodeSort,
 		"starttime" : halook.parentView._startTimeSort,
-		"finishtime" : halook.parentView._finishTimeSort,
+		"finishtime" : halook.parentView._finishTimeSort
 };
 
 
@@ -162,16 +161,16 @@ halook.parentView.taskSortFunctionTable = {
 
 halook.ArrowParentView = wgp.AbstractView
 		.extend({
-			initialize : function(arguments, treeSettings) {
+			initialize : function(argument, treeSettings) {
 				this.isFirst = true;
 				this.viewType = wgp.constants.VIEW_TYPE.VIEW;
-				this.viewId = arguments.viewId;
+				this.viewId = argument.viewId;
 				this.treeSettings = treeSettings;
 				this.maxId = 0;
 				var realTag = $("#" + this.$el.attr("id"));
 				var dt = new Date();
 
-				this.jobInfo = arguments.jobInfo;
+				this.jobInfo = argument.jobInfo;
 				var finishTime = new Date(
 						this.jobInfo.finishTime.getTime() + 120 * 1000);
 
@@ -232,17 +231,18 @@ halook.ArrowParentView = wgp.AbstractView
 
 					// attemptTimeの計算
 					stringArray[5] = stringArray[5].replace(/0/g, '');
-					if (stringArray[5] != "") {
-						attemptTime = parseInt(stringArray[5]) + 1;
-					} else
+					if (stringArray[5] !== "") {
+						attemptTime = parseInt(stringArray[5], 10) + 1;
+					} else {
 						attemptTime = 1;
+					}
 					givenDatas[i].attemptTime = attemptTime;
 
 					// 同じtaskIDで最大回数を保存する
-					if (halook.parentView.taskAttemptInfoDictionary[keyName] != undefined
+					if (halook.parentView.taskAttemptInfoDictionary[keyName] !== undefined
 							&& halook.parentView.taskAttemptInfoDictionary[keyName].maxTime < attemptTime) {
 						(halook.parentView.taskAttemptInfoDictionary[keyName]).maxTime = attemptTime;
-					} else if (halook.parentView.taskAttemptInfoDictionary[keyName] == undefined) {
+					} else if (halook.parentView.taskAttemptInfoDictionary[keyName] === undefined) {
 						(halook.parentView.taskAttemptInfoDictionary[keyName]) = {
 							maxTime : attemptTime,
 							successNum : 0,
@@ -287,8 +287,7 @@ halook.ArrowParentView = wgp.AbstractView
 						.css(
 								{
 									background : "-moz-linear-gradient(-45deg, rgba(76,76,76,1) 0%, rgba(89,89,89,1) 12%, rgba(102,102,102,1) 25%, rgba(71,71,71,1) 39%, rgba(44,44,44,1) 50%, rgba(17,17,17,1) 60%, rgba(43,43,43,1) 76%, rgba(28,28,28,1) 91%, rgba(19,19,19,1) 100%)",
-									overflow : "hidden",
-
+									overflow : "hidden"
 								});
 				
 				var context = $("#context").val();
@@ -304,7 +303,7 @@ halook.ArrowParentView = wgp.AbstractView
 									height : halook.jobInfoSpace.height,
 									marginTop : halook.jobInfoSpace.marginTop,
 									marginLeft : halook.jobInfoSpace.marginLeft,
-									float : halook.jobInfoSpace.float,
+									float : halook.jobInfoSpace.float
 								});
 				$("#jobInfoSpace p").css({
 					marginLeft : 5,
@@ -318,6 +317,7 @@ halook.ArrowParentView = wgp.AbstractView
 				$("#jobInfoImage").css({
 					float : "right"
 				});
+				var jobColor = "";
 				if (this.jobInfo.jobStatus == halook.job.SUCCESS) {
 					jobColor = halook.constants.STATE_COLOR[halook.constants.STATE.SUCCESS];
 				} else if (this.jobInfo.jobStatus ==halook.job.FAIL) {
@@ -408,7 +408,7 @@ halook.ArrowParentView = wgp.AbstractView
 					type : "button",
 					id : "arrowKilledButton",
 					classType : "sortButton",
-					value : "Killed",
+					value : "Killed"
 				};
 				this.buttonList.push(killedButton);
 
@@ -424,7 +424,7 @@ halook.ArrowParentView = wgp.AbstractView
 					width : halook.arrow.buttonSize.width,
 					height : halook.arrow.buttonSize.height,
 					marginLeft : halook.arrow.buttonSize.marginLeft,
-					float : "left",
+					float : "left"
 				});
 
 				$("#arrowBackButton").click(function() {
@@ -459,7 +459,7 @@ halook.ArrowParentView = wgp.AbstractView
 									marginTop : halook.taskInfoSpace.marginTop,
 									marginLeft : halook.taskInfoSpace.marginLeft,
 									float : halook.taskInfoSpace.float,
-									background : "-moz-linear-gradient(-45deg, rgba(255,255,255,1) 0%, rgba(241,241,241,1) 50%, rgba(225,225,225,1) 51%, rgba(246,246,246,1) 100%)",
+									background : "-moz-linear-gradient(-45deg, rgba(255,255,255,1) 0%, rgba(241,241,241,1) 50%, rgba(225,225,225,1) 51%, rgba(246,246,246,1) 100%)"
 								});
 				
 
@@ -501,7 +501,7 @@ halook.ArrowParentView = wgp.AbstractView
 				this.arrowChartView = new halook.ArrowChartView({
 					id : "arrowChart",
 					rootView : this,
-					jobInfo : this.jobInfo,
+					jobInfo : this.jobInfo
 				});
 				// console.log("this.arrowView : " + this.arrowView);
 				// /////////////////////////////////////////////////////////////////
@@ -521,7 +521,7 @@ halook.ArrowParentView = wgp.AbstractView
 
 				this.dygraphView = new halook.DygraphChartView({
 					id : "dygraphChart",
-					rootView : this,
+					rootView : this
 				});
 			},
 			_backTobeforePage : function() {
@@ -606,7 +606,7 @@ halook.ArrowParentView = wgp.AbstractView
 							TaskAttemptID : data.TaskAttemptID,
 							Mapreduce : data.Mapreduce,
 							SimpleID : data.SimpleID,
-							attemptTime : data.attemptTime,
+							attemptTime : data.attemptTime
 						});
 						instance.collection.add(model,
 								wgp.constants.BACKBONE_EVENT.SILENT);
@@ -666,7 +666,7 @@ halook.ArrowParentView = wgp.AbstractView
 						
 						for ( var i = 0; i < value.length; i++) {
 							// if status is commit pending, ignore task.
-							if (halook.arrow.ignoretask[value[i].Status] == true) {
+							if (halook.arrow.ignoretask[value[i].Status] === true) {
 								continue;
 							}
 							if (value[i].JobID == instance.jobInfo.jobId) {
@@ -693,9 +693,6 @@ halook.ArrowParentView = wgp.AbstractView
 				}
 
 			},
-			getRegisterId : function() {
-				return this.viewId;
-			},
 			_initDataProcesser : function() {
 				// 取得したデータを保存用の部位に代入する。
 				halook.taskDataOriginal = halook.parentView.getFromServerDatas;
@@ -713,7 +710,7 @@ halook.ArrowParentView = wgp.AbstractView
 				var taskDataForAhowLength = halook.taskDataForShow.length;
 				
 				for ( var i = 0; i < taskDataForAhowLength; i++) {
-					data = halook.taskDataForShow[i];
+					var data = halook.taskDataForShow[i];
 
 					if (finalTime < data.FinishTime) {
 						finalTime = data.FinishTime;

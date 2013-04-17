@@ -38,9 +38,9 @@ halook.arrowChart.infoElementFontSize = 15;
 // //////////////////////////////////////アロー関数群////////////////////////////////////////////////////////////
 halook.ArrowChartView = wgp.AbstractView
 		.extend({
-			initialize : function(arguments) {
+			initialize : function(argument) {
 				var jobColor;
-				this.jobInfo = arguments.jobInfo;
+				this.jobInfo = argument.jobInfo;
 				this.viewType = wgp.constants.VIEW_TYPE.VIEW;
 				this.attributes = {};
 				this.paper = new Raphael(document.getElementById(this.$el
@@ -61,18 +61,18 @@ halook.ArrowChartView = wgp.AbstractView
 					idArray = idstring.split('_');
 					rowCounter = 0;
 					idArray[5] = idArray[5].replace(/0/g, '');
-					if (idArray[5] != 0) {
-						if (halook.arrowChart.idCounter[(idArray[3] + "_" + idArray[4])] == undefined)
+					if (idArray[5] !== 0) {
+						if (halook.arrowChart.idCounter[(idArray[3] + "_" + idArray[4])] === undefined)
 							halook.arrowChart.idCounter[(idArray[3] + "_" + idArray[4])] = idArray[5];
 						else if (halook.arrowChart.idCounter[(idArray[3] + "_" + idArray[4])] < idArray[5])
 							halook.arrowChart.idCounter[(idArray[3] + "_" + idArray[4])] = idArray[5];
 					}
 				}
-				
+
 				// StartTime,FinishTimeが0であるtaskがあった場合、
 				// 0の代わりにJobの開始時間を入れる
 				this._setJobStartTimeToZeroTask();
-				
+
 				// 基本となるテーブルの線を描く
 				this._drawTableLines();
 
@@ -124,7 +124,7 @@ halook.ArrowChartView = wgp.AbstractView
 					var stateString;
 
 					if (halook.arrow.DisplayMode == "task") {
-						
+
 						modelInfo = this._calcArrowLengthAndStartPos(
 								data.StartTime, data.FinishTime, indexInCell,
 								totalInCell, rowCounter);
@@ -149,7 +149,7 @@ halook.ArrowChartView = wgp.AbstractView
 					if (data.Status == halook.constants.JOB_STATE.KILLED_UNCLEAN) {
 						data.Status = halook.constants.JOB_STATE.KILLED;
 					}
-					
+
 					// ///statusがエラーの場合の処理はこれも行う
 					if (data.Status == halook.constants.JOB_STATE.FAIL
 							|| data.Status == halook.constants.JOB_STATE.FAILED_UNCLEAN
@@ -173,7 +173,7 @@ halook.ArrowChartView = wgp.AbstractView
 							pointY : errorInfo.posY
 						});
 						stateString = halook.constants.STATE[data.Status];
-						
+
 						var errorStateString = stateString;
 						stateString = data.Mapreduce + stateString;
 
@@ -200,7 +200,7 @@ halook.ArrowChartView = wgp.AbstractView
 						model : modelDataForArrow,
 						paper : this.paper,
 						state : stateString,
-						info : data,
+						info : data
 					});
 
 					rowCounter++;
@@ -247,32 +247,31 @@ halook.ArrowChartView = wgp.AbstractView
 				};
 			},
 			_drawCellTitle : function() {
-				var labelString
+				var labelString;
 				var textRowCounter = 0;
 				var data;
 				var modelDataForCellTitle;
 				var tmpLabelArray;
-				
+
 				var taskDataForAhowLength = halook.taskDataForShow.length;
 				if (halook.arrow.DisplayMode == "task") {
-					
-					for ( var i = 0; i < taskDataForAhowLength; i++) {
-						data = halook.taskDataForShow[i];
 
-						modelDataForCellTitle = new wgp.MapElement(
-								{
-									objectId : halook.arrowChart.CellTitleObjectIDs
-											+ i,
-									objectName : null,
-									height : 0,
-									width : halook.arrowChart.CellTitleHeight,
-									pointX : halook.arrowChart.CellTitlePointX,
-									pointY : halook.arrowChart.cellHeight * 1.0
-											/ 2 + textRowCounter
-											* halook.arrowChart.cellHeight,
-									text : data.Mapreduce + "_" + data.SimpleID,
-									fontSize : halook.arrowChart.cellTitleFontSize
-								});
+					for ( var index = 0; index < taskDataForAhowLength; index++) {
+						data = halook.taskDataForShow[index];
+
+						modelDataForCellTitle = new wgp.MapElement({
+							objectId : halook.arrowChart.CellTitleObjectIDs
+									+ index,
+							objectName : null,
+							height : 0,
+							width : halook.arrowChart.CellTitleHeight,
+							pointX : halook.arrowChart.CellTitlePointX,
+							pointY : halook.arrowChart.cellHeight * 1.0 / 2
+									+ textRowCounter
+									* halook.arrowChart.cellHeight,
+							text : data.Mapreduce + "_" + data.SimpleID,
+							fontSize : halook.arrowChart.cellTitleFontSize
+						});
 						new halook.TextAreaStateElementView({
 							model : modelDataForCellTitle,
 							paper : this.paper,
@@ -281,21 +280,21 @@ halook.ArrowChartView = wgp.AbstractView
 						textRowCounter++;
 					}
 				} else if (halook.arrow.DisplayMode == "node") {
-					for ( var i = 0; i < taskDataForAhowLength; i++) {
-						labelString = halook.taskDataForShow[i].Hostname;
+					for ( var index2 = 0; index2 < taskDataForAhowLength; index2++) {
+						labelString = halook.taskDataForShow[index2].Hostname;
 						tmpLabelArray = labelString.split('/');
 						labelString = tmpLabelArray.join('\n');
 						// console.log(labelString);
 						modelDataForCellTitle = new wgp.MapElement(
 								{
 									objectId : halook.arrowChart.CellTitleObjectIDs
-											+ i,
+											+ index2,
 									objectName : null,
 									height : 0,
 									width : halook.arrowChart.CellTitleHeight,
 									pointX : halook.arrowChart.CellTitlePointX,
 									pointY : halook.arrowChart.cellHeight * 1.0
-											/ 2 + i
+											/ 2 + index2
 											* halook.arrowChart.cellHeight,// +
 									text : labelString,
 									fontSize : halook.arrowChart.cellTitleFontSizeForNode
@@ -307,7 +306,6 @@ halook.ArrowChartView = wgp.AbstractView
 						});
 					}
 				}
-				;
 			},
 			_drawTableLines : function() {
 				// 縦線の表示 端から100px
@@ -352,13 +350,12 @@ halook.ArrowChartView = wgp.AbstractView
 						state : "rerror"
 					});
 				}
-				
-				var x = halook.arrowChart.startLineX + halook.arrowChart.arrowChartWidth
-					* (halook.parentView.maxGraphTime - halook.parentView.minGraphTime) * 1.0
-					/ halook.parentView.intervalTime;
-				
-				
-				
+
+				var x = halook.arrowChart.startLineX
+						+ halook.arrowChart.arrowChartWidth
+						* (halook.parentView.maxGraphTime - halook.parentView.minGraphTime)
+						* 1.0 / halook.parentView.intervalTime;
+
 				var jobFinishTimeLine = new wgp.MapElement({
 					objectId : k + halook.arrowChart.CellLineObjectID,
 					objectName : null,
@@ -396,23 +393,23 @@ halook.ArrowChartView = wgp.AbstractView
 			},
 			_setJobStartTimeToZeroTask : function() {
 				var jobStartTime = (this.jobInfo.startTime).getTime();
-				
+
 				var dataArrayTmp = halook.taskDataForShow;
 				var dataArrayLength = dataArrayTmp.length;
-				
-				for (var index = 0; index < dataArrayLength; index++) {
+
+				for ( var index = 0; index < dataArrayLength; index++) {
 					var date = dataArrayTmp[index];
-					
-					if (date.StartTime == 0 && date.FinishTime == 0) {
+
+					if (date.StartTime === 0 && date.FinishTime === 0) {
 						dataArrayTmp[index].StartTime = jobStartTime;
 						dataArrayTmp[index].FinishTime = jobStartTime;
-					} else if (date.StartTime == 0) {
+					} else if (date.StartTime === 0) {
 						dataArrayTmp[index].StartTime = date.FinishTime;
-					} else if (date.FinishTime == 0) {
+					} else if (date.FinishTime === 0) {
 						dataArrayTmp[index].FinishTime = date.StartTime;
 					}
 				}
-				
+
 				halook.taskDataForShow = dataArrayTmp;
 			},
 			redraw : function(mode) {

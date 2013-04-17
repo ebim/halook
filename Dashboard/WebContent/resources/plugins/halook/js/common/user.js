@@ -1,4 +1,4 @@
-var graphViewElement = {
+halook.graphViewElement = {
 	viewClassName : "wgp.DygraphElementView",
 	viewAttribute : {
 		term : 1800,
@@ -6,23 +6,23 @@ var graphViewElement = {
 	}
 };
 
-var mapTabElement = {
+halook.mapTabElement = {
 	viewClassName : "wgp.MapView",
-	tabTitle : "Map",
+	tabTitle : "Map"
 };
 
-var graphAreaTabElement = {
+halook.graphAreaTabElement = {
 	viewClassName : "wgp.MultiAreaView",
 	tabTitle : "Graph",
-	collection : [ graphViewElement ]
+	collection : [ halook.graphViewElement ]
 };
 
-var tabViewElement = {
+halook.tabViewElement = {
 	viewClassName : "wgp.TabView",
-	collection : [ mapTabElement, graphAreaTabElement ]
+	collection : [ halook.mapTabElement, halook.graphAreaTabElement ]
 };
 
-var nodeInfoParentView = {
+halook.nodeInfoParentView = {
 	viewClassName : "ENS.NodeInfoParentView",
 	viewAttribute : {
 		ids : {
@@ -32,30 +32,30 @@ var nodeInfoParentView = {
 	}
 
 };
-var hbaseGrowthGraphView = {
+halook.hbaseGrowthGraphView = {
 	viewClassName : "halook.HbaseView"
 };
 
-var sliderView = {
+halook.sliderView = {
 	viewClassName : "SliderView"
 };
 
-var nodeInfoField = {
+halook.nodeInfoField = {
 	viewClassName : "wgp.MultiAreaView",
 	rootView : appView,
-	collection : [ nodeInfoParentView ]
+	collection : [ halook.nodeInfoParentView ]
 };
 
-var hbaseGrowthGraphParentView = {
+halook.hbaseGrowthGraphParentView = {
 	viewClassName : "halook.HbaseParentView"
 };
 
-var hbaseRegionMapView = {
+halook.hbaseRegionMapView = {
 	viewClassName : "halook.HbaseResionMapParentView",
 	viewAttribute : {
 		realTime : true,
 		width : 800,
-		startXAxis :50,
+		startXAxis : 50,
 		startYAxis : 350,
 		textStartY : 360,
 		textStartX : 40,
@@ -64,79 +64,72 @@ var hbaseRegionMapView = {
 		graphMaxValue : 280,
 		graphSVGWidth : 880,
 		graphSVGHeight : 540,
-		colorList : [
-		 　　　"#AFEEEE",
-		    "#FFC0CB",
-		    "#ADFF2F",
-		    "#FFA500",
-		    "#FFFF00"
-		],
-	},
-	
+		colorList : [ "#AFEEEE", "#FFC0CB", "#ADFF2F", "#FFA500", "#FFFF00" ]
+	}
 };
 
-var parentTmpElement = {
+halook.parentTmpElement = {
 	viewClassName : "halook.ParentTmpView",
 	rootView : appView,
-	viewAttribute : {},
+	viewAttribute : {}
 };
 
-var ganttChartParentElement = {
+halook.ganttChartParentElement = {
 	viewClassName : "halook.ganttChartParentView",
-	rootView : appView,
+	rootView : appView
 };
 
-var ganttChartViewElement = {
+halook.ganttChartViewElement = {
 	viewClassName : "wgp.MultiAreaView",
 	rootView : appView,
-	collection : [ ganttChartParentElement ]
+	collection : [ halook.ganttChartParentElement ]
 
 };
 
-var bubbleViewElement = {
-	viewClassName : "BubbleChartView",
+halook.bubbleViewElement = {
+	viewClassName : "BubbleChartView"
 };
 
-var bubbleMultiElement = {
+halook.bubbleMultiElement = {
 	viewClassName : "wgp.MultiAreaView",
 	rootView : appView,
-	collection : [ bubbleViewElement ]
+	collection : [ halook.bubbleViewElement ]
 };
 
-var HDFSViewElement = {
+halook.HDFSViewElement = {
 	viewClassName : "halook.HDFSView",
-	tabTitle : "HDFSView",
+	tabTitle : "HDFSView"
 };
 
-var HDFSParentElement = {
+halook.HDFSParentElement = {
 	viewClassName : "wgp.MultiAreaView",
-	collection : [ HDFSViewElement ]
+	collection : [ halook.HDFSViewElement ]
 };
 
-var bubbleTabViewElement = {
+halook.bubbleTabViewElement = {
 	viewClassName : "halook.BubbleChartView",
 	rootView : appView,
-	tabTitle : "Bubble Chart",
+	tabTitle : "Bubble Chart"
 };
 
-var arrowTabViewElement = {
+halook.arrowTabViewElement = {
 	viewClassName : "halook.ArrowParentView",
 	rootView : appView,
-	tabTitle : "Arrow Chart",
+	tabTitle : "Arrow Chart"
 };
 
-var mapReduceTabViewElement = {
+halook.mapReduceTabViewElement = {
 	viewClassName : "halook.TabView",
-	 collection : [ arrowTabViewElement, bubbleTabViewElement ],
+	collection : [ halook.arrowTabViewElement, halook.bubbleTabViewElement ]
 };
 
 if (!wgp.constants.VIEW_SETTINGS) {
 	wgp.constants.VIEW_SETTINGS = {};
 }
-wgp.constants.VIEW_SETTINGS = $.extend(wgp.constants.VIEW_SETTINGS,{
-	"/hdfs" : HDFSParentElement,
-	"/hbase/event" : hbaseGrowthGraphParentView,
-	"/hbase/table" : hbaseRegionMapView,
-	"/mapreduce/job" : ganttChartViewElement,
-	"/mapreduce/task" : mapReduceTabViewElement
+wgp.constants.VIEW_SETTINGS = $.extend(wgp.constants.VIEW_SETTINGS, {
+	"/hdfs" : halook.HDFSParentElement,
+	"/hbase/event" : halook.hbaseGrowthGraphParentView,
+	"/hbase/table" : halook.hbaseRegionMapView,
+	"/mapreduce/job" : halook.ganttChartViewElement,
+	"/mapreduce/task" : halook.mapReduceTabViewElement
 });

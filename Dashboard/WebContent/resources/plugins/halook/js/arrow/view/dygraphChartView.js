@@ -22,7 +22,7 @@ halook.tasksCounter = function(tasks, markTime) {
 			counter++;
 	}
 	return counter;
-}
+};
 
 // 等間隔の時間でtaskの数を数えて時間と結果を辞書式でを返す関数
 // Job始まりの時間、Job終わりの時間、taskAttemptの配列、区切り回数
@@ -43,7 +43,7 @@ halook.executeTaskCount = function(startTime, endTime, tasks, times) {
 		resultReturnArray.push(tmpDictionary);
 	}
 	return resultReturnArray;
-}
+};
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -94,32 +94,10 @@ halook.DygraphChartView = wgp.DygraphElementView.extend({
 		// console.log('call render');
 	},
 	onAdd : function(element) {
-		var dataArray = [];
-		if (this.collection.length > graphMaxNumber) {
-			this.collection.shift(wgp.constants.BACKBONE_EVENT.SILENT);
-		}
-		_.each(this.collection.models, function(model, index) {
-			// console.log(model.get("data"));
-			var modelData = model.get("data");
-			var array = [];
-			array.push(modelData.time);
-			array.push(modelData.counter);
-			dataArray.push(array);
-		});
-		if (this.entity == null) {
-			this.render();
-		} else {
-			this.entity.updateOptions({
-				file : dataArray
-			});
-		}
-		// console.log('call onAdd dygraph');
 	},
 	onChange : function(element) {
-		// console.log('called changeModel');
 	},
 	onRemove : function(element) {
-		// console.log('called removeModel');
 	},
 	addCollection : function(dataArray) {
 		if (dataArray != null) {

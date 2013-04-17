@@ -55,13 +55,17 @@ halook.ganttChartView = wgp.AbstractView
 				this.paper = new Raphael(document.getElementById(this.$el
 						.attr("id")), this.width, 30 + 20 * this.dataArray.length);
 
+				var startX = 0;
+				var startY = 0;
+				var property;
+				var property1;
 				if(this.dataArray != null) {
-					var startX = 130;
-					var startY = 7 + 20 * this.dataArray.length;
+					startX = 130;
+					startY = 7 + 20 * this.dataArray.length;
 //					console.log(this.dataArray[0].StartTime);
 					
 					// ganttChartの初期Y軸の設定
-					var property = new wgp.MapElement({
+					property = new wgp.MapElement({
 						objectId : 1,
 						objectName : "wgp.MapStateElementView",
 						pointX : 130,
@@ -75,13 +79,13 @@ halook.ganttChartView = wgp.AbstractView
 					});
 
 					// ganttChartの初期X軸の設定
-					var property1 = new wgp.MapElement({
+					property1 = new wgp.MapElement({
 						objectId : 2,
 						objectName : "wgp.MapElementView",
 						pointX : 130,
 						pointY : startY + 20,
 						width : 700,
-						height : 0,
+						height : 0
 					});
 					new halook.ganttChartAxisStateElementView({
 						model : property1,
@@ -97,7 +101,7 @@ halook.ganttChartView = wgp.AbstractView
 						width : 700,
 //						text : this.dataArray[0].StartTime
 						text : this.termData.startDate,
-						endText : this.termData.endDate,
+						endText : this.termData.endDate
 					});
 					new halook.ganttChartAxisNameView({
 						model : Label,
@@ -112,18 +116,22 @@ halook.ganttChartView = wgp.AbstractView
 					var timeWidthInit = (700 / splitter) / timeWidthSplitter;
 
 					for ( var i = 0; i < this.dataArray.length; i++) {
-						if (i == 0) {
-							var width = timeWidthInit * ((new Date(this.dataArray[0].FinishTime) / 1000 - new Date(
+						var width = 0;
+						var status = "";
+						var ganttPointX = 0;
+						var ganttChartProperty;
+						if (i === 0) {
+							width = timeWidthInit * ((new Date(this.dataArray[0].FinishTime) / 1000 - new Date(
 									this.dataArray[0].StartTime) / 1000));
-							var status = this._getStatus(this.dataArray[0].Status);
-							var ganttPointX = startX;
+							status = this._getStatus(this.dataArray[0].Status);
+							ganttPointX = startX;
 							if(new Date(this.dataArray[0].StartTime) / 1000 < new Date(this.termData.startDate) / 1000)
 								continue;
 							ganttPointX += timeWidthInit * ((new Date(
 											this.dataArray[0].StartTime) / 1000 - new Date(
 											this.termData.startDate) / 1000));
 							// dataArrayの1番目のjobの設定
-							var ganttChartProperty = new wgp.MapElement({
+							ganttChartProperty = new wgp.MapElement({
 								objectId : i + 1,
 								objectName : "wgp.MapStateElementView",
 								pointX : ganttPointX,
@@ -147,16 +155,16 @@ halook.ganttChartView = wgp.AbstractView
 						}
 						else {
 							var targetData = this.dataArray[i];
-							var width = timeWidthInit * ((new Date(targetData.FinishTime) / 1000 - new Date(
+							width = timeWidthInit * ((new Date(targetData.FinishTime) / 1000 - new Date(
 									targetData.StartTime) / 1000));
-							var status = this._getStatus(targetData.Status);
-							var ganttPointX = startX;
+							status = this._getStatus(targetData.Status);
+							ganttPointX = startX;
 							ganttPointX += timeWidthInit * ((new Date(
 									targetData.StartTime) / 1000 - new Date(
 										this.termData.startDate) / 1000));
 
 							// dataArrayの2番目以降のjobの設定
-							var ganttChartProperty = new wgp.MapElement({
+							ganttChartProperty = new wgp.MapElement({
 									objectId : i + 1,
 									objectName : "wgp.MapStateElementView",
 									pointX : ganttPointX,
@@ -182,12 +190,11 @@ halook.ganttChartView = wgp.AbstractView
 				}
 				else
 				{
-					var startX = 130;
-					var startY = 7;
-//					console.log(this.dataArray[0].StartTime);
+					startX = 130;
+					startY = 7;
 					
 					// ganttChartの初期Y軸の設定
-					var property = new wgp.MapElement({
+					property = new wgp.MapElement({
 						objectId : 1,
 						objectName : "wgp.MapStateElementView",
 						pointX : 130,
@@ -201,13 +208,13 @@ halook.ganttChartView = wgp.AbstractView
 					});
 
 					// ganttChartの初期X軸の設定
-					var property1 = new wgp.MapElement({
+					property1 = new wgp.MapElement({
 						objectId : 2,
 						objectName : "wgp.MapElementView",
 						pointX : 130,
 						pointY : startY + 100,
 						width : 700,
-						height : 0,
+						height : 0
 					});
 					new halook.ganttChartAxisStateElementView({
 						model : property1,

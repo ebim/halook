@@ -64,7 +64,7 @@ halook.customtriangle.prototype = new mapElement();
 halook.customtriangle.prototype.createPositionArray = function(elementProperty){
 
 	// ポジションのリスト
-	var positionArray = new Array();
+	var positionArray = [];
 
     var firstPosition = new Position(elementProperty.pointX , elementProperty.pointY);
     positionArray.push(firstPosition);

@@ -7,7 +7,7 @@ ENS.AppView = wgp.AppView.extend({
 		var ins = this;
 		ENS.AppView = function() {
 			return ins;
-		}
+		};
 	},
 	getTermData : function(syncIdList, startTime, endTime) {
 		var instance = this;
@@ -24,7 +24,7 @@ ENS.AppView = wgp.AppView.extend({
 			data : {
 				data : JSON.stringify(dataMap)
 			}
-		}
+		};
 		this.onSearch(settings);
 	}
 });

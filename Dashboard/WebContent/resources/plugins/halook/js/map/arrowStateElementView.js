@@ -32,8 +32,9 @@ halook.ArrowStateElementView = Backbone.View.extend({
 		var rate = 1;
 		if (this.model.attributes.width < halook.arrowState.minLength) {
 			rate = this.model.attributes.width*1.0/halook.arrowState.minLength;
-			if(rate < 0.7)
-				rete = 0.7;
+			if(rate < 0.7) {
+				rate = 0.7;
+			}
 		} else
 			this.model.attributes.width = this.model.attributes.width
 					- halook.arrowState.xOffset;
@@ -81,7 +82,7 @@ halook.ArrowStateElementView = Backbone.View.extend({
 		triangleData.set({
 			"attributes" : {
 				fill : color,
-				stroke : color,
+				stroke : color
 			}
 		}, {
 			silent : true
@@ -100,22 +101,22 @@ halook.ArrowStateElementView = Backbone.View.extend({
 		// this.element[2].object.taskInfo = this.taskInfo;
 		var instance = this;
 		if ($.isArray(this.element)) {
-			for ( var i = 0; i < this.element.length; i++) {
-				(this.element)[i].object.mouseover(function(event) {
+			for ( var index = 0; index < this.element.length; index++) {
+				(this.element)[index].object.mouseover(function(event) {
 					instance.addMouseoverArrow(event);
 				});
 			}
 		}
 		if ($.isArray(this.element)) {
-			for ( var i = 0; i < this.element.length; i++) {
-				(this.element)[i].object.mouseout(function(event) {
+			for ( var index2 = 0; index2 < this.element.length; index2++) {
+				(this.element)[index2].object.mouseout(function(event) {
 					instance.addMouseoutArrow(event);
 				});
 			}
 		}
 		if ($.isArray(this.element)) {
-			for ( var i = 0; i < this.element.length; i++) {
-				(this.element)[i].object.click(function(event) {
+			for ( var index3 = 0; index3 < this.element.length; index3++) {
+				(this.element)[index3].object.click(function(event) {
 					instance.addMouseClickArrow(event);
 				});
 			}
@@ -173,7 +174,14 @@ halook.ArrowStateElementView = Backbone.View.extend({
 		});
 		if (halook.arrowState.changableFlag) {
 
-			arrowElement = this.element;
+			var arrowElement = this.element;
+			var arrow = this.taskInfo;
+			var startTime = new Date();
+			startTime.setTime(arrow.StartTime);
+			var find = new Date();
+			find.setTime(arrow.FinishTime);
+			var infoString = "";
+			
 			makeID++;
 			if ($.isArray(arrowElement)) {
 				// $("#arrowInfoView").css("display","block");
@@ -183,11 +191,8 @@ halook.ArrowStateElementView = Backbone.View.extend({
 						"rgba(255,255,255,0.9)");
 				$("#arrowInfoView").css("color", "#222222");
 				$("#arrowInfoView").css("z-index", 100);
-				var arrow = this.taskInfo
-				var startd = new Date();
-				startd.setTime(arrow.StartTime);
-				var find = new Date();
-				find.setTime(arrow.FinishTime);
+				
+				
 				// console.log("mousex, mousey, " + event.layerX + ", "
 				// + event.layerY);
 				// view を追加
@@ -203,27 +208,22 @@ halook.ArrowStateElementView = Backbone.View.extend({
 					fontSize : 20
 				});
 				var attemptIDArray = arrow.TaskAttemptID.split("_");
-				var infoString = " ID:</br>" + attemptIDArray[0] + "</br>"
+				infoString = " ID:</br>" + attemptIDArray[0] + "</br>"
 						+ "_" + attemptIDArray[1] + "</br>" + "_"
 						+ attemptIDArray[2] + "_" + attemptIDArray[3] + "</br>"
 						+ "_" + attemptIDArray[4] + "_" + attemptIDArray[5]
 						+ "</br>" + "</br>" + "Status:</br>" + arrow.Status
-						+ "</br>" + "</br>" + startd + " - </br>" + find
+						+ "</br>" + "</br>" + startTime + " - </br>" + find
 						+ "</br>" + "</br>" + "Hostname:</br>" + arrow.Hostname
 						+ "</br>";
 				$("#taskInfoSpace").html(
 						"<font face = 'Verdana' size = '2'>" + infoString
 								+ "</font>");
 			} else {
-				var arrow = this.taskInfo
-				var startd = new Date();
-				startd.setTime(arrow.StartTime);
-				var find = new Date();
-				find.setTime(arrow.FinishTime);
-				var infoString = "<p>JobId:</br>" + arrow.JobID + "</br>"
+				infoString = "<p>JobId:</br>" + arrow.JobID + "</br>"
 						+ "TaskAttemptID:</br>" + arrow.TaskAttemptID + "</br>"
 						+ "Status:</br>" + arrow.Status + "</br>"
-						+ "StartTime:</br>" + startd + "</br>"
+						+ "StartTime:</br>" + startTime + "</br>"
 						+ "FinishTime:</br>" + find + "</br>"
 						+ "Hostname:</br>" + arrow.Hostname + "</br></p>";
 				$("#taskInfoSpace").html(infoString);
@@ -237,9 +237,9 @@ halook.ArrowStateElementView = Backbone.View.extend({
 		}
 		else {
 			halook.arrowState.changableFlag = true;
-			var arrow = this.taskInfo
-			var startd = new Date();
-			startd.setTime(arrow.StartTime);
+			var arrow = this.taskInfo;
+			var startTime = new Date();
+			startTime.setTime(arrow.StartTime);
 			var find = new Date();
 			find.setTime(arrow.FinishTime);
 			// view を追加
@@ -260,7 +260,7 @@ halook.ArrowStateElementView = Backbone.View.extend({
 					+ "_" + attemptIDArray[3] + "</br>" + "_"
 					+ attemptIDArray[4] + "_" + attemptIDArray[5] + "</br>"
 					+ "</br>" + "Status:</br>" + arrow.Status + "</br>"
-					+ "</br>" + startd + " - </br>" + find + "</br>" + "</br>"
+					+ "</br>" + startTime + " - </br>" + find + "</br>" + "</br>"
 					+ "Hostname:</br>" + arrow.Hostname + "</br>";
 			$("#taskInfoSpace").css({"border-style":"outset"});
 			$("#taskInfoSpace").html(

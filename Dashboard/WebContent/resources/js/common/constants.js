@@ -25,7 +25,7 @@
  ******************************************************************************/
 var ENS = {};
 
-ENS.ID = {}
+ENS.ID = {};
 ENS.ID.MEASUREMENT_TIME = "measurementTime";
 ENS.ID.MEASUREMENT_VALUE = "measurementValue";
 ENS.ID.MEASUREMENT_ITEM_NAME = "measurementItemName";
@@ -82,7 +82,7 @@ ENS.nodeinfo.parent.css.annotationLegendArea = {
 };
 ENS.nodeinfo.parent.css.dualSliderArea = {
 	width : "800px",
-	margin : "0px 0px 20px 60px",
+	margin : "0px 0px 20px 60px"
 };
 ENS.nodeinfo.parent.css.graphArea = {
 	float : "left",

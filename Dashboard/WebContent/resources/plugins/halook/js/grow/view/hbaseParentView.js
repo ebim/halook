@@ -3,7 +3,7 @@
 /////////////////////////////////////////////////////////
 halook.HbaseParentView = wgp.AbstractView
 		.extend({
-			initialize : function(arguments, treeSettings) {
+			initialize : function(argument, treeSettings) {
 				this.viewtype = wgp.constants.VIEW_TYPE.VIEW;
 				this.viewId = '#' + this.$el.attr('id');
 				var idDict = halook.hbase.parent.id;
@@ -78,7 +78,7 @@ halook.HbaseParentView = wgp.AbstractView
 				appView.removeView(this.hbaseView);
 			},
 			makeLogoArea : function() {
-				idName = 'logo';
+				var idName = 'logo';
 				$(this.viewId).append('<div id="' + idName + '" class="contentHeader" ></div>');
 				$('#' + idName).append(
 						'<h1>HBase GrowMap</h1>');

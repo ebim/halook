@@ -1,9 +1,9 @@
 halook.dygraphChartModel = Backbone.Model.extend({
 	defaults:{
 		time:null,
-		counter:null,
+		counter:null
 	},
-	idAttribute:"time",
+	idAttribute:"time"
 });
 
 halook.dygraphModelCollection = Backbone.Collection.extend({

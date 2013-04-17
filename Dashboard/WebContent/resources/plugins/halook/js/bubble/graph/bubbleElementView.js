@@ -6,14 +6,13 @@ halook.BubbleChartAttribute = [ "colors", "labels", "valueRange", "xlabel",
 
 // MapSuccess,MapFailed,MapKilled,ReduceSuccess,ReduceFailed,ReduceKilledの順で表示用のフラグ
 halook.bubble = {};
-var MAP_SUCCESS = 0;
-var MAP_FAILED = 1;
-var MAP_KILLED = 2;
-var REDUCE_SUCCESS = 3;
-var REDUCE_FAILED = 4;
-var REDUCE_KILLED = 5;
-var EDGE_RATE = 1;// グラフ両端のダミーデータの占める大きさの割合(%)
-var sortFlag = [ true, true, true, true, true, true ];
+halook.bubble.MAP_SUCCESS = 0;
+halook.bubble.MAP_FAILED = 1;
+halook.bubble.MAP_KILLED = 2;
+halook.bubble.REDUCE_SUCCESS = 3;
+halook.bubble.REDUCE_FAILED = 4;
+halook.bubble.REDUCE_KILLED = 5;
+halook.bubble.sortFlag = [ true, true, true, true, true, true ];
 var Sort_array = [ "Map", "Reduce" ];// タスクの種類
 halook.bubble.Status_array = [ "Success", "Failed", "Killed" ];// ステータスの種類
 var sortByFinishTime = false;
@@ -61,7 +60,7 @@ halook.BubbleElementView = wgp.DygraphElementView
 				this.collection.comparator = function(model) {
 					var value = $.parseJSON(model.get("measurementValue"));
 					if (null != value && null != value[0]
-							&& undefined != value[0]) {
+							&& undefined !== value[0]) {
 						if (!sortByFinishTime) {
 							return value[0].StartTime;
 						} else {
@@ -119,7 +118,7 @@ halook.BubbleElementView = wgp.DygraphElementView
 				_.each(this.collection.models, function(model) {
 					instance._convartModelToArray(instance, model, max);
 				});
-				if (instance.dataArray.length != 0) {
+				if (instance.dataArray.length !== 0) {
 				} else {
 					instance.dataArray.push([ new Date(), null, null, null,
 							null, null, null, 0 ]);
@@ -135,9 +134,9 @@ halook.BubbleElementView = wgp.DygraphElementView
 				for (var index = 0; index < dataArrayLength; index++) {
 					var date = dataArrayTmp[index][0];
 					
-					var time = date.getTime()
+					var time = date.getTime();
 					
-					if (time == 0) {
+					if (time === 0) {
 						dataArrayTmp[index][0] = jobStartTimeDate;
 					}
 				}
@@ -147,10 +146,10 @@ halook.BubbleElementView = wgp.DygraphElementView
 			_convartModelToArray : function(instance, model, max) {
 				var valueString = model.get("measurementValue");
 				var value = $.parseJSON(valueString);
-				if (null != value && null != value[0] && undefined != value[0]) {
+				if (null != value && null != value[0] && undefined !== value[0]) {
 					var length = value.length;
 
-					for (i = 0; i < length; i++) {
+					for (var i = 0; i < length; i++) {
 						var processedData = this._processingData(value, i);
 						if (processedData != null) {
 							var tempprocessTime = (new Date(
@@ -186,7 +185,7 @@ halook.BubbleElementView = wgp.DygraphElementView
 				this.collection.comparator = function(model) {
 					var value = $.parseJSON(model.get("measurementValue"));
 					if (null != value && null != value[0]
-							&& undefined != value[0]) {
+							&& undefined !== value[0]) {
 						if (!sortByFinishTime) {
 							return value[0].StartTime;
 						} else {
@@ -204,7 +203,7 @@ halook.BubbleElementView = wgp.DygraphElementView
 			_sortingByStartData : function(modelData) {
 				var startTime = modelData.StartTime;
 				var finishTime = modelData.FinishTime;
-				if (finishTime == 0) {
+				if (finishTime === 0) {
 					finishTime = startTime;
 				}
 				var processTime = (finishTime - startTime) / divTime;// 秒単位
@@ -216,7 +215,7 @@ halook.BubbleElementView = wgp.DygraphElementView
 
 				var startTime = modelData.StartTime;
 				var finishTime = modelData.FinishTime;
-				if (finishTime == 0) {
+				if (finishTime === 0) {
 					finishTime = startTime;
 				}
 				var processTime = (finishTime - startTime) / divTime;// 秒単位
@@ -224,18 +223,19 @@ halook.BubbleElementView = wgp.DygraphElementView
 				return this._dataPusher(finishTime, processTime, modelData);
 			},
 			_dataPusher : function(time, processTime, modelData) {
+				var sortFlag = halook.bubble.sortFlag;
 				var array = [];
 				if (modelData.Sort == "m") {
 					if (modelData.Status == halook.task.SUCCESSED
-							&& sortFlag[MAP_SUCCESS]) {
+							&& sortFlag[halook.bubble.MAP_SUCCESS]) {
 						array.push(new Date(time), processTime, null, null,
 								null, null, null, null);
 					} else if (modelData.Status == halook.task.FAILED
-							&& sortFlag[MAP_FAILED]) {
+							&& sortFlag[halook.bubble.MAP_FAILED]) {
 						array.push(new Date(time), null, processTime, null,
 								null, null, null, null);
 					} else if (modelData.Status == halook.task.KILLED
-							&& sortFlag[MAP_KILLED]) {
+							&& sortFlag[halook.bubble.MAP_KILLED]) {
 						array.push(new Date(time), null, null, processTime,
 								null, null, null, null);
 					} else {
@@ -244,15 +244,15 @@ halook.BubbleElementView = wgp.DygraphElementView
 					}
 				} else if (modelData.Sort == "r") {
 					if (modelData.Status == halook.task.SUCCESSED
-							&& sortFlag[REDUCE_SUCCESS]) {
+							&& sortFlag[halook.bubble.REDUCE_SUCCESS]) {
 						array.push(new Date(time), null, null, null,
 								processTime, null, null, null);
 					} else if (modelData.Status == halook.task.FAILED
-							&& sortFlag[REDUCE_FAILED]) {
+							&& sortFlag[halook.bubble.REDUCE_FAILED]) {
 						array.push(new Date(time), null, null, null, null,
 								processTime, null, null);
 					} else if (modelData.Status == halook.task.KILLED
-							&& sortFlag[REDUCE_KILLED]) {
+							&& sortFlag[halook.bubble.REDUCE_KILLED]) {
 						array.push(new Date(time), null, null, null, null,
 								null, processTime, null);
 					} else {
@@ -276,21 +276,15 @@ halook.BubbleElementView = wgp.DygraphElementView
 				} else {
 					xlabel = "StartTime [Date]";
 				}
+				var sortFlag = halook.bubble.sortFlag;
 
 				this.entity.updateOptions({
 					xlabel : xlabel,
-					visibility : [ sortFlag[MAP_SUCCESS], sortFlag[MAP_FAILED],
-							sortFlag[MAP_KILLED], sortFlag[REDUCE_SUCCESS],
-							sortFlag[REDUCE_FAILED], sortFlag[REDUCE_KILLED],
+					visibility : [ sortFlag[halook.bubble.MAP_SUCCESS], sortFlag[halook.bubble.MAP_FAILED],
+							sortFlag[halook.bubble.MAP_KILLED], sortFlag[halook.bubble.REDUCE_SUCCESS],
+							sortFlag[halook.bubble.REDUCE_FAILED], sortFlag[halook.bubble.REDUCE_KILLED],
 							true ],
-					axisLabelFontSize : 11,
-				/*
-				 * 形表示用の定義の仕方 ReduceSuccess:{ //pointSize : 7, //drawPoints :
-				 * false, drawPointCallback : instance._mouthlessFace,
-				 * drawHighlightPointCallback : instance._mouthlessFace },
-				 * ReduceFailed:{ drawPointCallback : instance._mouthlessFace,
-				 * drawHighlightPointCallback : instance._mouthlessFace },
-				 */
+					axisLabelFontSize : 11
 				});
 			},
 			_processingData : function(value, index) {
@@ -303,41 +297,31 @@ halook.BubbleElementView = wgp.DygraphElementView
 						Status : value[index]['Status'],
 						Sort : Sort[3],
 						HostName : value[index]['Hostname']
-					}
+					};
 					return processedData;
 				} else {
 					return null;
 				}
 			}
-		/*
-		 * 三角を描く関数 _mouthlessFace : function(g, seriesName, canvasContext, cx,
-		 * cy, color, pointSize) { var canvasList = $("canvas"); var canvas =
-		 * canvasList[0]; //if ( ! canvas || ! canvas.getContext ) { return
-		 * false; } ctx = canvas.getContext("2d"); // 三角形を描く ctx.fillStyle =
-		 * "#000000"; ctx.beginPath(); ctx.moveTo(250, 10); ctx.lineTo(300, 90);
-		 * ctx.lineTo(210, 90); ctx.closePath(); // 三角形を塗りつぶす ctx.fill(); return
-		 * ctx; }
-		 */
-
 		});
 
 // データ振り分け用のフラグチェック(0:MapSuccess,1:MapFailed,2:MapKilled,3:ReduceSuccess,4:ReduceFailed,5:ReduceKilled)
-function flagChange(index) {
-	if (sortFlag[index]) {
-		sortFlag[index] = false;
+halook.bubble.flagChange = function(index) {
+	if (halook.bubble.sortFlag[index]) {
+		halook.bubble.sortFlag[index] = false;
 	} else {
-		sortFlag[index] = true;
+		halook.bubble.sortFlag[index] = true;
 	}
-}
+};
 
 // フラグが何かを見る
-function flagCheck(index) {
-	if (sortFlag[index]) {
+halook.bubble.flagCheck = function(index) {
+	if (halook.bubble.sortFlag[index]) {
 		return "checked";
 	} else {
 		return "";
 	}
-}
+};
 
 // フィニッシュボタンが何かを見る
 
@@ -372,17 +356,8 @@ var graphListenerView = Backbone.View.extend({
 		});
 
 	},
-	// events: {
-	// "change input": "_check"
-	// },
 	_check : function(e) {
 		var id = $(e.target).attr("id");
-		flagChange(id);
-		this.parentView.trigger("updateGraphOptions");
+		halook.bubble.flagChange(id);
 	}
 });
-
-/*
- * var buttonView = Backbone.View.extend({ el : "#leftTop", events:{ "click":
- * "_back" }, _back : function(){ //alert(""); } });
- */

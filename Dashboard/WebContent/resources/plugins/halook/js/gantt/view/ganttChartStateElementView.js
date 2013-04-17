@@ -24,8 +24,6 @@
  * SOFTWARE.
  ******************************************************************************/
 halook.ganttchart = {};
-halook.ganttchart.treeSettings;
-halook.ganttchart.childView;
 
 halook.ganttchartStateElementView = Backbone.View.extend({
 	initialize : function(argument, treeSettings) {
@@ -109,27 +107,27 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 			var dotLine = [];
 			var models;
 			for ( var num = 0; num < this.model.attributes.width / 20; num++) {
-				if (num == parseInt(this.model.attributes.width / 20)) {
+				if (num == parseInt((this.model.attributes.width / 20) ,10)) {
 					models = new wgp.MapElement({
 						pointX : this.model.attributes.pointX + dotLineX,
 						pointY : this.model.attributes.pointY,
 						width : this.model.attributes.width - dotLineX,
-						height : 0,
+						height : 0
 					});
 				} else {
 					models = new wgp.MapElement({
 						pointX : this.model.attributes.pointX + dotLineX,
 						pointY : this.model.attributes.pointY,
 						width : 16,
-						height : 0,
+						height : 0
 					});
 				}
 
 				dotLine.push(models);
 				dotLineX += 20;
 			}
-			for ( var num = 0; num < dotLine.length; num++) {
-				dotLine[num].set({
+			for ( var num2 = 0; num2 < dotLine.length; num2++) {
+				dotLine[num2].set({
 					"attributes" : {
 						stroke : color,
 						"stroke-width" : strokeWidth
@@ -144,7 +142,7 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 			pointX : this.model.attributes.pointX,
 			pointY : this.model.attributes.pointY - 8,
 			width : 0,
-			height : 16,
+			height : 16
 		});
 		var rightLine = new wgp.MapElement(
 				{
@@ -152,7 +150,7 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 							+ this.model.attributes.width,
 					pointY : this.model.attributes.pointY - 8,
 					width : 0,
-					height : 16,
+					height : 16
 				});
 		var jobLabel = new wgp.MapElement({
 			pointX : 65,
@@ -223,10 +221,11 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 
 		this.element = [];
 		var focusElement;
+		var textElement;
 		if (this.model.attributes.state.match("RUNNING")) {
-			for ( var num = 0; num < dotLine.length; num++) {
+			for ( var num3 = 0; num3 < dotLine.length; num3++) {
 				this.element
-						.push(new line(dotLine[num].attributes, this._paper));
+						.push(new line(dotLine[num3].attributes, this._paper));
 			}
 			
 			if (!isNonLeft) {
@@ -236,14 +235,14 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 				this.element.push(new line(rightLine.attributes, this._paper));
 			}
 			
-			var textElement = this._paper.text(jobLabel.attributes.pointX,
+			textElement = this._paper.text(jobLabel.attributes.pointX,
 					jobLabel.attributes.pointY, jobLabel.attributes.text);
 			textElement.attr({
 				stroke : halook.gantt.AXIS_COLOR
 			});
 			
-			for ( var num = 0; num < this.element.length; num++) {
-				this.element[num].object.mouseover(function() {
+			for ( var num4 = 0; num4 < this.element.length; num4++) {
+				this.element[num4].object.mouseover(function() {
 					$("#ganttChartDetail").html(detail.attributes.text);
 				});
 			}
@@ -257,21 +256,21 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 				this.element.push(new line(rightLine.attributes, this._paper));
 			}
 			
-			var textElement = this._paper.text(jobLabel.attributes.pointX,
+			textElement = this._paper.text(jobLabel.attributes.pointX,
 					jobLabel.attributes.pointY, jobLabel.attributes.text);
 			textElement.attr({
 				stroke : halook.gantt.AXIS_COLOR
 			});
-			for ( var num = 0; num < this.element.length; num++) {
-				this.element[num].object.mouseover(function() {
+			for ( var num5 = 0; num5 < this.element.length; num5++) {
+				this.element[num5].object.mouseover(function() {
 					$("#ganttChartDetail").html(detail.attributes.text);
 				});
 				var instance = this;
-				this.element[num].object.click(function(e) {
+				this.element[num5].object.click(function(e) {
 
 					if (instance.childView) {
 						var tmpAppView = new ENS.AppView();
-						tmpAppView.removeView(inctance.childView);
+						tmpAppView.removeView(instance.childView);
 						this.childView = null;
 					}
 					$("#contents_area").children().remove();
@@ -290,7 +289,7 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 						id : instance.targetId
 					});
 					
-					var parentTreeId = halook.ganttchart.treeSettings.parentTreeId
+					var parentTreeId = halook.ganttchart.treeSettings.parentTreeId;
 					var taskTreeId = parentTreeId + "/task";
 					
 					var treeSettings = {
@@ -307,11 +306,11 @@ halook.ganttchartStateElementView = Backbone.View.extend({
 						jobId : instance.model.attributes.label,
 						jobStatus : instance.model.attributes.state,
 						rootView : appView,
-						id : "contents_area",
+						id : "contents_area"
 					});
+					// 動的に生成するオブジェクトを切り替える必要があるため、やむを得ずeval()を使う
 					halook.ganttchart.childView = eval("new " + viewClassName
 							+ "(viewSettings, treeSettings)");
-
 				});
 			}
 		}

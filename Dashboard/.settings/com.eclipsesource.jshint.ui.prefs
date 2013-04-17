@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
-included=WebContent/resources/js//*\:WebContent/resources/plugins/halook/js//*
-options=sub\:true, undef\:true, laxcomma\:true, laxbreak\:true, eqnull\:true
+globals=wgp\:true,ENS\:true,halook\:true,infinispan\:true,appView\:true,Backbone\:true,_\:true,treeModel\:true,\r\ndocument\:true,Dygraph\:true,Raphael\:true,TabModelList\:true,line\:true,viewArea1\:true,viewArea2\:true,\r\nraphaelMapConstants\:true,mapElement\:true,Position\:true,textArea\:true,TreeModelList\:true
+included=WebContent/resources/js//*\:WebContent/resources/plugins/halook/js//*.js
+options=funcscope\:true,jquery\:true,devel\:true,sub\:true,undef\:true,laxcomma\:true,laxbreak\:true,eqnull\:true
 projectSpecificOptions=true

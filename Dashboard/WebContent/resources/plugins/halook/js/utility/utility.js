@@ -65,12 +65,11 @@ halook.comDateFormat = function(date, format) {
 	}
 
 	return result;
-
-}
+};
 
 /*******************************************************************************
  * [機能] ゼロパディングを行います [引数] value 対象の文字列 length 長さ [戻値] 結果文字列
  ******************************************************************************/
 halook.comPadZero = function(value, length) {
 	return new Array(length - ('' + value).length + 1).join('0') + value;
-}
+};

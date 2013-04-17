@@ -34,4 +34,3 @@ ENS.ResourceGraphModel = Backbone.Model.extend({
 ENS.ResourceGraphCollection = Backbone.Collection.extend({
 	model : ENS.ResourceGraphModel
 });
-

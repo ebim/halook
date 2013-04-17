@@ -30,11 +30,6 @@ halook.ganttChartParentView = wgp.AbstractView
 				this.attributes = {};
 				this.treeSettings = treeSettings;
 				this.PAGER_COUNT = 15;
-
-				// 一時的に固定値
-				// var dateS = new Date(2012, 9, 17);
-				// var dateE = new Date(2012, 9, 19);
-
 				// END:現在の時刻、START:現在の時刻から1時間前
 				var dateE = new Date();
 				var dateS = new Date(dateE.getTime() - 60 * 1000 * 60);
@@ -62,8 +57,7 @@ halook.ganttChartParentView = wgp.AbstractView
 						.css(
 								{
 									background : "-moz-linear-gradient(-45deg, rgba(76,76,76,1) 0%, rgba(89,89,89,1) 12%, rgba(102,102,102,1) 25%, rgba(71,71,71,1) 39%, rgba(44,44,44,1) 50%, rgba(17,17,17,1) 60%, rgba(43,43,43,1) 76%, rgba(28,28,28,1) 91%, rgba(19,19,19,1) 100%)",
-									overflow : "hidden",
-
+									overflow : "hidden"
 								});
 
 				$("#" + this.$el.attr("id"))
@@ -71,7 +65,7 @@ halook.ganttChartParentView = wgp.AbstractView
 								'<div id="viewTitle" class="contentHeader"></div>');
 				$("#viewTitle").css({
 					width : "850px",
-					height : "70px",
+					height : "70px"
 				});
 				
 				var context = $("#context").val();
@@ -137,7 +131,7 @@ halook.ganttChartParentView = wgp.AbstractView
 				$("#ganttChartDetail").css({
 					margin : "10px 0px 0px 0px",
 					overflow : "auto",
-					backgroundColor : "-moz-linear-gradient(-45deg, #111111 0%, #000000 100%) repeat scroll 0 0 transparent",
+					backgroundColor : "-moz-linear-gradient(-45deg, #111111 0%, #000000 100%) repeat scroll 0 0 transparent"
 				});
 				$("#ganttChartDetail").html("■JOB DETAIL");
 
@@ -243,8 +237,8 @@ halook.ganttChartParentView = wgp.AbstractView
 					StartTime : value[index]['StartTime'],
 					FinishTime : value[index]['FinishTime'],
 					SubmitTime : value[index]['SubmitTime'],
-					Status : value[index]['Status'],
-				}
+					Status : value[index]['Status']
+				};
 				return processedData;
 			},
 

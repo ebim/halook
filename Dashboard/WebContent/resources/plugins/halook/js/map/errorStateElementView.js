@@ -6,7 +6,7 @@ halook.plusMinus = function(num) {
 	else
 		return 1;
 
-}
+};
 halook.errorState = {};
 halook.errorState.rate = 0.5;
 halook.errorXOffset = 5;
@@ -21,7 +21,7 @@ halook.addMouseover = function(errorElement) {
 		errorElement.object.mouseover(function() {
 		});
 	}
-}
+};
 
 halook.ErrorStateElementView = Backbone.View.extend({
 	// /stateを渡す。NORMAL or ERROR or WARN

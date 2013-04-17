@@ -12,8 +12,8 @@ halook.TabView = wgp.AbstractView.extend({
 			jobId : argument.jobId,
 			startTime : argument.startTime,
 			finishTime : argument.finishTime,
-			jobStatus : argument.jobStatus,
-		}
+			jobStatus : argument.jobStatus
+		};
 		this.render();
 		this.registerCollectionEvent();
 		this.createdFlag = false;
@@ -23,10 +23,10 @@ halook.TabView = wgp.AbstractView.extend({
 		_.each(collection, function(tabElement, index) {
 			var tabModel = new instance.collection.model(tabElement);
 			instance.collection.add(tabModel);
-		})
+		});
 	},
 	render : function() {
-		$("#" + this.divId).append("<ul id='" + this.divTabId + "'></ul>")
+		$("#" + this.divId).append("<ul id='" + this.divTabId + "'></ul>");
 	},
 	onAdd : function(tabModel) {
 		var tabId = tabModel.get("tabId");
@@ -70,8 +70,9 @@ halook.TabView = wgp.AbstractView.extend({
 			id : newDivTabId,
 			collection : childCollection,
 			jobInfo : this.jobInfo,
-			viewId : this.treeSettings.id + tabId,
+			viewId : this.treeSettings.id + tabId
 		};
+		// 動的に生成するオブジェクトを切り替える必要があるため、やむを得ずeval()を使う
 		var view = eval("new " + viewClassName
 				+ "(childAttribute, this.treeSettings)");
 		this.viewList[view.getRegisterId()] = view;
@@ -87,6 +88,6 @@ halook.TabView = wgp.AbstractView.extend({
 		var appView = ENS.AppView();
 		_.each(this.viewList, function(view) {
 			appView.removeView(view);
-		})
+		});
 	}
 });

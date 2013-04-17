@@ -62,9 +62,9 @@ ENS.SingleSliderView = wgp.AbstractView
 				$(this.viewId + ' select#' + this.idTime).hide();
 
 				// make group selector
-				var htmlString = this._getGroupHtml(this.groupMaxNum,
+				var groupHtmlString = this._getGroupHtml(this.groupMaxNum,
 						this.groupString, this.groupStrings);
-				$(this.viewId).append(htmlString + '<hr class="clearFloat">');
+				$(this.viewId).append(groupHtmlString + '<hr class="clearFloat">');
 				this._setGroupCss();
 				this._selectSelector('groupArea', this.groupNum);
 
@@ -92,24 +92,25 @@ ENS.SingleSliderView = wgp.AbstractView
 
 				var _htmlStr = '';
 				for ( var scale = scaleNum; scale > 0; scale--) {
-					if (scale % groupNum == 0) {
+					if (scale % groupNum === 0) {
 						var time = scale / groupNum;
+						var _groupString = "";
 						// for one day ago
 						if (time == 1) {
-							var _groupString = time + ' ' + groupString
+							_groupString = time + ' ' + groupString
 									+ ' ago';
 							_htmlStr += '    <optgroup label="' + _groupString
 									+ '">\n';
 						}
 						// for many days ago
 						else {
-							var _groupString = time + ' ' + groupStrings
+							_groupString = time + ' ' + groupStrings
 									+ ' ago';
 							_htmlStr += '    <optgroup label="' + _groupString
 									+ '">\n';
 						}
 					}
-					;
+					
 					if (scale == 1) {
 						// for one hour ago
 						_htmlStr += '    <option value="' + scale + '<br>'
@@ -122,10 +123,10 @@ ENS.SingleSliderView = wgp.AbstractView
 								+ scaleUnitStrings + ' ago</option>\n';
 					}
 				}
-				;
+				
 				_htmlStr += '    <option value="Now">Now</option>\n';
 
-				htmlStr += _htmlStr
+				htmlStr += _htmlStr;
 				htmlStr += '  </select>\n';
 				htmlStr += '</fieldset>\n';
 				htmlStr += '</form>\n';
@@ -181,7 +182,7 @@ ENS.SingleSliderView = wgp.AbstractView
 					}
 
 				}
-				;
+				
 				htmlStr += '  </select>\n';
 				htmlStr += '</form>\n';
 
@@ -228,7 +229,7 @@ ENS.SingleSliderView = wgp.AbstractView
 									instance.timeScale = instance.groupUnitNum
 											* instance.groupNum
 											- (instance.groupUnitNum
-													* oldGroupNum - instance.timeScale)
+													* oldGroupNum - instance.timeScale);
 									instance._selectSelector(instance.idTime,
 											instance.timeScale);
 

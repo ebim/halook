@@ -109,7 +109,6 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		optionSettings = $.extend(true, optionSettings, attributes);
 		optionSettings.labelsDiv = labelDom;
 
-		// title����������ꍇ�ɂ́A�ϊ����s���B
 		optionSettings.title = optionSettings.title.split("&#47;").join("/");
 		var tmpTitle = optionSettings.title;
 		var isShort = false;
@@ -158,7 +157,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 			var updateOption = {
 				'file' : this.data
 			};
-			if (this.data.length != 0) {
+			if (this.data.length !== 0) {
 				updateOption['dateWindow'] = [ this.data[1][0],
 						this.data[this.data.length - 1][0] ];
 			}
@@ -182,7 +181,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 	_getTermData : function() {
 		this.data = this.getData();
 		var updateOption = {
-			'file' : this.data,
+			'file' : this.data
 		};
 		this.entity.updateOptions(updateOption);
 
@@ -190,7 +189,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 		tmpAppView.syncData([ this.graphId ]);
 	},
 	onComplete : function(syncType) {
-		if (syncType = wgp.constants.syncType.SEARCH) {
+		if (syncType == wgp.constants.syncType.SEARCH) {
 			this._getTermData();
 		}
 	},
@@ -220,7 +219,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 
 	},
 	updateGraphData : function(graphId, from, to) {
-		if (to == 0) {
+		if (to === 0) {
 			this.isRealTime = true;
 		} else {
 			this.isRealTime = false;
@@ -232,7 +231,7 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView.extend({
 	},
 	_parseModel : function(model) {
 		var timeString = model.get("measurementTime");
-		var time = parseInt(timeString);
+		var time = parseInt(timeString, 10);
 		var date = new Date(time);
 		var valueString = model.get("measurementValue");
 		var value = parseFloat(valueString);

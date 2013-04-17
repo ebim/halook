@@ -8,7 +8,7 @@ ENS.mapMenuModel = Backbone.Model.extend({
 		alt : null,
 		onclick : null
 	},
-	idAttribute : "elementId",
+	idAttribute : "elementId"
 });
 
 ENS.mapMenuModelList = Backbone.Collection.extend({

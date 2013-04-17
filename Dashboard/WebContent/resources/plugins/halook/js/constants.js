@@ -1,6 +1,6 @@
 var halook = {};
 
-halook.ID = {}
+halook.ID = {};
 halook.ID.MEASUREMENT_TIME = "measurementTime";
 halook.ID.MEASUREMENT_VALUE = "measurementValue";
 halook.ID.MEASUREMENT_ITEM_NAME = "measurementItemName";

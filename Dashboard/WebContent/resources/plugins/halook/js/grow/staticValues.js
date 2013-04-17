@@ -106,4 +106,4 @@ halook.hbase.graph = {
 			}
 		}
 	}
-}
+};

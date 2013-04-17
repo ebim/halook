@@ -24,11 +24,9 @@
  * SOFTWARE.
  ******************************************************************************/
 
-halook.HDFS.self;
 halook.HDFS.changeAngleFromUpdate = 0;
 halook.HDFS.changeAngleTotal = 0;
 halook.HDFS.unitAngle = 0;
-halook.HDFS.centerObject;
 halook.HDFS.capacityList = {};
 halook.HDFS.usageList = {};
 halook.HDFS.rackList = {};
@@ -37,7 +35,6 @@ halook.HDFS.center = {};
 halook.HDFS.capacity = {};
 halook.HDFS.beforeUsage = {};
 halook.HDFS.isCompleteDraw = false;
-halook.HDFS.treeSettingId;
 
 halook.HDFSView = wgp.AbstractView
 		.extend({
@@ -134,7 +131,7 @@ halook.HDFSView = wgp.AbstractView
 				// すでに回転している分、リストの順番を並び替える
 				var tmpList = [];
 				for (var index = 0; index < hostsListLength; index++){
-					hostIndex = (rotationVal + index) % hostsListLength ;
+					var hostIndex = (rotationVal + index) % hostsListLength ;
 					
 					tmpList[index] = this.hostsList_[hostIndex];
 				}
@@ -152,12 +149,12 @@ halook.HDFSView = wgp.AbstractView
 				halook.HDFS.changeAngleFromUpdate = 0;
 			},
 			render : function() {
-				//making area to set capacity table
+				// making area to set capacity table
 				$("#contents_area_0")
 				.append(
 						"<div  id='capacity_table' style='margin-left:10px;margin-top:260px; float:left'></div>");
 				
-				//making area to set raphael
+				// making area to set raphael
 				$(document.getElementById(this.$el
 						.attr("id")))
 				.append(
@@ -202,16 +199,16 @@ halook.HDFSView = wgp.AbstractView
 				// delete data ignore old last update date.
 				var tmpUpdateLastTime = 0;
 				_.each(this.hdfsDataList_, function(data, time) {
-					var tmpTime = parseInt(time);
+					var tmpTime = parseInt(time, 10);
 					if (tmpUpdateLastTime < tmpTime) {
 						tmpUpdateLastTime = tmpTime;
 					}
 				});
 
-				if (tmpUpdateLastTime != 0) {
+				if (tmpUpdateLastTime !== 0) {
 					this.oldestMeasurementTime_ = tmpUpdateLastTime;
 					_.each(this.hdfsDataList_, function(data, time) {
-						var tmpTime = parseInt(time);
+						var tmpTime = parseInt(time, 10);
 						if (tmpUpdateLastTime != tmpTime) {
 							delete instance.hdfsDataList_[time];
 						}
@@ -225,7 +222,7 @@ halook.HDFSView = wgp.AbstractView
 						function(model, id) {
 							var measurementTime = model
 									.get(halook.ID.MEASUREMENT_TIME);
-							var tmpTime = parseInt(measurementTime);
+							var tmpTime = parseInt(measurementTime, 10);
 							if (lastupdateTime < tmpTime) {
 								lastupdateTime = tmpTime;
 							}
@@ -241,14 +238,14 @@ halook.HDFSView = wgp.AbstractView
 						function(model, id) {
 							var measurementTime = model
 									.get(halook.ID.MEASUREMENT_TIME);
-							var tmpTime = parseInt(measurementTime);
+							var tmpTime = parseInt(measurementTime, 10);
 							if (lastupdatestartTime > tmpTime) {
 								removeTargetList.push(model);
 							}
 						});
 				this.collection.remove(removeTargetList, {
 					silent : true
-				})
+				});
 				// create measurement data set.
 				_
 						.each(
@@ -296,19 +293,20 @@ halook.HDFSView = wgp.AbstractView
 					// prepare temporary vars in order to make codes readable
 					var host = this.hostsList_[i];
 					
-					if (halook.HDFS.usageList[host] != undefined) {
+					if (halook.HDFS.usageList[host] !== undefined) {
 					
 						var h = this.hdfsState_[host].dfsusedLength;
 						var centerX = halook.HDFS.center.x;
 						var centerY = halook.HDFS.center.y;
 						
+						var centerObjectClone;
 						// 前回の使用量ｋ
 						var beforeUsage = halook.HDFS.beforeUsage[host];
 						if (beforeUsage > h) {
 							
 							var usageClone = halook.HDFS.usageList[host].clone();
 							
-							var centerObjectClone = this.paper
+							centerObjectClone = this.paper
 							.path(
 									[
 											[
@@ -329,7 +327,7 @@ halook.HDFSView = wgp.AbstractView
 								});
 						
 						} else if (beforeUsage < h) {
-							var centerObjectClone = this.paper
+							centerObjectClone = this.paper
 								.path(
 										[
 												[
@@ -356,7 +354,7 @@ halook.HDFSView = wgp.AbstractView
 			_drawingUsageTemporary : function(index,capacity,host,ref){
 				
 				var radius = halook.hdfs.constants.mainCircle.radius;
-	            var width = this.dataNodeBarWidth;
+                var width = this.dataNodeBarWidth;
 				var angle = this.angleUnit * index + halook.utility.toRadian(90);
 				var cos = Math.cos(angle);
 				var sin = Math.sin(angle);
@@ -388,7 +386,8 @@ halook.HDFSView = wgp.AbstractView
 
 				// set hostsList
 				this.hostsList_ = [];
-				for ( var host in this.hdfsState_) {
+				var host = "";
+				for (host in this.hdfsState_) {
 					if (host != halook.hdfs.constants.hostnameAll) {
 						this.hostsList_.push(host);
 
@@ -400,7 +399,7 @@ halook.HDFSView = wgp.AbstractView
 				}
 
 				// set the length to display
-				for ( var host in this.hdfsState_) {
+				for (host in this.hdfsState_) {
 					this.hdfsState_[host].capacityLength = halook.hdfs.constants.dataNode.maxLength
 							* this.hdfsState_[host]["capacity"]
 							/ this.capacityMax_;
@@ -450,11 +449,6 @@ halook.HDFSView = wgp.AbstractView
 										+ '<span id="clusterStatus">'
 										+ 'total capacity : 1TB, name node : 100, data node : 100'
 										+ '</span>' + '</div>');
-			},
-			_killAnimation : function() {
-				// stop animation
-				clearInterval(this.timerDn);
-				clearInterval(this.timerBt);
 			},
 			_drawStaticDataNode : function(pastTime) {
 				var end = new Date(new Date().getTime() - pastTime);
@@ -512,7 +506,7 @@ halook.HDFSView = wgp.AbstractView
 			_updateDataNode : function(self) {
 				for ( var i = 0; i < self.numberOfDataNode; i++) {
 
-					if (this.hdfsState_[this.hostsList_[i]] != undefined) {
+					if (this.hdfsState_[this.hostsList_[i]] !== undefined) {
 						self.diff[i] = this.hdfsState_[this.hostsList_[i]].dfsusedLength
 								- self.currentDataNode[i].height;
 						self.currentDataNode[i] = {
@@ -534,21 +528,22 @@ halook.HDFSView = wgp.AbstractView
 			},
 			_calculateCapacityData : function(data){
 				
-				data_size_kb = data / 1024;
-				data_size_mb = data / 1024 / 1024;
-				data_size_gb = data / 1024 / 1024 / 1024;
+				var data_size_kb = data / 1024;
+				var data_size_mb = data / 1024 / 1024;
+				var data_size_gb = data / 1024 / 1024 / 1024;
+				var postfix_value = 0;
 				
 				if(data_size_kb < 1024){
 					postfix_value = parseFloat(Math.round(data_size_kb * 100) / 100).toFixed(2)+"KB";
 				}
 				else if(data_size_mb < 1024){
-					postfix_value = parseFloat(Math.round(data_size_mb * 100) / 100).toFixed(2)+"MB"
+					postfix_value = parseFloat(Math.round(data_size_mb * 100) / 100).toFixed(2)+"MB";
 				}
 				else if(data_size_gb < 1024){
-					postfix_value = parseFloat(Math.round(data_size_gb * 100) / 100).toFixed(2)+"GB"
+					postfix_value = parseFloat(Math.round(data_size_gb * 100) / 100).toFixed(2)+"GB";
 				}
 				else{
-					postfix_value = parseFloat(Math.round((data_size_gb/1024) * 100) / 100).toFixed(2)+"TB"
+					postfix_value = parseFloat(Math.round((data_size_gb/1024) * 100) / 100).toFixed(2)+"TB";
 				}
 				
 				return postfix_value;
@@ -557,9 +552,10 @@ halook.HDFSView = wgp.AbstractView
 				var conf_capacity = 0;
 				var dfs_used = 0;
 				var dfs_remaining = 0;
+				var host = "";
 				
-				for ( var host in this.hdfsState_) {
-					if(host=="--all--"){
+				for (host in this.hdfsState_) {
+					if(host == "--all--"){
 						dfs_used = this.hdfsState_[host]["dfsused"];
 						dfs_remaining = this.hdfsState_[host]["dfsremaining"];
 						break;
@@ -568,11 +564,11 @@ halook.HDFSView = wgp.AbstractView
 				
 				for ( var i = 0; i < this.numberOfDataNode; i++) {
 					// prepare temporary vars in order to make codes readable
-					var host = this.hostsList_[i];
+					host = this.hostsList_[i];
 					conf_capacity += this.hdfsState_[host]["capacity"];
 				}
 				
-				if(conf_capacity != 0){					
+				if(conf_capacity !== 0){					
 					
 					var non_dfs_used=conf_capacity-(dfs_used+dfs_remaining);
 					var dfs_used_percent=((dfs_used*100)/conf_capacity).toFixed(2);
@@ -580,7 +576,7 @@ halook.HDFSView = wgp.AbstractView
 					
 				$("#capacity_table")
 				.html(
-						 "<table id='stemp' border='1'>" +
+						"<table id='stemp' border='1'>" +
 										"<tr>" +
 											"<td>Configured Capacity</td>" +
 											"<td id='data_size'> "+this._calculateCapacityData(conf_capacity)+" </td>" +
@@ -701,10 +697,10 @@ halook.HDFSView = wgp.AbstractView
 			_setRotationButton : function() {
 				var butt1 = this.paper.set(),
 				butt2 = this.paper.set();
-				butt1.push(this.paper.circle(24.833, 26.917, 26.667).attr({stroke: "#ccc", fill: "#fff", "fill-opacity": .4, "stroke-width": 2}),
+				butt1.push(this.paper.circle(24.833, 26.917, 26.667).attr({stroke: "#ccc", fill: "#fff", "fill-opacity": 0.4, "stroke-width": 2}),
 				this.paper.path("M12.582,9.551C3.251,16.237,0.921,29.021,7.08,38.564l-2.36,1.689l4.893,2.262l4.893,2.262l-0.568-5.36l-0.567-5.359l-2.365,1.694c-4.657-7.375-2.83-17.185,4.352-22.33c7.451-5.338,17.817-3.625,23.156,3.824c5.337,7.449,3.625,17.813-3.821,23.152l2.857,3.988c9.617-6.893,11.827-20.277,4.935-29.896C35.591,4.87,22.204,2.658,12.582,9.551z").attr({stroke: "none", fill: "#000"}),
 				this.paper.circle(24.833, 26.917, 26.667).attr({fill: "#fff", opacity: 0}));
-				butt2.push(this.paper.circle(24.833, 26.917, 26.667).attr({stroke: "#ccc", fill: "#fff", "fill-opacity": .4, "stroke-width": 2}),
+				butt2.push(this.paper.circle(24.833, 26.917, 26.667).attr({stroke: "#ccc", fill: "#fff", "fill-opacity": 0.4, "stroke-width": 2}),
 				this.paper.path("M37.566,9.551c9.331,6.686,11.661,19.471,5.502,29.014l2.36,1.689l-4.893,2.262l-4.893,2.262l0.568-5.36l0.567-5.359l2.365,1.694c4.657-7.375,2.83-17.185-4.352-22.33c-7.451-5.338-17.817-3.625-23.156,3.824C6.3,24.695,8.012,35.06,15.458,40.398l-2.857,3.988C2.983,37.494,0.773,24.109,7.666,14.49C14.558,4.87,27.944,2.658,37.566,9.551z").attr({stroke: "none", fill: "#000"}),
 				this.paper.circle(24.833, 26.917, 26.667).attr({fill: "#fff", opacity: 0}));
 				butt1.translate(5, 30);
@@ -742,10 +738,8 @@ halook.HDFSView = wgp.AbstractView
 				var rackColorList = [];
 				
 				for ( var i = 0; i < this.numberOfDataNode; i++) {
-					var rackName = this.hostsList_[i];
-					
 					// prepare temporary vars in order to make codes readable
-					var host = this.hostsList_[i]
+					var host = this.hostsList_[i];
 					var h = halook.hdfs.constants.rack.height;
 					var angle = this.angleUnit * i + halook.utility.toRadian(90);
 					var cos = Math.cos(angle);
@@ -758,7 +752,7 @@ halook.HDFSView = wgp.AbstractView
 					// onAddから複数データが送られてくる場合、
 					// 今のところ、複数データの数だけonAddイベントが発生するが、
 					// 最後以外は不適切なデータなのではじく
-					if(nodeInfoStr == undefined) {
+					if(nodeInfoStr === undefined) {
 						return;
 					}
 					
@@ -767,7 +761,7 @@ halook.HDFSView = wgp.AbstractView
 					
 					var rackColor = rackColorList[rackName];
 					
-					if (rackColor == undefined) {
+					if (rackColor === undefined) {
 						rackColor = ++colorNo;
 						rackColorList[rackName] = rackColor;
 					}
@@ -823,7 +817,7 @@ halook.HDFSView = wgp.AbstractView
 						this.ids[host] = number;
 					};
 					this.remove = function(host) {
-						delete (this.ids[number]);
+						delete (this.ids[host]);
 					};
 					this.find = function(host) {
 						return this.ids[host];
@@ -838,9 +832,8 @@ halook.HDFSView = wgp.AbstractView
 				this.blockTransferIdManager = new IdManager();
 			},
 			updateDisplaySpan : function(pastTime) {
-				if (pastTime == 0) {
-
-					if (this.isRealTime == false) {
+				if (pastTime === 0) {
+					if (this.isRealTime === false) {
 						appView.syncData([ (halook.HDFS.treeSettingId + "%") ]);
 					}
 					this.isRealTime = true;
@@ -881,7 +874,7 @@ halook.HDFSView = wgp.AbstractView
 				// data node
 				this.numberOfDataNode = this.hostsList_.length;
 
-				if (this.numberOfDataNode != 0) {
+				if (this.numberOfDataNode !== 0) {
 					halook.HDFS.unitAngle = 360 / this.numberOfDataNode;
 				} else {
 					halook.HDFS.unitAngle = 0;
@@ -911,7 +904,7 @@ halook.HDFSView = wgp.AbstractView
 				// static objects
 				this._staticRender();
 				
-				//show cluster summary
+				// show cluster summary
 				this._showClusterSummary();
 
 			},
@@ -923,13 +916,6 @@ halook.HDFSView = wgp.AbstractView
 				} else {
 					return halook.hdfs.constants.dataNode.color.dead;
 				}
-			},
-			_notifyToThisView : function(data) {
-				var addData = [ {
-					windowId : windowId,
-					data : data
-				} ];
-				appView.notifyEvent(addData);
 			},
 			destroy : function() {
 				this.stopRegisterCollectionEvent();
