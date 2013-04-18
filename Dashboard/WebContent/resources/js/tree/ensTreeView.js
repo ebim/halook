@@ -1,5 +1,5 @@
 ENS.treeView = wgp.TreeView.extend({
-	setClickEvent : function(targetId){
+	setClickEvent : function(targetId) {
 		var instance = this;
 		this.treeCollection = {};
 		this.maxId = 0;
@@ -25,7 +25,8 @@ ENS.treeView = wgp.TreeView.extend({
 		}
 		$("#" + this.targetId).children().remove();
 		var targetContentId = this.targetId + "_content";
-		$("#" + this.targetId).append("<div id ='" + targetContentId + "'></div>")
+		$("#" + this.targetId).append(
+				"<div id ='" + targetContentId + "'></div>");
 
 		var dataId = treeModel.get("id");
 
@@ -59,20 +60,19 @@ ENS.treeView = wgp.TreeView.extend({
 				targetTag = this.getTreeNode(parentTreeId, idAttribute);
 			}
 
-			$("#" + this.$el.attr("id")).jstree("create_node",
-					$(targetTag), "last",
-					this.createTreeData(treeModel));
+			$("#" + this.$el.attr("id")).jstree("create_node", $(targetTag),
+					"last", this.createTreeData(treeModel));
 		} else {
-			wgp.TreeView.prototype.render.call(this,
-					renderType, treeModel);
+			wgp.TreeView.prototype.render.call(this, renderType, treeModel);
 		}
 	},
-	createTreeData : function(treeModel){
-		var returnData = wgp.TreeView.prototype.createTreeData.call(this, treeModel);
+	createTreeData : function(treeModel) {
+		var returnData = wgp.TreeView.prototype.createTreeData.call(this,
+				treeModel);
 		var titleData = returnData.data;
 		if (titleData.title.indexOf("&#47;") >= 0) {
 			titleData.title = titleData.title.split("&#47;").join("/");
-		} 
+		}
 		if (treeModel.get("icon")) {
 			returnData.data.icon = treeModel.get("icon");
 		}
@@ -82,7 +82,7 @@ ENS.treeView = wgp.TreeView.extend({
 		// contextOptionの中身
 		// "menu_id" : 表示するコンテキストメニュータグのID名,
 		// "menu_name" : 表示するメニュー名
-		// "showParam" : コンテキストメニュー表示制限, 
+		// "showParam" : コンテキストメニュー表示制限,
 		// "executeClass" : メニュー選択時の実行クラス。
 		// "children" : 子要素のコンテキストオプション
 		var instance = this;
@@ -92,7 +92,7 @@ ENS.treeView = wgp.TreeView.extend({
 		var menuId = this.$el.attr("id") + "_contextManu";
 		var tmpClickTarget = null;
 		var settingOptions = {
-			onShow : function(event, target){
+			onShow : function(event, target) {
 				var clickTarget = event.target;
 				var tagName = clickTarget.tagName;
 				if (tagName != "A") {
@@ -102,7 +102,7 @@ ENS.treeView = wgp.TreeView.extend({
 				instance.checkShowContext_(clickTargetId);
 				tmpClickTarget = clickTarget;
 			},
-			onSelect : function(event, target){
+			onSelect : function(event, target) {
 				var clickTarget = event.target;
 				var id = $(clickTarget).attr("id");
 				var targetOption = instance.getContextOption_(id);
@@ -114,39 +114,39 @@ ENS.treeView = wgp.TreeView.extend({
 					var executeOption = targetOption.get("executeOption");
 					executeOption.treeId = $(tmpClickTarget).attr("id");
 					executeOption.displayName = $(tmpClickTarget).text();
-					
+
 					// set execute class and function, if push ok button.
 					executeOption.okObject = instance;
 					executeOption.okFunctionName = "pushOkFunction";
 					executeOption.cancelObject = instance;
 					executeOption.cancelFunctionName = "pushCancelFunction";
-					eval("new " + executeClass
-							+ "(executeOption)");
+					eval("new " + executeClass + "(executeOption)");
 				}
 			}
 		};
 		contextMenuCreator.initializeContextMenu(menuId, contextOption);
-		contextMenuCreator.createContextMenu(this.$el.attr("id"), menuId, settingOptions);
+		contextMenuCreator.createContextMenu(this.$el.attr("id"), menuId,
+				settingOptions);
 	},
 	pushOkFunction : function(event, option) {
 		// add tree data for signal
 		var signalName = $("#signalName").val();
 		var targetTreeId = option.treeId;
 		// TODO change the setting sinalTreeId.
-		var signalTreeId = targetTreeId + "/singalNode-1"
+		var signalTreeId = targetTreeId + "/singalNode-1";
 		var treeOption = {
 			id : signalTreeId,
 			data : signalName,
 			parentTreeId : targetTreeId,
 			icon : ENS.tree.SIGNAL_ICON
-		}
-		this.collection.add([treeOption]);
+		};
+		this.collection.add([ treeOption ]);
 	},
 	pushCancelFunction : function(event, option) {
 		var a = null;
 	},
-	checkShowContext_ : function(id){
-		$.each(this.contextCollection.models, function(index, value){
+	checkShowContext_ : function(id) {
+		$.each(this.contextCollection.models, function(index, value) {
 			var menuId = value.get("menu_id");
 			$("#" + menuId).show();
 			var showParam = value.get("showParam");
@@ -156,25 +156,27 @@ ENS.treeView = wgp.TreeView.extend({
 			var reg = new RegExp(showParam, "i");
 			if (!id.match(reg)) {
 				$("#" + menuId).hide();
-			};
+			}
 		});
 	},
-	addContextCollection_ : function(contextOption){
+	addContextCollection_ : function(contextOption) {
 		var instance = this;
-		jQuery.each(contextOption, function(index, target){
+		jQuery.each(contextOption, function(index, target) {
 			instance.contextCollection.push(target);
 			var children = target.children;
-			if (children != null && children.length != 0){
+			if (children != null && children.length !== 0) {
 				instance.addContextCollection_(children);
 			}
 		});
 	},
-	getContextOption_ : function(id){
-		var optionList = this.contextCollection.where({menu_id : id});
+	getContextOption_ : function(id) {
+		var optionList = this.contextCollection.where({
+			menu_id : id
+		});
 		if (optionList == null) {
 			return;
 		}
-		if (optionList.length == 0) {
+		if (optionList.length === 0) {
 			return;
 		}
 		return optionList[0];

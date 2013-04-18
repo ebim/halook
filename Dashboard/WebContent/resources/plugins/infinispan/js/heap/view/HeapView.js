@@ -47,10 +47,11 @@ infinispan.HeapView = wgp.AbstractView
 
 				this.heapDataList_ = {};
 				this.heapState_ = {};
-				this.hostsList_ = [];
+				this.agentsList_ = [];
 				this.lastMeasurementTime_ = 0;
 				this.oldestMeasurementTime_ = 0;
 				this.capacityMax_ = 1;
+				this.rackColorList = [];
 				// vars
 				// setting view type
 				this.viewType = wgp.constants.VIEW_TYPE.VIEW;
@@ -121,36 +122,72 @@ infinispan.HeapView = wgp.AbstractView
 									"stroke-width" : infinispan.heap.constants.rack.height / 2
 								});
 
-				this.hostsList_.sort();
+				this.agentsList_.sort();
 
-				var hostsListLength = this.hostsList_.length;
+				var agentsListLength = this.agentsList_.length;
 
 				var rotationVal = ~~(infinispan.Heap.changeAngleTotal / infinispan.Heap.unitAngle)
-						% hostsListLength;
+						% agentsListLength;
 
 				// 右回りで数えていくつ分回転しているかを、正の値で表現する
 				if (rotationVal < 0) {
-					rotationVal = hostsListLength + rotationVal;
+					rotationVal = agentsListLength + rotationVal;
 				}
 
 				// すでに回転している分、リストの順番を並び替える
 				var tmpList = [];
-				for ( var index = 0; index < hostsListLength; index++) {
-					var hostIndex = (rotationVal + index) % hostsListLength;
+				for ( var index = 0; index < agentsListLength; index++) {
+					var agentIndex = (rotationVal + index) % agentsListLength;
 
-					tmpList[index] = this.hostsList_[hostIndex];
+					tmpList[index] = this.agentsList_[agentIndex];
 				}
 
-				this.hostsList_ = tmpList;
+				this.agentsList_ = tmpList;
 
-				// data node capacity bars
+				// draw capacity bars
 				this._drawCapacity();
-
-				// rack
+		
+				// draw rack bars
 				this._drawRack();
-
+		
+				// draw usage bars
 				this._drawUsage();
 
+				infinispan.Heap.changeAngleFromUpdate = 0;
+			},
+			_updateRender : function() {
+				
+				this.agentsList_.sort();
+		
+				var agentsListLength = this.agentsList_.length;
+		
+				var rotationVal = ~~(infinispan.Heap.changeAngleTotal / infinispan.Heap.unitAngle)
+						% agentsListLength;
+		
+				// 右回りで数えていくつ分回転しているかを、正の値で表現する
+				if (rotationVal < 0) {
+					rotationVal = agentsListLength + rotationVal;
+				}
+		
+				// すでに回転している分、リストの順番を並び替える
+				var tmpList = [];
+				for ( var index = 0; index < agentsListLength; index++) {
+					var agentIndex = (rotationVal + index) % agentsListLength;
+		
+					tmpList[index] = this.agentsList_[agentIndex];
+				}
+		
+				this.agentsList_ = tmpList;
+		
+				// redraw capacity bars
+				this._drawCapacity();
+		
+				// redraw rack bars
+				this._drawRack();
+		
+				// redraw usage bars
+				this._drawUsage();
+		
 				infinispan.Heap.changeAngleFromUpdate = 0;
 			},
 			render : function() {
@@ -185,7 +222,7 @@ infinispan.HeapView = wgp.AbstractView
 				delete this.viewCollection[objectId];
 			},
 			_getTermData : function() {
-				this._updateDraw();
+				this._initializeDraw();
 				if (this.isRealTime) {
 					appView.syncData([ (infinispan.Heap.treeSettingId + "%") ]);
 				}
@@ -199,6 +236,40 @@ infinispan.HeapView = wgp.AbstractView
 						infinispan.heap.constants.bgColor);
 			},
 			_setHeapDataList : function() {
+				
+				var measurementList = {};
+				var removeTargetList = [];
+				// 削除するmodelのリストを作成する。
+				// 削除対処になるモデルは、measurementItemNameとmeasurementValueが同一のデータが
+				// collection内で重複していて、かつ、計測時間が古いものとなる。
+				_.each(this.collection.models, function(model, id) {
+					var measurementItemName = model
+							.get(infinispan.ID.MEASUREMENT_ITEM_NAME);
+					var measurementTime = model
+							.get(infinispan.ID.MEASUREMENT_TIME);
+					
+					var tmpModel = measurementList[measurementItemName];
+					if (tmpModel) {
+						var tmpMeasurementTime = tmpModel
+								.get(infinispan.ID.MEASUREMENT_TIME);
+						var tmpMeasurementTimeInt = parseInt(tmpMeasurementTime, 10);
+						var measurementTimeInt = parseInt(measurementTime, 10);
+						
+						if (tmpMeasurementTimeInt <= measurementTimeInt) {
+							removeTargetList.push(tmpModel);
+							measurementList[measurementItemName] = model;
+						} else {
+							removeTargetList.push(model);
+							measurementList[measurementItemName] = tmpModel;
+						}
+					} else {
+						measurementList[measurementItemName] = model;
+					}
+				});
+				this.collection.remove(removeTargetList, {
+					silent : true
+				});
+				
 				console.log(this.collection.models.length);
 				for (var i = 0; i < this.collection.models.length; i++) {
 					console.log(this.collection.models[i].attributes.measurementItemName);
@@ -238,22 +309,7 @@ infinispan.HeapView = wgp.AbstractView
 				});
 				// set Last Update Time.
 				this.lastMeasurementTime_ = lastupdateTime;
-
-				// delete data
-				var lastupdatestartTime = lastupdateTime
-						- infinispan.Heap.MESURE_TERM;
-				var removeTargetList = [];
-				_.each(this.collection.models, function(model, id) {
-					var measurementTime = model
-							.get(infinispan.ID.MEASUREMENT_TIME);
-					var tmpTime = parseInt(measurementTime, 10);
-					if (lastupdatestartTime > tmpTime) {
-						removeTargetList.push(model);
-					}
-				});
-				this.collection.remove(removeTargetList, {
-					silent : true
-				});
+				
 				// create measurement data set.
 				_
 						.each(
@@ -291,20 +347,20 @@ infinispan.HeapView = wgp.AbstractView
 			_animateBlockTransfer : function() {
 				for ( var i = 0; i < this.numberOfDataNode; i++) {
 					// prepare temporary vars in order to make codes readable
-					var host = this.hostsList_[i];
+					var agent = this.agentsList_[i];
 					
-					if (infinispan.Heap.usageList[host] !== undefined) {
+					if (infinispan.Heap.usageList[agent] !== undefined) {
 					
-						var h = this.heapState_[host].heapusedLength;
+						var h = this.heapState_[agent].heapusedLength;
 						var centerX = infinispan.Heap.center.x;
 						var centerY = infinispan.Heap.center.y;
 						
 						var centerObjectClone;
 						// 前回の使用量ｋ
-						var beforeUsage = infinispan.Heap.beforeUsage[host];
+						var beforeUsage = infinispan.Heap.beforeUsage[agent];
 						if (beforeUsage > h) {
 							
-							var usageClone = infinispan.Heap.usageList[host].clone();
+							var usageClone = infinispan.Heap.usageList[agent].clone();
 							
 							centerObjectClone = this.paper
 								.path(
@@ -341,17 +397,17 @@ infinispan.HeapView = wgp.AbstractView
 										});
 
 							
-							var pathValue = infinispan.Heap.usageList[host].attrs;				
+							var pathValue = infinispan.Heap.usageList[agent].attrs;				
 							
 							centerObjectClone.animate(pathValue, infinispan.Heap.BLOCK_TRANSFER_SPEED, "", function() {
 								this.remove();
 							});
 						}
 					}
-					infinispan.Heap.beforeUsage[host]　= h;
+					infinispan.Heap.beforeUsage[agent]　= h;
 				}
 			},
-			_drawingUsageTemporary : function(index, capacity, host, ref) {
+			_drawingUsageTemporary : function(index, capacity, agent, ref) {
 
 				var radius = infinispan.heap.constants.mainCircle.radius;
 				var width = this.dataNodeBarWidth;
@@ -360,7 +416,7 @@ infinispan.HeapView = wgp.AbstractView
 				var cos = Math.cos(angle);
 				var sin = Math.sin(angle);
 				var center = infinispan.Heap.center;
-				var heapStatus = this.heapState_[host].status;
+				var heapStatus = this.heapState_[agent].status;
 
 				var temp = ref.path(
 						[
@@ -387,11 +443,11 @@ infinispan.HeapView = wgp.AbstractView
 					this.heapState_ = {};
 				}
 
-				// set hostsList
-				this.hostsList_ = [];
+				// set agentsList
+				this.agentsList_ = [];
 				for ( var agent in this.heapState_) {
-					if (agent != infinispan.heap.constants.hostnameAll) {
-						this.hostsList_.push(agent);
+					if (agent != infinispan.heap.constants.agentnameAll) {
+						this.agentsList_.push(agent);
 
 						// set capacityMax
 						if (this.heapState_[agent]["max:bytes"] > this.capacityMax_) {
@@ -467,7 +523,7 @@ infinispan.HeapView = wgp.AbstractView
 					self.transfer[i].size = 1;
 					self.transfer[i].angle = self.angleUnit * i,
 							self.blockTransferIdManager.add(self.nextId,
-									this.hostsList_[i]);
+									this.agentsList_[i]);
 				}
 				_.each(self.transfer, function(obj) {
 					obj.type = wgp.constants.CHANGE_TYPE.ADD;
@@ -479,7 +535,7 @@ infinispan.HeapView = wgp.AbstractView
 			_updateBlockTransfer : function(self) {
 				for ( var i = 0; i < self.numberOfDataNode; i++) {
 					self.transfer[i].objectId = self.transfer[i].id = self.blockTransferIdManager
-							.find(this.hostsList_[i]);
+							.find(this.agentsList_[i]);
 					self.transfer[i].size = self.diff[i];
 				}
 				_.each(self.transfer, function(obj) {
@@ -493,30 +549,30 @@ infinispan.HeapView = wgp.AbstractView
 						objectId : self.nextId,
 						id : self.nextId,
 						width : self.dataNodeBarWidth,
-						height : this.heapState_[this.hostsList_[i]].heapusedLength,
+						height : this.heapState_[this.agentsList_[i]].heapusedLength,
 						angle : self.angleUnit * i,
-						host : this.heapState_[this.hostsList_[i]],
-						capacity : this.heapState_[this.hostsList_[i]].capacityLength,
+						agent : this.heapState_[this.agentsList_[i]],
+						capacity : this.heapState_[this.agentsList_[i]].capacityLength,
 						type : wgp.constants.CHANGE_TYPE.ADD,
 						objectName : "DataNodeRectangle",
 						center : self.center
 					};
-					self.dataNodeIdManager.add(self.nextId, this.hostsList_[i]);
+					self.dataNodeIdManager.add(self.nextId, this.agentsList_[i]);
 				}
 			},
 			_updateDataNode : function(self) {
 				for ( var i = 0; i < self.numberOfDataNode; i++) {
 
-					if (this.heapState_[this.hostsList_[i]] !== undefined) {
-						self.diff[i] = this.heapState_[this.hostsList_[i]].heapusedLength
+					if (this.heapState_[this.agentsList_[i]] !== undefined) {
+						self.diff[i] = this.heapState_[this.agentsList_[i]].heapusedLength
 								- self.currentDataNode[i].height;
 						self.currentDataNode[i] = {
 							type : wgp.constants.CHANGE_TYPE.UPDATE,
 							objectId : self.dataNodeIdManager
-									.find(this.hostsList_[i]),
+									.find(this.agentsList_[i]),
 							id : self.dataNodeIdManager
-									.find(this.hostsList_[i]),
-							height : this.heapState_[this.hostsList_[i]].heapusedLength,
+									.find(this.agentsList_[i]),
+							height : this.heapState_[this.agentsList_[i]].heapusedLength,
 							diff : self.diff[i]
 						};
 					}
@@ -561,14 +617,16 @@ infinispan.HeapView = wgp.AbstractView
 				var heap_remaining = 0;
 
 				for ( var serverName in this.heapState_) {
-					heap_used += this.heapState_[serverName]["used:bytes"];
+					// -0をすることで、数値化している
+					heap_used += this.heapState_[serverName]["used:bytes"] - 0;
 					heap_remaining += (this.heapState_[serverName]["max:bytes"] - this.heapState_[serverName]["used:bytes"]);
 				}
 
 				for ( var i = 0; i < this.numberOfDataNode; i++) {
 					// prepare temporary vars in order to make codes readable
-					var host = this.hostsList_[i];
-					conf_capacity += this.heapState_[host]["max:bytes"];
+					var agent = this.agentsList_[i];
+					// -0をすることで、数値化している
+					conf_capacity += this.heapState_[agent]["max:bytes"] - 0;
 				}
 
 				if (conf_capacity !== 0) {
@@ -629,8 +687,8 @@ infinispan.HeapView = wgp.AbstractView
 
 				for ( var i = 0; i < this.numberOfDataNode; i++) {
 					// prepare temporary vars in order to make codes readable
-					var host = this.hostsList_[i];
-					var capacity = this.heapState_[host].capacityLength;
+					var agent = this.agentsList_[i];
+					var capacity = this.heapState_[agent].capacityLength;
 					var angle = this.angleUnit * i
 							+ infinispan.utility.toRadian(90);
 					var cos = Math.cos(angle);
@@ -638,10 +696,14 @@ infinispan.HeapView = wgp.AbstractView
 					var c = infinispan.Heap.center;
 
 					var postfix_value = this
-							._calculateCapacityData(this.heapState_[host]["max:bytes"] - this.heapState_[host]["used:bytes"]);
+							._calculateCapacityData(this.heapState_[agent]["max:bytes"] - this.heapState_[agent]["used:bytes"]);
 
+					var oldCapacityObject = infinispan.Heap.capacityList[agent];
+					if (oldCapacityObject) {
+						oldCapacityObject.remove();
+					}
 					// actual process
-					infinispan.Heap.capacityList[host] = this.paper
+					infinispan.Heap.capacityList[agent] = this.paper
 							.path(
 									[
 											[
@@ -657,10 +719,10 @@ infinispan.HeapView = wgp.AbstractView
 													(capacity * sin) ] ])
 							.attr(
 									{
-										target : host,
+										target : agent,
 										stroke : infinispan.heap.constants.dataNode.frameColor,
 										fill : " rgb(48, 50, 50)",
-										title : this.hostsList_[i]
+										title : this.agentsList_[i]
 												+ " : heap.remaining" + " : "
 												+ postfix_value
 									});
@@ -674,20 +736,31 @@ infinispan.HeapView = wgp.AbstractView
 
 				for ( var i = 0; i < this.numberOfDataNode; i++) {
 					// prepare temporary vars in order to make codes readable
-					var host = this.hostsList_[i];
-					var h = this.heapState_[host].heapusedLength;
+					var agent = this.agentsList_[i];
+					var h = this.heapState_[agent].heapusedLength;
+					
+					// 初期描画時にヒープサイズを登録する
+					// 以後はリアルタイム更新時に、ヒープサイズを更新する
+					if (infinispan.Heap.beforeUsage[agent] === undefined) {
+						infinispan.Heap.beforeUsage[agent] = h;
+					}
+					
 					var angle = this.angleUnit * i
 							+ infinispan.utility.toRadian(90);
 					var cos = Math.cos(angle);
 					var sin = Math.sin(angle);
 					var c = infinispan.Heap.center;
-					var heapStatus = this.heapState_[host].status;
-
+					var heapStatus = this.heapState_[agent].status;
+					
 					var postfix_value = this
-							._calculateCapacityData(this.heapState_[host]["used:bytes"]);
+							._calculateCapacityData(this.heapState_[agent]["used:bytes"]);
 
+					var oldUsageObject = infinispan.Heap.usageList[agent];
+					if (oldUsageObject) {
+						oldUsageObject.remove();
+					}
 					// actual process
-					infinispan.Heap.usageList[host] = this.paper
+					infinispan.Heap.usageList[agent] = this.paper
 							.path(
 									[
 											[
@@ -704,8 +777,8 @@ infinispan.HeapView = wgp.AbstractView
 										"stroke" : infinispan.heap.constants.dataNode.frameColor,
 										fill : this
 												._getDataNodeColor(heapStatus),
-										target : host,
-										title : this.hostsList_[i] + " : heap.used"
+										target : agent,
+										title : this.agentsList_[i] + " : heap.used"
 												+ " : " + postfix_value
 									});
 				}
@@ -796,13 +869,12 @@ infinispan.HeapView = wgp.AbstractView
 				var lastRack = "";
 				var numberOfRackColor = infinispan.heap.constants.rack.colors.length;
 				var colorNo = -1;
-				var rackColorList = [];
 
 				for ( var i = 0; i < this.numberOfDataNode; i++) {
-					var rackName = this.hostsList_[i];
+					var rackName = this.agentsList_[i];
 
 					// prepare temporary vars in order to make codes readable
-					var host = this.hostsList_[i];
+					var agent = this.agentsList_[i];
 					var h = infinispan.heap.constants.rack.height;
 					var angle = this.angleUnit * i
 							+ infinispan.utility.toRadian(90);
@@ -810,15 +882,19 @@ infinispan.HeapView = wgp.AbstractView
 					var sin = Math.sin(angle);
 					var c = infinispan.Heap.center;
 
-					var rackColor = rackColorList[rackName];
+					var rackColor = this.rackColorList[rackName];
 
 					if (rackColor === undefined) {
 						rackColor = ++colorNo;
-						rackColorList[rackName] = rackColor;
+						this.rackColorList[rackName] = rackColor;
 					}
 
+					var oldRackObject = infinispan.Heap.rackList[agent];
+					if (oldRackObject) {
+						oldRackObject.remove();
+					}
 					// actual process
-					infinispan.Heap.rackList[host] = this.paper
+					infinispan.Heap.rackList[agent] = this.paper
 							.path(
 									[
 											[
@@ -832,12 +908,12 @@ infinispan.HeapView = wgp.AbstractView
 											[ "l", (-h * cos), (h * sin) ] ])
 							.attr(
 									{
-										target : host,
+										target : agent,
 										stroke : infinispan.heap.constants.rack.colors[rackColor
 												% numberOfRackColor],
 										fill : infinispan.heap.constants.rack.colors[rackColor
 												% numberOfRackColor],
-										title : rackName + " : server"
+										title : rackName + " : agent"
 									});
 
 				}
@@ -845,18 +921,18 @@ infinispan.HeapView = wgp.AbstractView
 			_rotateNode : function(clickObject) {
 				var centerX = infinispan.Heap.center.x;
 				var centerY = infinispan.Heap.center.y;
-				for ( var host in infinispan.Heap.capacityList) {
-					infinispan.Heap.capacityList[host].animate({
+				for ( var agent in infinispan.Heap.capacityList) {
+					infinispan.Heap.capacityList[agent].animate({
 						transform : "r"
 								+ [ infinispan.Heap.changeAngleFromUpdate,
 										centerX, centerY ]
 					}, infinispan.Heap.BLOCK_ROTATE_SPEED, "<>");
-					infinispan.Heap.usageList[host].animate({
+					infinispan.Heap.usageList[agent].animate({
 						transform : "r"
 								+ [ infinispan.Heap.changeAngleFromUpdate,
 										centerX, centerY ]
 					}, infinispan.Heap.BLOCK_ROTATE_SPEED, "<>");
-					infinispan.Heap.rackList[host].animate({
+					infinispan.Heap.rackList[agent].animate({
 						transform : "r"
 								+ [ infinispan.Heap.changeAngleFromUpdate,
 										centerX, centerY ]
@@ -867,14 +943,14 @@ infinispan.HeapView = wgp.AbstractView
 				// id manager prototype
 				function IdManager() {
 					this.ids = [];
-					this.add = function(number, host) {
-						this.ids[host] = number;
+					this.add = function(number, agent) {
+						this.ids[agent] = number;
 					};
-					this.remove = function(host) {
-						delete (this.ids[host]);
+					this.remove = function(agent) {
+						delete (this.ids[agent]);
 					};
-					this.find = function(host) {
-						return this.ids[host];
+					this.find = function(agent) {
+						return this.ids[agent];
 					};
 				}
 
@@ -904,8 +980,7 @@ infinispan.HeapView = wgp.AbstractView
 				}
 
 			},
-			_updateDraw : function() {
-
+			_initializeDraw : function() {
 				this._setHeapDataList();
 
 				var localHeapLastData = this.heapDataList_[this.lastMeasurementTime_];
@@ -917,7 +992,7 @@ infinispan.HeapView = wgp.AbstractView
 				});
 
 				if (mapSize == 1
-						&& mapId == infinispan.heap.constants.hostnameAll) {
+						&& mapId == infinispan.heap.constants.agentnameAll) {
 					return;
 				}
 
@@ -929,7 +1004,7 @@ infinispan.HeapView = wgp.AbstractView
 				this._setHeapState();
 
 				// data node
-				this.numberOfDataNode = this.hostsList_.length;
+				this.numberOfDataNode = this.agentsList_.length;
 
 				if (this.numberOfDataNode !== 0) {
 					infinispan.Heap.unitAngle = 360 / this.numberOfDataNode;
@@ -965,6 +1040,51 @@ infinispan.HeapView = wgp.AbstractView
 				// show cluster summary
 				this._showClusterSummary();
 
+			},
+			_updateDraw : function() {
+				// データを更新する
+				this._setHeapDataList();
+				
+				var localHeapLastData = this.heapDataList_[this.lastMeasurementTime_];
+				
+				// set heapState as the last data in heapDataList
+				this._setHeapState();
+
+				// data node
+				this.numberOfDataNode = this.agentsList_.length;
+
+				if (this.numberOfDataNode !== 0) {
+					infinispan.Heap.unitAngle = 360 / this.numberOfDataNode;
+				} else {
+					infinispan.Heap.unitAngle = 0;
+				}
+
+				this.dataNodeBarWidth = infinispan.heap.constants.mainCircle.radius
+						* 2 * Math.PI / this.numberOfDataNode;
+				if (this.dataNodeBarWidth > infinispan.heap.constants.dataNode.maxWidth) {
+					this.dataNodeBarWidth = infinispan.heap.constants.dataNode.maxWidth;
+				}
+				this.dataNodeChangeType = wgp.constants.CHANGE_TYPE.ADD;
+
+				// base numbers for drawing
+				infinispan.Heap.center = {
+					x : viewArea2.width / 3,
+					y : viewArea2.height / 1.8 - 90
+				};
+				this.angleUnit = infinispan.utility
+						.toRadian(360 / this.numberOfDataNode);
+
+				// block transfer
+				this.blockTransferChangeType = wgp.constants.CHANGE_TYPE.ADD;
+
+				// id manager
+				this._initIdManager();
+				
+				// update changed object
+				this._updateRender();
+
+				// show cluster summary
+				this._showClusterSummary();
 			},
 			_getDataNodeColor : function(status) {
 				if (status == infinispan.heap.constants.dataNode.status.good) {

@@ -50,7 +50,7 @@ ENS.nodeTabView = {
 	viewClassName : "wgp.TabView",
 	rootView : appView,
 	collection : [ENS.nodeInfoField, ENS.nodePerfDoctorParentView]
-}
+};
 
 ENS.ResourceMapField = {
 	viewClassName : "ENS.ResourceMapView",

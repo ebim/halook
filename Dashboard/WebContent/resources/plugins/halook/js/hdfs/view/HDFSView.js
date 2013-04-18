@@ -47,6 +47,7 @@ halook.HDFSView = wgp.AbstractView
 				this.lastMeasurementTime_ = 0;
 				this.oldestMeasurementTime_ = 0;
 				this.capacityMax_ = 1;
+				this.rackColorList = [];
 				// vars
 				// setting view type
 				this.viewType = wgp.constants.VIEW_TYPE.VIEW;
@@ -662,12 +663,17 @@ halook.HDFSView = wgp.AbstractView
 				var r = halook.hdfs.constants.mainCircle.radius;
 				var w = this.dataNodeBarWidth;
 
-				
-
 				for ( var i = 0; i < this.numberOfDataNode; i++) {
 					// prepare temporary vars in order to make codes readable
 					var host = this.hostsList_[i];
 					var h = this.hdfsState_[host].dfsusedLength;
+					
+					// 初期描画時にHDFS使用量を登録する
+					// 以後はリアルタイム更新時に、HDFS使用量を更新する
+					if (halook.HDFS.beforeUsage[host] === undefined) {
+						halook.HDFS.beforeUsage[host] = h;
+					}
+					
 					var angle = this.angleUnit * i + halook.utility.toRadian(90);
 					var cos = Math.cos(angle);
 					var sin = Math.sin(angle);
@@ -735,7 +741,6 @@ halook.HDFSView = wgp.AbstractView
 				var lastRack = "";
 				var numberOfRackColor = halook.hdfs.constants.rack.colors.length;
 				var colorNo = -1;
-				var rackColorList = [];
 				
 				for ( var i = 0; i < this.numberOfDataNode; i++) {
 					// prepare temporary vars in order to make codes readable
@@ -759,11 +764,11 @@ halook.HDFSView = wgp.AbstractView
 					var nodeInfo = (new Function("return " + nodeInfoStr))();
 					var rackName = nodeInfo["rack-name"];
 					
-					var rackColor = rackColorList[rackName];
+					var rackColor = this.rackColorList[rackName];
 					
 					if (rackColor === undefined) {
 						rackColor = ++colorNo;
-						rackColorList[rackName] = rackColor;
+						this.rackColorList[rackName] = rackColor;
 					}
 					
 					// actual process
