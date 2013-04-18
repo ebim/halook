@@ -95,3 +95,7 @@ body {
 	height: 26px;
 	background-image : url("../images/ENdoSnipe_logo.png");
 }
+
+.ui-tabs-panel.ui-widget-content.ui-corner-bottom {
+	padding: 0px 0px 0px 0px;
+}

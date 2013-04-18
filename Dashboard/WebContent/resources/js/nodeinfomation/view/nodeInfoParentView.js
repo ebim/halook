@@ -133,6 +133,7 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 		$.extend(true, viewAttribute, {
 			id : newDivAreaId
 		});
+		// 動的に生成するオブジェクトを切り替える必要があるため、やむを得ずeval()を使う
 		var view = eval("new " + viewClassName
 				+ "(viewAttribute, treeSettings)");
 		

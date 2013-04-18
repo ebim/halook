@@ -23,13 +23,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-ENS.Utility = {};
-ENS.Utility.makeLogo = function(id, title) {
-	var idName = id + '_logo';
-	$("#" + id).append('<div id="' + idName + '" class="contentHeader" ></div>');
-	$('#' + idName).append(
-			'<h1>' + title + '</h1>');	
-	$('#' + idName)
-			.append(
-					'<div class="logo"></div>');
-};
+infinispan.ganttChartAxisStateElementView = Backbone.View.extend({
+	initialize : function(argument) {
+		_.bindAll();
+		this._paper = argument.paper;
+		if (this._paper == null) {
+			alert("paper is not exist");
+			return;
+		}
+		this.id = this.model.get("objectId");
+		this.render();
+	},
+	render : function() {
+		var color = infinispan.gantt.AXIS_COLOR;
+		this.model.set({
+			"attributes" : {
+				stroke : color
+			}
+		}, {
+			silent : true
+		});
+		this.element = new line(this.model.attributes, this._paper);
+	},
+	update : function(model) {
+		var instance = this;
+		var color = this.getStateColor();
+		this.model.set({
+			"fill" : color
+		}, {
+			silent : true
+		});
+		this.element.setAttributes(model);
+
+	},
+	remove : function(property) {
+		this.element.object.remove();
+	},
+	getStateColor : function() {
+		var state = this.model.get("state");
+		var color = infinispan.constants.STATE_COLOR[state];
+		if (color == null) {
+			color = infinispan.constants.STATE_COLOR[infinispan.constants.STATE.NORMAL];
+		}
+		return color;
+	}
+});

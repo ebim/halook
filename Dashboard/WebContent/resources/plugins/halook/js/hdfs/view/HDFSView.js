@@ -150,9 +150,9 @@ halook.HDFSView = wgp.AbstractView
 			},
 			render : function() {
 				// making area to set capacity table
-				$("#contents_area_0")
+				$("#contents_area_content_0")
 				.append(
-						"<div  id='capacity_table' style='margin-left:10px;margin-top:260px; float:left'></div>");
+						"<div id='capacity_table' style='margin-left:10px;margin-top:260px; float:left'></div>");
 				
 				// making area to set raphael
 				$(document.getElementById(this.$el

@@ -4,67 +4,67 @@
 
 // starttime; finishtime
 
-halook.arrow = {};
-halook.arrow.buttonSize = {};
-halook.arrow.buttonSize.width = "120px";
-halook.arrow.buttonSize.height = "40px";
-halook.arrow.buttonSize.marginLeft = "5px";
+infinispan.arrow = {};
+infinispan.arrow.buttonSize = {};
+infinispan.arrow.buttonSize.width = "120px";
+infinispan.arrow.buttonSize.height = "60px";
+infinispan.arrow.buttonSize.marginLeft = "5px";
 
-halook.arrow.DisplayMode = "node";// "task";
+infinispan.arrow.DisplayMode = "node";// "task";
 
-halook.arrow.ignoretask = {
+infinispan.arrow.ignoretask = {
 	"COMMIT_PENDING" : true
 };
-halook.arrow.buttonSize = {};
+infinispan.arrow.buttonSize = {};
 
-halook.jobInfoSpace = {};
-halook.filterMode = null;
+infinispan.jobInfoSpace = {};
+infinispan.filterMode = null;
 
-halook.jobInfoSpace.width = "865px";
-halook.jobInfoSpace.height = "90px";
-halook.jobInfoSpace.marginTop = "10px";
-halook.jobInfoSpace.marginLeft = "1px";
-halook.jobInfoSpace.float = "left";
+infinispan.jobInfoSpace.width = "865px";
+infinispan.jobInfoSpace.height = "90px";
+infinispan.jobInfoSpace.marginTop = "10px";
+infinispan.jobInfoSpace.marginLeft = "1px";
+infinispan.jobInfoSpace.float = "left";
 
-halook.clearSpace = {};
-halook.clearSpace.height = "15px";
-halook.clearSpace.clear = "both";
+infinispan.clearSpace = {};
+infinispan.clearSpace.height = "15px";
+infinispan.clearSpace.clear = "both";
 
-halook.taskInfoSpace = {};
-halook.taskInfoSpace.width = "115px";
-halook.taskInfoSpace.height = "400px";
-halook.taskInfoSpace.marginTop = "5px";
-halook.taskInfoSpace.marginLeft = "5px";
-halook.taskInfoSpace.float = "left";
+infinispan.taskInfoSpace = {};
+infinispan.taskInfoSpace.width = "115px";
+infinispan.taskInfoSpace.height = "400px";
+infinispan.taskInfoSpace.marginTop = "5px";
+infinispan.taskInfoSpace.marginLeft = "5px";
+infinispan.taskInfoSpace.float = "left";
 
-halook.arrowChart = {};
-halook.arrowChart.width = "780px";
-halook.arrowChart.height = "320px";
-halook.arrowChart.overflow = "scroll";
-halook.arrowChart.overflowX = "hidden";
-halook.arrowChart.backgroundColor = "#EEEEEE";
-halook.arrowChart.float = "left";
-halook.arrowChart.marginTop = 5;
-halook.arrowChart.background = "-moz-linear-gradient(-45deg, #FFFFFF 0%, #AAAAAA 100%) repeat scroll 0 0 transparent";
+infinispan.arrowChart = {};
+infinispan.arrowChart.width = "780px";
+infinispan.arrowChart.height = "320px";
+infinispan.arrowChart.overflow = "scroll";
+infinispan.arrowChart.overflowX = "hidden";
+infinispan.arrowChart.backgroundColor = "#EEEEEE";
+infinispan.arrowChart.float = "left";
+infinispan.arrowChart.marginTop = 5;
+infinispan.arrowChart.background = "-moz-linear-gradient(-45deg, #FFFFFF 0%, #AAAAAA 100%) repeat scroll 0 0 transparent";
 
-halook.dygraphChart = {};
-halook.dygraphChart.width = "710px";
-halook.dygraphChart.height = "200px";
-halook.dygraphChart.backgroundColor = "#EEEEEE";
-halook.dygraphChart.float = "left";
-halook.dygraphChart.leftMargin = "60px";
-halook.dygraphChart.rigntMargin = "7px";
-halook.dygraphChart.topMargin = "5px";
-halook.dygraphChart.borderStyle = "outset";
+infinispan.dygraphChart = {};
+infinispan.dygraphChart.width = "710px";
+infinispan.dygraphChart.height = "200px";
+infinispan.dygraphChart.backgroundColor = "#EEEEEE";
+infinispan.dygraphChart.float = "left";
+infinispan.dygraphChart.leftMargin = "40px";
+infinispan.dygraphChart.rigntMargin = "7px";
+infinispan.dygraphChart.topMargin = "5px";
+infinispan.dygraphChart.borderStyle = "outset";
 
-halook.parentView = {};
+infinispan.parentView = {};
 
 // グラフ最小の時間 1346160591446 1346843780000
-halook.parentView.minGraphTime = 0;
+infinispan.parentView.minGraphTime = 0;
 // グラフ最大の時間
-halook.parentView.maxGraphTime = 0;
+infinispan.parentView.maxGraphTime = 0;
 // グラフのインターバルの時間
-halook.parentView.intervalTime = 0;
+infinispan.parentView.intervalTime = 0;
 
 // /taskAttemptInfoArrayの情報。試行回数が複数のもののみ保持
 // maxTime: 同じタスクの試行回数の最大値
@@ -72,9 +72,9 @@ halook.parentView.intervalTime = 0;
 // runnningNum:同じタスクの動作数
 // (successNum:同じタスクの成功数の最大値・・・イランとおもうけど)
 // 同じIDの表に複数の行が入るときの lineNumももつ
-halook.parentView.taskAttemptInfoDictionary = {};
+infinispan.parentView.taskAttemptInfoDictionary = {};
 
-halook.parentView.getFromServerDatas = [];
+infinispan.parentView.getFromServerDatas = [];
 
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ////////////////データの整理をするところ
@@ -90,7 +90,7 @@ halook.parentView.getFromServerDatas = [];
 // ソートを実際に行う関数
 
 // 以下ソート関数群
-halook.parentView._taskIDSort = function(first, second){
+infinispan.parentView._taskIDSort = function(first, second){
 	var firstNumID = first.SimpleID;
 	var secondNumID = second.SimpleID;
 	var firstAttemptTime = first.attemptTime;
@@ -121,7 +121,7 @@ halook.parentView._taskIDSort = function(first, second){
 	return -1;
 };
 
-halook.parentView._nodeSort = function(first, second) {
+infinispan.parentView._nodeSort = function(first, second) {
 	// そのまんま
 	if (first.Hostname < second.Hostname)
 		return -1;
@@ -136,30 +136,30 @@ halook.parentView._nodeSort = function(first, second) {
 
 // 偶数か奇数かで値がかわる
 
-halook.parentView.startTimeOdd = -1;
-halook.parentView._startTimeSort = function(first, second) {
+infinispan.parentView.startTimeOdd = -1;
+infinispan.parentView._startTimeSort = function(first, second) {
 	if (first.StartTime > second.StartTime)
-		return 1 * halook.parentView.startTimeOdd;
-	return -1 * halook.parentView.startTimeOdd;
+		return 1 * infinispan.parentView.startTimeOdd;
+	return -1 * infinispan.parentView.startTimeOdd;
 };
 
-halook.parentView.finishTimeOdd = -1;
-halook.parentView._finishTimeSort = function(first, second) {
+infinispan.parentView.finishTimeOdd = -1;
+infinispan.parentView._finishTimeSort = function(first, second) {
 	if (first.FinishTime > second.FinishTime)
-		return 1 * halook.parentView.finishTimeOdd;
-	return -1 * halook.parentView.finishTimeOdd;
+		return 1 * infinispan.parentView.finishTimeOdd;
+	return -1 * infinispan.parentView.finishTimeOdd;
 };
-halook.parentView.taskSortFunctionTable = {
-		"task" : halook.parentView._taskIDSort,
-		"node" : halook.parentView._nodeSort,
-		"starttime" : halook.parentView._startTimeSort,
-		"finishtime" : halook.parentView._finishTimeSort
+infinispan.parentView.taskSortFunctionTable = {
+		"task" : infinispan.parentView._taskIDSort,
+		"node" : infinispan.parentView._nodeSort,
+		"starttime" : infinispan.parentView._startTimeSort,
+		"finishtime" : infinispan.parentView._finishTimeSort
 };
 
 
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-halook.ArrowParentView = wgp.AbstractView
+infinispan.ArrowParentView = wgp.AbstractView
 		.extend({
 			initialize : function(argument, treeSettings) {
 				this.isFirst = true;
@@ -179,12 +179,12 @@ halook.ArrowParentView = wgp.AbstractView
 				appView.getTermData([ (treeSettings.id + "%") ],
 						this.jobInfo.startTime, finishTime);
 
-				halook.parentView.minGraphTime = this.jobInfo.startTime
+				infinispan.parentView.minGraphTime = this.jobInfo.startTime
 						.getTime();
-				halook.parentView.maxGraphTime = this.jobInfo.finishTime
+				infinispan.parentView.maxGraphTime = this.jobInfo.finishTime
 						.getTime();
-				halook.parentView.intervalTime = halook.parentView.maxGraphTime
-						- halook.parentView.minGraphTime;
+				infinispan.parentView.intervalTime = infinispan.parentView.maxGraphTime
+						- infinispan.parentView.minGraphTime;
 
 				if (this.width == null) {
 					this.width = realTag.width();
@@ -233,17 +233,16 @@ halook.ArrowParentView = wgp.AbstractView
 					stringArray[5] = stringArray[5].replace(/0/g, '');
 					if (stringArray[5] !== "") {
 						attemptTime = parseInt(stringArray[5], 10) + 1;
-					} else {
+					} else
 						attemptTime = 1;
-					}
 					givenDatas[i].attemptTime = attemptTime;
 
 					// 同じtaskIDで最大回数を保存する
-					if (halook.parentView.taskAttemptInfoDictionary[keyName] !== undefined
-							&& halook.parentView.taskAttemptInfoDictionary[keyName].maxTime < attemptTime) {
-						(halook.parentView.taskAttemptInfoDictionary[keyName]).maxTime = attemptTime;
-					} else if (halook.parentView.taskAttemptInfoDictionary[keyName] === undefined) {
-						(halook.parentView.taskAttemptInfoDictionary[keyName]) = {
+					if (infinispan.parentView.taskAttemptInfoDictionary[keyName] !== undefined
+							&& infinispan.parentView.taskAttemptInfoDictionary[keyName].maxTime < attemptTime) {
+						(infinispan.parentView.taskAttemptInfoDictionary[keyName]).maxTime = attemptTime;
+					} else if (infinispan.parentView.taskAttemptInfoDictionary[keyName] === undefined) {
+						(infinispan.parentView.taskAttemptInfoDictionary[keyName]) = {
 							maxTime : attemptTime,
 							successNum : 0,
 							failNum : 0,
@@ -255,20 +254,20 @@ halook.ArrowParentView = wgp.AbstractView
 					// failNum : 同じタスクの失敗数
 					// runningNum:同じタスクの動作数
 					// (successNum:同じタスクの成功数の最大値・・・イランとおもうけど)
-					if (status == halook.task.SUCCESSED) {
-						(halook.parentView.taskAttemptInfoDictionary[keyName]).successNum = 1;
-					} else if (status == halook.task.FAILED) {
-						(halook.parentView.taskAttemptInfoDictionary[keyName]).failNum++;
-					} else if (status == halook.task.RUNNNING) {
-						(halook.parentView.taskAttemptInfoDictionary[keyName]).runningNum++;
+					if (status == infinispan.task.SUCCESSED) {
+						(infinispan.parentView.taskAttemptInfoDictionary[keyName]).successNum = 1;
+					} else if (status == infinispan.task.FAILED) {
+						(infinispan.parentView.taskAttemptInfoDictionary[keyName]).failNum++;
+					} else if (status == infinispan.task.RUNNNING) {
+						(infinispan.parentView.taskAttemptInfoDictionary[keyName]).runningNum++;
 					}
 
 				}
 			},
 			_executeTaskSort : function(array, mode) {
-				if (halook.parentView.taskSortFunctionTable[mode] != null) {
-					var a = halook.parentView.taskSortFunctionTable[mode];
-					array.sort(halook.parentView.taskSortFunctionTable[mode]);
+				if (infinispan.parentView.taskSortFunctionTable[mode] != null) {
+					var a = infinispan.parentView.taskSortFunctionTable[mode];
+					array.sort(infinispan.parentView.taskSortFunctionTable[mode]);
 				}
 
 				// collectionのリセット
@@ -276,8 +275,8 @@ halook.ArrowParentView = wgp.AbstractView
 					this.collection.reset();
 				}
 
-				if (halook.taskDataForShow && halook.taskDataForShow.length > 0) {
-					this.addCollection(halook.taskDataForShow);
+				if (infinispan.taskDataForShow && infinispan.taskDataForShow.length > 0) {
+					this.addCollection(infinispan.taskDataForShow);
 					this.render();
 				}
 
@@ -294,16 +293,16 @@ halook.ArrowParentView = wgp.AbstractView
 
 				$("#" + this.$el.attr("id"))
 						.append(
-								'<div id="jobInfoSpace" class="contentHeader"><div id="jobInfoSpaceHtml"  width="450" height = "60"></div><div id = "jobInfoImage" width="250" height="50"><img src ="' + context + '/resources/plugins/halook/images/halook_120x30.png" alt="nopage" ></div></div>'
+								'<div id="jobInfoSpace" class="contentHeader"><div id="jobInfoSpaceHtml"  width="450" height = "60"></div><div id = "jobInfoImage" width="250" height="50"></div></div>'
 										+ '<div class="clearSpace"></div>');
 				$("#jobInfoSpace")
 						.css(
 								{
-									width : halook.jobInfoSpace.width,
-									height : halook.jobInfoSpace.height,
-									marginTop : halook.jobInfoSpace.marginTop,
-									marginLeft : halook.jobInfoSpace.marginLeft,
-									float : halook.jobInfoSpace.float
+									width : infinispan.jobInfoSpace.width,
+									height : infinispan.jobInfoSpace.height,
+									marginTop : infinispan.jobInfoSpace.marginTop,
+									marginLeft : infinispan.jobInfoSpace.marginLeft,
+									float : infinispan.jobInfoSpace.float
 								});
 				$("#jobInfoSpace p").css({
 					marginLeft : 5,
@@ -317,17 +316,19 @@ halook.ArrowParentView = wgp.AbstractView
 				$("#jobInfoImage").css({
 					float : "right"
 				});
-				var jobColor = "";
-				if (this.jobInfo.jobStatus == halook.job.SUCCESS) {
-					jobColor = halook.constants.STATE_COLOR[halook.constants.STATE.SUCCESS];
-				} else if (this.jobInfo.jobStatus ==halook.job.FAIL) {
-					jobColor = halook.constants.STATE_COLOR[halook.constants.STATE.FAIL];
-				} else if (this.jobInfo.jobStatus == halook.job.KILL) {
-					jobColor = halook.constants.STATE_COLOR[halook.constants.STATE.KILLED];
-				} else if (this.jobInfo.jobStatus == halook.job.RUNNING) {
-					jobColor = halook.constants.STATE_COLOR[halook.constants.STATE.RUNNING];
+				
+				// Job status color
+				var jobColor;
+				if (this.jobInfo.jobStatus == infinispan.job.SUCCESS) {
+					jobColor = infinispan.constants.STATE_COLOR[infinispan.constants.STATE.SUCCESS];
+				} else if (this.jobInfo.jobStatus ==infinispan.job.FAIL) {
+					jobColor = infinispan.constants.STATE_COLOR[infinispan.constants.STATE.FAIL];
+				} else if (this.jobInfo.jobStatus == infinispan.job.KILL) {
+					jobColor = infinispan.constants.STATE_COLOR[infinispan.constants.STATE.KILLED];
+				} else if (this.jobInfo.jobStatus == infinispan.job.RUNNING) {
+					jobColor = infinispan.constants.STATE_COLOR[infinispan.constants.STATE.RUNNING];
 				}　else {
-					jobColor = halook.constants.STATE_COLOR[halook.constants.STATE.KILLED];
+					jobColor = infinispan.constants.STATE_COLOR[infinispan.constants.STATE.KILLED];
 				}	
 				$("#jobInfoSpaceHtml").append(
 						"<p><font size='6' face='Comic Sans MS'><b>"
@@ -345,8 +346,8 @@ halook.ArrowParentView = wgp.AbstractView
 				});
 
 				$(".clearSpace").css({
-					height : halook.clearSpace.height,
-					clear : halook.clearSpace.clear
+					height : infinispan.clearSpace.height,
+					clear : infinispan.clearSpace.clear
 				});
 				
 				
@@ -421,9 +422,9 @@ halook.ArrowParentView = wgp.AbstractView
 				});
 
 				$(".sortButton").css({
-					width : halook.arrow.buttonSize.width,
-					height : halook.arrow.buttonSize.height,
-					marginLeft : halook.arrow.buttonSize.marginLeft,
+					width : infinispan.arrow.buttonSize.width,
+					height : infinispan.arrow.buttonSize.height,
+					marginLeft : infinispan.arrow.buttonSize.marginLeft,
 					float : "left"
 				});
 
@@ -454,11 +455,11 @@ halook.ArrowParentView = wgp.AbstractView
 				$("#taskInfoSpace")
 						.css(
 								{
-									width : halook.taskInfoSpace.width,
-									height : halook.taskInfoSpace.height,
-									marginTop : halook.taskInfoSpace.marginTop,
-									marginLeft : halook.taskInfoSpace.marginLeft,
-									float : halook.taskInfoSpace.float,
+									width : infinispan.taskInfoSpace.width,
+									height : infinispan.taskInfoSpace.height,
+									marginTop : infinispan.taskInfoSpace.marginTop,
+									marginLeft : infinispan.taskInfoSpace.marginLeft,
+									float : infinispan.taskInfoSpace.float,
 									background : "-moz-linear-gradient(-45deg, rgba(255,255,255,1) 0%, rgba(241,241,241,1) 50%, rgba(225,225,225,1) 51%, rgba(246,246,246,1) 100%)"
 								});
 				
@@ -488,17 +489,17 @@ halook.ArrowParentView = wgp.AbstractView
 				// arrow用のdiv Tagの作成を行う。////////////////////////////////////
 				$("#" + this.$el.attr("id"))
 						.append(
-								'<div id="arrowChart" class="halookContents"></div>');
+								'<div id="arrowChart" class="infinispanContents"></div>');
 				$("#arrowChart").css({
-					width : halook.arrowChart.width,
-					height : halook.arrowChart.height,
-					overflow : halook.arrowChart.overflow,
-					overflowX : halook.arrowChart.overflowX,
-					marginTop : halook.arrowChart.marginTop,
-					float : halook.arrowChart.float
+					width : infinispan.arrowChart.width,
+					height : infinispan.arrowChart.height,
+					overflow : infinispan.arrowChart.overflow,
+					overflowX : infinispan.arrowChart.overflowX,
+					marginTop : infinispan.arrowChart.marginTop,
+					float : infinispan.arrowChart.float
 				});
 
-				this.arrowChartView = new halook.ArrowChartView({
+				this.arrowChartView = new infinispan.ArrowChartView({
 					id : "arrowChart",
 					rootView : this,
 					jobInfo : this.jobInfo
@@ -507,89 +508,89 @@ halook.ArrowParentView = wgp.AbstractView
 				// /////////////////////////////////////////////////////////////////
 				// graph用のdiv Tagの作成を行う。//////////////////////////////////////
 				$("#" + this.$el.attr("id")).append(
-						'<div id="dygraphChart" class="halookContents"></div>');
+						'<div id="dygraphChart" class="infinispanContents"></div>');
 				$("#dygraphChart").css({
-					width : halook.dygraphChart.width,
-					height : halook.dygraphChart.height,
-					backgroundColor : halook.dygraphChart.backgroundColor,
-					float : halook.dygraphChart.float,
-					marginLeft : halook.dygraphChart.leftMargin,
-					marginRight : halook.dygraphChart.rigntMargin,
-					marginTop : halook.dygraphChart.topMargin,
-					"border-style" : halook.dygraphChart.borderStyle
+					width : infinispan.dygraphChart.width,
+					height : infinispan.dygraphChart.height,
+					backgroundColor : infinispan.dygraphChart.backgroundColor,
+					float : infinispan.dygraphChart.float,
+					marginLeft : infinispan.dygraphChart.leftMargin,
+					marginRight : infinispan.dygraphChart.rigntMargin,
+					marginTop : infinispan.dygraphChart.topMargin,
+					"border-style" : infinispan.dygraphChart.borderStyle
 				});
 
-				this.dygraphView = new halook.DygraphChartView({
+				this.dygraphView = new infinispan.DygraphChartView({
 					id : "dygraphChart",
 					rootView : this
 				});
 			},
 			_backTobeforePage : function() {
-				var ganttchartTreeId = halook.ganttchart.treeSettings.id;
+				var ganttchartTreeId = infinispan.ganttchart.treeSettings.id;
 				var elem = document.getElementById(ganttchartTreeId);
 				$(elem).mousedown();
 			},
 			_changeToTask : function() {
-				// console.log("change to task " + halook.arrow.DisplayMode + " node");
+				// console.log("change to task " + infinispan.arrow.DisplayMode + " node");
 
-				if (halook.arrow.DisplayMode != "task" || halook.filterMode != null) {
-					halook.arrow.DisplayMode = "task";
-					halook.taskDataForShow = halook.taskDataOriginal;
-					halook.filterMode = null;
-					this._executeTaskSort(halook.taskDataForShow, halook.arrow.DisplayMode);
+				if (infinispan.arrow.DisplayMode != "task" || infinispan.filterMode != null) {
+					infinispan.arrow.DisplayMode = "task";
+					infinispan.taskDataForShow = infinispan.taskDataOriginal;
+					infinispan.filterMode = null;
+					this._executeTaskSort(infinispan.taskDataForShow, infinispan.arrow.DisplayMode);
 					// console.log("change to task " + this);
 					this.arrowChartView.redraw("task");
 				}
 			},
 			_changeToNode : function() {
-				// console.log("change to node " + halook.arrow.DisplayMode + " task");
-				if (halook.arrow.DisplayMode != "node" || halook.filterMode != null) {
-					halook.taskDataForShow = halook.taskDataOriginal;
-					halook.filterMode = null;
+				// console.log("change to node " + infinispan.arrow.DisplayMode + " task");
+				if (infinispan.arrow.DisplayMode != "node" || infinispan.filterMode != null) {
+					infinispan.taskDataForShow = infinispan.taskDataOriginal;
+					infinispan.filterMode = null;
 
-					halook.arrow.DisplayMode = "node";
-					this._executeTaskSort(halook.taskDataForShow, halook.arrow.DisplayMode);
+					infinispan.arrow.DisplayMode = "node";
+					this._executeTaskSort(infinispan.taskDataForShow, infinispan.arrow.DisplayMode);
 					// console.log("change to node " + this);
 					this.arrowChartView.redraw("node");
 				}
 			},
 			_changeToStart : function() {
 
-				halook.parentView.startTimeOdd *= (-1);
-				// console.log("change to node " + halook.arrow.DisplayMode + " task");
-				halook.taskDataForShow = halook.taskDataOriginal;
-				halook.filterMode = null;
+				infinispan.parentView.startTimeOdd *= (-1);
+				// console.log("change to node " + infinispan.arrow.DisplayMode + " task");
+				infinispan.taskDataForShow = infinispan.taskDataOriginal;
+				infinispan.filterMode = null;
 
-				halook.arrow.DisplayMode = "starttime";
-				this._executeTaskSort(halook.taskDataForShow, halook.arrow.DisplayMode);
+				infinispan.arrow.DisplayMode = "starttime";
+				this._executeTaskSort(infinispan.taskDataForShow, infinispan.arrow.DisplayMode);
 				// console.log("change to node " + this);
 				this.arrowChartView.redraw("node");
 
 			},
 			_changeToFinish : function() {
-				halook.parentView.finishTimeOdd *= (-1);
-				// console.log("change to node " + halook.arrow.DisplayMode + " task");
-				halook.taskDataForShow = halook.taskDataOriginal;
-				halook.filterMode = null;
+				infinispan.parentView.finishTimeOdd *= (-1);
+				// console.log("change to node " + infinispan.arrow.DisplayMode + " task");
+				infinispan.taskDataForShow = infinispan.taskDataOriginal;
+				infinispan.filterMode = null;
 
-				halook.arrow.DisplayMode = "finishtime";
-				this._executeTaskSort(halook.taskDataForShow, halook.arrow.DisplayMode);
+				infinispan.arrow.DisplayMode = "finishtime";
+				this._executeTaskSort(infinispan.taskDataForShow, infinispan.arrow.DisplayMode);
 				// console.log("change to node " + this);
 				this.arrowChartView.redraw("node");
 
 			},
 			_changeToFail : function() {
-				if (halook.filterMode != "fail") {
-					halook.filterMode = "fail";
+				if (infinispan.filterMode != "fail") {
+					infinispan.filterMode = "fail";
 					this._executeFilter();
-					this.arrowChartView.redraw(halook.arrow.DisplayMode);
+					this.arrowChartView.redraw(infinispan.arrow.DisplayMode);
 				}
 			},
 			_changeToKilled : function() {
-				if (halook.filterMode != "killed") {
-					halook.filterMode = "killed";
+				if (infinispan.filterMode != "killed") {
+					infinispan.filterMode = "killed";
 					this._executeFilter();
-					this.arrowChartView.redraw(halook.arrow.DisplayMode);
+					this.arrowChartView.redraw(infinispan.arrow.DisplayMode);
 				}
 			},
 			addCollection : function(dataArray) {
@@ -629,21 +630,21 @@ halook.ArrowParentView = wgp.AbstractView
 
 			_executeFilter : function(array, mode) {
 				var resultCollection;
-				if (halook.filterMode == "fail") {
-					resultCollection = _.filter(halook.parentView.getFromServerDatas, function(model){
-						return model.Status == halook.constants.JOB_STATE.FAILED;
+				if (infinispan.filterMode == "fail") {
+					resultCollection = _.filter(infinispan.parentView.getFromServerDatas, function(model){
+						return model.Status == infinispan.constants.JOB_STATE.FAILED;
 					});
-				} else if (halook.filterMode == "killed") {
-					resultCollection = _.filter(halook.parentView.getFromServerDatas, function(model){
-						if (model.Status == halook.constants.JOB_STATE.KILLED){
+				} else if (infinispan.filterMode == "killed") {
+					resultCollection = _.filter(infinispan.parentView.getFromServerDatas, function(model){
+						if (model.Status == infinispan.constants.JOB_STATE.KILLED){
 							return true;
-						} else if (model.Status == halook.constants.JOB_STATE.KILLED_UNCLEAN) {
+						} else if (model.Status == infinispan.constants.JOB_STATE.KILLED_UNCLEAN) {
 							return true;
 						}
 						return false;
 					});
 				}
-				halook.taskDataForShow = resultCollection;
+				infinispan.taskDataForShow = resultCollection;
 			},
 			onComplete : function(type) {
 				if (type == wgp.constants.syncType.SEARCH) {
@@ -654,7 +655,7 @@ halook.ArrowParentView = wgp.AbstractView
 				if (this.isFirst) {
 					this.render();
 					var instance = this;
-					halook.parentView.getFromServerDatas = [];
+					infinispan.parentView.getFromServerDatas = [];
 					
 					_.each(this.collection.models, function(model) {
 						var deleteFlag = false;
@@ -666,11 +667,11 @@ halook.ArrowParentView = wgp.AbstractView
 						
 						for ( var i = 0; i < value.length; i++) {
 							// if status is commit pending, ignore task.
-							if (halook.arrow.ignoretask[value[i].Status] === true) {
+							if (infinispan.arrow.ignoretask[value[i].Status] === true) {
 								continue;
 							}
 							if (value[i].JobID == instance.jobInfo.jobId) {
-								halook.parentView.getFromServerDatas.push(value[i]);
+								infinispan.parentView.getFromServerDatas.push(value[i]);
 							}
 						}
 					});
@@ -695,29 +696,29 @@ halook.ArrowParentView = wgp.AbstractView
 			},
 			_initDataProcesser : function() {
 				// 取得したデータを保存用の部位に代入する。
-				halook.taskDataOriginal = halook.parentView.getFromServerDatas;
-				halook.taskDataForShow = halook.parentView.getFromServerDatas;
+				infinispan.taskDataOriginal = infinispan.parentView.getFromServerDatas;
+				infinispan.taskDataForShow = infinispan.parentView.getFromServerDatas;
 
-				this._rearrangeDatas(halook.taskDataForShow);
+				this._rearrangeDatas(infinispan.taskDataForShow);
 				// /sortを実施
-				this._executeTaskSort(halook.taskDataForShow, halook.arrow.DisplayMode);
-				// halook.arrowChartView.redraw("node");
+				this._executeTaskSort(infinispan.taskDataForShow, infinispan.arrow.DisplayMode);
+				// infinispan.arrowChartView.redraw("node");
 
 			},
 			_setIntervalTime : function() {
 				var finalTime = 0;
 				
-				var taskDataForAhowLength = halook.taskDataForShow.length;
+				var taskDataForAhowLength = infinispan.taskDataForShow.length;
 				
 				for ( var i = 0; i < taskDataForAhowLength; i++) {
-					var data = halook.taskDataForShow[i];
+					var data = infinispan.taskDataForShow[i];
 
 					if (finalTime < data.FinishTime) {
 						finalTime = data.FinishTime;
 					}
 				}
 				
-				halook.parentView.intervalTime = finalTime
-				- halook.parentView.minGraphTime;
+				infinispan.parentView.intervalTime = finalTime
+				- infinispan.parentView.minGraphTime;
 			}
 		});
