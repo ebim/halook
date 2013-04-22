@@ -3,9 +3,9 @@ js/constants.js
 js/grow/staticValues.js
 js/common/tabView.js
 js/grow/view/hbaseView.js
-js/region/view/hbaseResionMapParentView.js
-js/region/view/hbaseRegionMapView.js
-js/region/view/hbaseRegionMapAxisStateElementView.js
+js/cache/view/cacheParentView.js
+js/cache/view/cacheView.js
+js/cache/view/cacheAxisStateElementView.js
 js/grow/view/hbaseParentView.js
 js/arrow/view/arrowParentView.js
 js/map/customtriangle.js

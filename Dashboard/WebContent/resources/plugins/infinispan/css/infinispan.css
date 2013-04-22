@@ -39,3 +39,7 @@ body {
 #buttonSpace, #arrowChart {
 	margin-left: 20px;
 }
+
+.clearFloat {
+	clear: both;
+}

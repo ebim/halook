@@ -1,9 +1,3 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// starttime; finishtime
-
 infinispan.arrow = {};
 infinispan.arrow.buttonSize = {};
 infinispan.arrow.buttonSize.width = "120px";
@@ -217,24 +211,16 @@ infinispan.ArrowParentView = wgp.AbstractView
 					pcounter++;
 					// IDを＿で区分けする
 					var stringArray = (givenDatas[i].TaskAttemptID).split('_');
-					// 試行回数を表す
-					var attemptTime;
-					// m_000033のようなキーの形を作る。
-					var keyName = stringArray[3] + "_" + stringArray[4];
+					
+					var keyName = stringArray[2];
 					var status = givenDatas[i].Status;
-
-					// とりあえず新しく変数を追加
-					givenDatas[i].Mapreduce = stringArray[3];
-					givenDatas[i].SimpleID = stringArray[4];
+					
+					givenDatas[i].SimpleID = stringArray[2];
 					// セルの中における列情報も保持arrowChartViewで値を更新
 					givenDatas[i].indexInCell = 0;
 
-					// attemptTimeの計算
-					stringArray[5] = stringArray[5].replace(/0/g, '');
-					if (stringArray[5] !== "") {
-						attemptTime = parseInt(stringArray[5], 10) + 1;
-					} else
-						attemptTime = 1;
+					// 試行回数
+					var attemptTime = 1;
 					givenDatas[i].attemptTime = attemptTime;
 
 					// 同じtaskIDで最大回数を保存する
@@ -605,7 +591,6 @@ infinispan.ArrowParentView = wgp.AbstractView
 							Status : data.Status,
 							Hostname : data.Hostname,
 							TaskAttemptID : data.TaskAttemptID,
-							Mapreduce : data.Mapreduce,
 							SimpleID : data.SimpleID,
 							attemptTime : data.attemptTime
 						});
@@ -616,17 +601,6 @@ infinispan.ArrowParentView = wgp.AbstractView
 				}
 
 			},
-
-			// SubmitTime:null,
-			// StartTime:null,
-			// FinishTime:null,
-			// JobID:null,
-			// Status:null,
-			// Hostname:null,
-			// TaskAttemptID: null,
-			// Mapreduce: null,
-			// SimpleID: null,
-			// attemptTime: null,
 
 			_executeFilter : function(array, mode) {
 				var resultCollection;

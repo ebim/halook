@@ -96,32 +96,6 @@ infinispan.HeapView = wgp.AbstractView
 
 			},
 			_staticRender : function() {
-
-				infinispan.Heap.centerObject = this.paper
-						.circle(
-								infinispan.Heap.center.x,
-								infinispan.Heap.center.y,
-								infinispan.heap.constants.mainCircle.radius
-										* infinispan.heap.constants.mainCircle.innerRate)
-						.attr(
-								{
-									"fill" : infinispan.heap.constants.dataNode.color.good,
-									"stroke" : infinispan.heap.constants.dataNode.frameColor
-								});
-
-				this.paper
-						.circle(
-								infinispan.Heap.center.x,
-								infinispan.Heap.center.y,
-								infinispan.heap.constants.mainCircle.radius
-										- infinispan.heap.constants.rack.height
-										/ 2)
-						.attr(
-								{
-									"stroke" : infinispan.heap.constants.dataNode.frameColor,
-									"stroke-width" : infinispan.heap.constants.rack.height / 2
-								});
-
 				this.agentsList_.sort();
 
 				var agentsListLength = this.agentsList_.length;
@@ -191,17 +165,25 @@ infinispan.HeapView = wgp.AbstractView
 				infinispan.Heap.changeAngleFromUpdate = 0;
 			},
 			render : function() {
+				var elem = document.getElementById(this.$el.attr("id"));
 				// making area to set capacity table
-				$("#contents_area_content_0")
-						.append(
-								"<div  id='capacity_table' style='margin-left:10px;margin-top:260px; float:left'></div>");
+				$(elem).append(
+								"<div id='capacity_table' style='margin-left:10px;margin-top:260px; float:left'></div>");
 
+				
+				
 				// making area to set raphael
-				$(document.getElementById(this.$el.attr("id")))
-						.append(
+				$(elem).append(
 								"<div id='heap_data' style='width:625px;height:630px; float:right'></div>");
+				
+				$(elem).append(
+				"<div class='clearFloat'></div>");
+				
 				// set paper
 				this.paper = new Raphael('heap_data');
+				
+				// 固定の初期パーツを描画する
+				this._drawInitializeParts();
 			},
 			onAdd : function(mapElement) {
 			},
@@ -222,7 +204,7 @@ infinispan.HeapView = wgp.AbstractView
 				delete this.viewCollection[objectId];
 			},
 			_getTermData : function() {
-				this._initializeDraw();
+				this._drawHeap();
 				if (this.isRealTime) {
 					appView.syncData([ (infinispan.Heap.treeSettingId + "%") ]);
 				}
@@ -269,12 +251,6 @@ infinispan.HeapView = wgp.AbstractView
 				this.collection.remove(removeTargetList, {
 					silent : true
 				});
-				
-				console.log(this.collection.models.length);
-				for (var i = 0; i < this.collection.models.length; i++) {
-					console.log(this.collection.models[i].attributes.measurementItemName);
-					console.log(this.collection.models[i].attributes.measurementTime);
-				}
 				
 				var instance = this;
 				// delete data ignore old last update date.
@@ -783,7 +759,14 @@ infinispan.HeapView = wgp.AbstractView
 									});
 				}
 			},
-			_setRotationButton : function() {
+			_drawInitializeParts : function() {
+				// ボタンを作成する
+				this._drawRotationButton();
+				
+				// 中心の円オブジェクトを作成する
+				this._drawCenterObject();
+			},
+			_drawRotationButton : function() {
 				var butt1 = this.paper.set(), butt2 = this.paper.set();
 				butt1
 						.push(
@@ -859,7 +842,38 @@ infinispan.HeapView = wgp.AbstractView
 								fill : "#000"
 							});
 						});
-
+			},
+			_drawCenterObject : function() {
+				// base numbers for drawing
+				infinispan.Heap.center = {
+					x : viewArea2.width / 3,
+					y : viewArea2.height / 1.8 - 90
+				};
+				
+				infinispan.Heap.centerObject = this.paper
+						.circle(
+								infinispan.Heap.center.x,
+								infinispan.Heap.center.y,
+								infinispan.heap.constants.mainCircle.radius
+										* infinispan.heap.constants.mainCircle.innerRate)
+						.attr(
+								{
+									"fill" : infinispan.heap.constants.dataNode.color.good,
+									"stroke" : infinispan.heap.constants.dataNode.frameColor
+								});
+		
+				this.paper
+						.circle(
+								infinispan.Heap.center.x,
+								infinispan.Heap.center.y,
+								infinispan.heap.constants.mainCircle.radius
+										- infinispan.heap.constants.rack.height
+										/ 2)
+						.attr(
+								{
+									"stroke" : infinispan.heap.constants.dataNode.frameColor,
+									"stroke-width" : infinispan.heap.constants.rack.height / 2
+								});
 			},
 			_drawRack : function() {
 				// $("#" + this.$el.attr("id"))
@@ -980,7 +994,7 @@ infinispan.HeapView = wgp.AbstractView
 				}
 
 			},
-			_initializeDraw : function() {
+			_drawHeap : function() {
 				this._setHeapDataList();
 
 				var localHeapLastData = this.heapDataList_[this.lastMeasurementTime_];
@@ -995,10 +1009,6 @@ infinispan.HeapView = wgp.AbstractView
 						&& mapId == infinispan.heap.constants.agentnameAll) {
 					return;
 				}
-
-				this.paper.clear();
-
-				this._setRotationButton();
 
 				// set heapState as the last data in heapDataList
 				this._setHeapState();

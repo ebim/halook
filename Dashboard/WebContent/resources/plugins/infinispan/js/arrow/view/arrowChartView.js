@@ -60,12 +60,12 @@ infinispan.ArrowChartView = wgp.AbstractView
 					idstring = infinispan.taskDataOriginal[i].TaskAttemptID;
 					idArray = idstring.split('_');
 					rowCounter = 0;
-					idArray[5] = idArray[5].replace(/0/g, '');
-					if (idArray[5] !== 0) {
-						if (infinispan.arrowChart.idCounter[(idArray[3] + "_" + idArray[4])] === undefined)
-							infinispan.arrowChart.idCounter[(idArray[3] + "_" + idArray[4])] = idArray[5];
-						else if (infinispan.arrowChart.idCounter[(idArray[3] + "_" + idArray[4])] < idArray[5])
-							infinispan.arrowChart.idCounter[(idArray[3] + "_" + idArray[4])] = idArray[5];
+					idArray[3] = idArray[3].replace(/0/g, '');
+					if (idArray[3] !== 0) {
+						if (infinispan.arrowChart.idCounter[idArray[2]] === undefined)
+							infinispan.arrowChart.idCounter[idArray[2]] = idArray[3];
+						else if (infinispan.arrowChart.idCounter[idArray[2]] < idArray[3])
+							infinispan.arrowChart.idCounter[idArray[2]] = idArray[3];
 					}
 				}
 				
@@ -96,8 +96,6 @@ infinispan.ArrowChartView = wgp.AbstractView
 				if (this.height == null) {
 					this.height = realTag.height();
 				}
-
-				// console.log('called initialize');
 			},
 			render : function() {
 				// console.log('call render');
@@ -175,7 +173,6 @@ infinispan.ArrowChartView = wgp.AbstractView
 						stateString = infinispan.constants.STATE[data.Status];
 						
 						var errorStateString = stateString;
-						stateString = data.Mapreduce + stateString;
 
 						if (data.Status == infinispan.constants.JOB_STATE.FAIL) {
 							new infinispan.ErrorStateElementView({
@@ -188,13 +185,10 @@ infinispan.ArrowChartView = wgp.AbstractView
 
 					} else if (data.Status == "RUNNING") {
 						stateString = "run";
-						stateString = data.Mapreduce + stateString;
 					} else if (data.Status == "UNASSIGNED") {
 						stateString = "unassigned";
-						stateString = data.Mapreduce + stateString;
 					} else {
 						stateString = "normal";
-						stateString = data.Mapreduce + stateString;
 					}
 					new infinispan.ArrowStateElementView({
 						model : modelDataForArrow,
@@ -270,7 +264,7 @@ infinispan.ArrowChartView = wgp.AbstractView
 									pointY : infinispan.arrowChart.cellHeight * 1.0
 											/ 2 + textRowCounter
 											* infinispan.arrowChart.cellHeight,
-									text : data.Mapreduce + "_" + data.SimpleID,
+									text : data.SimpleID,
 									fontSize : infinispan.arrowChart.cellTitleFontSize
 								});
 						new infinispan.TextAreaStateElementView({
