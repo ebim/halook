@@ -70,9 +70,11 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 				instance.updateDisplaySpan(from, to);
 				// グラフの表示データを更新する
 				instance.updateGraphData(key, from, to);
-				
 			}
 		});
+		
+		$("#" + this.$el.attr("id")).append(
+				'<div class="clearFloat"></div>');
 	},
 	render : function() {
 		console.log('call render');

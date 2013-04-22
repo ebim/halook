@@ -273,11 +273,6 @@ ENS.DualSliderView = wgp.AbstractView
 								});
 			},
 			_getFromToAsArray : function(values) {
-				// values : .ui-slider values
-				// Ex: [4, 6]
-				// return : [fromMillisecond, toMillisecond]
-				// the time which means how long ago from now
-
 				var fromMillisecond = (this.groupUnitNum * this.groupNum - values[0])
 						* this.scaleUnit;
 				var toMillisecond = (this.groupUnitNum * this.groupNum - values[1])
