@@ -131,9 +131,9 @@ infinispan.CacheView = wgp.AbstractView
 					if (time == lastTime) {
 						var parsedModel = instance._parseModel(model);
 
-						var serverName = parsedModel.serverName;
+						var agentName = parsedModel.agentName;
 
-						var dataList = data[serverName];
+						var dataList = data[agentName];
 
 						if (dataList === undefined) {
 							dataList = [];
@@ -151,25 +151,25 @@ infinispan.CacheView = wgp.AbstractView
 							return 0;
 						});
 
-						data[serverName] = dataList;
+						data[agentName] = dataList;
 					}
 				});
 
 				// set Last Update Time.
 				this.lastMeasurementTime_ = lastTime;
 
-				var serverNameArray = [];
-				for ( var serverName in data) {
-					serverNameArray.push(serverName);
+				var agentNameArray = [];
+				for ( var agentName in data) {
+					agentNameArray.push(agentName);
 				}
 
 				// 以下でサーバ名でのソートをを行う
-				serverNameArray.sort();
-				var serverNameArrayLength = serverNameArray.length;
+				agentNameArray.sort();
+				var agentNameArrayLength = agentNameArray.length;
 
 				var tmpData = {};
-				for ( var index = 0; index < serverNameArrayLength; index++) {
-					var tmpServerName = serverNameArray[index];
+				for ( var index = 0; index < agentNameArrayLength; index++) {
+					var tmpServerName = agentNameArray[index];
 					tmpData[tmpServerName] = data[tmpServerName];
 				}
 
@@ -203,7 +203,7 @@ infinispan.CacheView = wgp.AbstractView
 				return {
 					date : date,
 					tableName : cacheName,
-					serverName : agentName,
+					agentName : agentName,
 					cacheNum : value
 				};
 			},
@@ -244,11 +244,11 @@ infinispan.CacheView = wgp.AbstractView
 				var tableColor = {};
 				var colorCount = 0;
 				var colorList = this.colorList;
-				var serverName = "";
+				var agentName = "";
 				var tableName = "";
 
-				for (serverName in data) {
-					var cacheList = data[serverName];
+				for (agentName in data) {
+					var cacheList = data[agentName];
 					var length = cacheList.length;
 					var cacheNum = 0;
 
@@ -301,20 +301,20 @@ infinispan.CacheView = wgp.AbstractView
 					this.graphRect = [];
 				}
 
-				for (serverName in this.data) {
+				for (agentName in this.data) {
 
 					var textStartX = unitAreaWidth * count + unitAreaWidth / 2
 							+ this.startXAxis;
 					var startX = textStartX - unitNodeWidth / 2;
 
-					var tableList = this.data[serverName];
+					var tableList = this.data[agentName];
 					var tableNum = tableList.length;
 
 					var sumCacheNum = 0;
 					var sumHeight = 0;
 
 					// 先に外枠を作成
-					var lastCacheNum = this.lastTimeCacheNum[serverName];
+					var lastCacheNum = this.lastTimeCacheNum[agentName];
 
 					if (lastCacheNum) {
 						var lastHeight = lastCacheNum * magnification;
@@ -335,7 +335,7 @@ infinispan.CacheView = wgp.AbstractView
 
 						var cacheValue = model.cacheNum;
 						tableName = model.tableName;
-						serverName = model.serverName;
+						agentName = model.agentName;
 
 						var height = cacheValue * magnification;
 
@@ -344,8 +344,7 @@ infinispan.CacheView = wgp.AbstractView
 								unitNodeWidth, height).attr(
 								{
 									fill : tableColor[tableName],
-									title : serverName + ":" + tableName
-											+ " cacheNumber: " + cacheValue
+									title : agentName + " : " + cacheValue
 								}));
 
 						sumHeight += height;
@@ -353,13 +352,13 @@ infinispan.CacheView = wgp.AbstractView
 					}
 
 					this.graphRect.push(this.paper.text(textStartX,
-							this.textStartY, serverName).attr({
+							this.textStartY, agentName).attr({
 						"font-size" : 11,
 						stroke : "#FFFFFF",
 						"text-anchor" : "start"
 					}).rotate(45, textStartX, this.textStartY));
 
-					this.lastTimeCacheNum[serverName] = sumCacheNum;
+					this.lastTimeCacheNum[agentName] = sumCacheNum;
 
 					count++;
 				}
@@ -400,7 +399,8 @@ infinispan.CacheView = wgp.AbstractView
 					this.graphRect.push(this.paper.text(this.textStartX,
 							yUnitHeight, cacheNum + "").attr({
 						"font-size" : 12,
-						stroke : "#FFFFFF"
+						stroke : "#FFFFFF",
+						"text-anchor" : "end"
 					}));
 
 					if (sumHeight > this.graphMaxValue) {

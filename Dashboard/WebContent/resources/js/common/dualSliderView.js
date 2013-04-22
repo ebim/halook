@@ -201,7 +201,8 @@ ENS.DualSliderView = wgp.AbstractView
 				$(this.viewId + ' form#groupArea').css({
 					width : '100px',
 					margin : '60px 0px 0px 10px',
-					float : 'left'
+					float : 'left',
+					fontSize : '12px'
 				});
 				$(this.viewId + ' .clearFloat').css({
 					diplay : 'block',

@@ -6,7 +6,7 @@ infinispan.CacheViewElement = {
 		startXAxis :50,
 		startYAxis : 350,
 		textStartY : 360,
-		textStartX : 40,
+		textStartX : 45,
 		yDivisionChartSize : 10,
 		yUnitDivisionCount : 10,
 		graphMaxValue : 280,
