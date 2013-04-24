@@ -62,6 +62,5 @@ if (!wgp.constants.VIEW_SETTINGS) {
 	wgp.constants.VIEW_SETTINGS = {};
 }
 wgp.constants.VIEW_SETTINGS = $.extend(wgp.constants.VIEW_SETTINGS, {
-	"default" : ENS.nodeTabView,
-	"ENS.ResourceMapView" : ENS.ResourceMapField
+	"default" : ENS.nodeInfoField
 });

@@ -97,23 +97,5 @@ ENS.nodeinfo.GRAPH_HEIGHT_MARGIN = 2;
 ENS.nodeinfo.GRAPH_TITLE_LENGTH = 30;
 
 ENS.tree = {};
-ENS.tree.contextOption = [{
-	menu_id : "addSingnal",
-	menu_name : "Add Signal",
-	executeClass : "ENS.AddSingnalDialogView",
-	showParam : "[^singalNode-]",
-	executeOption : {
-		dialogId : "addSignalDialog"
-	},
-	children : []
-}, {
-	menu_id : "editSingnal",
-	menu_name : "Edit Signal",
-	executeClass : "ENS.AddSingnalDialogView",
-	showParam : "/singalNode-",
-	executeOption : {
-		dialogId : "addSignalDialog"
-	},
-	children : []
-}];
+ENS.tree.contextOption = [];
 ENS.tree.SIGNAL_ICON = "signal_1";
