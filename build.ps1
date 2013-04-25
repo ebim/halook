@@ -1,5 +1,5 @@
 #タグ名称を設定する。
-$tags = "5.0.4-002"
+$tags = "5.0.4-003"
 
 $WorkDir="build"
 
@@ -29,12 +29,12 @@ ant
 ant -f build_merge.xml
 popd
 
-pushd WebDashboard
+pushd Dashboard
 ant
 popd
 
 mkdir release
 copy HalookJavelin\dist\*.zip release
-copy WebDashboard\target\HalookDashboard.war release
+copy Dashboard\target\Dashboard.war release
 
 echo "すべてのビルドプロセスを終了しました。"

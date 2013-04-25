@@ -2,7 +2,7 @@
     <import file="../ENdoSnipe/build_common.xml" />
 
     <!-- ★変数設定★ -->
-    <property name="app.name" value="WebDashboard"/>
+    <property name="app.name" value="Dashboard"/>
 
     <!-- パス設定 -->
     <property name="src.path"           value="${basedir}/src/main/java"/>
