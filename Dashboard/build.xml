@@ -130,9 +130,11 @@
 
     <!-- WARファイル生成 -->
     <target name="war" depends="jar" description="WARファイルを生成する">
+<!--
         <copy file="${jar.file}" todir="${weblib.path}" overwrite="true"/>
-        <copy file="${classes.path}/EWDMessages_ja.properties" todir="${webroot.path}/WEB-INF/classes" overwrite="true"/>
+        <copy file="${classes.path}/*.properties" todir="${webroot.path}/WEB-INF/classes" overwrite="true"/>
         <copy file="${classes.path}/log4j.xml" todir="${webroot.path}/WEB-INF/classes" overwrite="true"/>
+-->
         <war basedir="${webroot.path}"
              destfile="${war.file}"
              webxml="${webroot.path}/WEB-INF/web.xml">
