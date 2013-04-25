@@ -64,41 +64,51 @@
     <!-- リソースファイルのビルドパスへのコピー -->
     <target name="resources"
             description="リソースファイルをビルドファイル配下にコピーします">
+<!--
         <copy todir="${classes.path}" includeEmptyDirs="no">
             <fileset dir="${resource.path}"/>
         </copy>
+-->
     </target>
 
     <!-- SQLファイルのビルドパスへのコピー -->
     <target name="sql"
             description="リソースファイルをビルドファイル配下にコピーします">
+<!--
         <copy todir="${classes.path}" includeEmptyDirs="no">
             <fileset dir="${src.path}">
                 <include name="**/*.sql"/>
             </fileset>
         </copy>
+-->
     </target>
 
     <target name="compile" depends="clean,prepare,resources,sql" description="ソースファイルをコンパイルする">
+<!--
         <javac srcdir       = "${src.path}"
                destdir      = "${classes.path}"
                encoding     = "UTF-8"
                classpathref = "project.classpath"
                debug        = "true"/>
+-->
     </target>
 
     <!-- テストソースのコンパイル -->
     <target name="compile-test" depends="compile" description="テストソースをコンパイルする">
+<!--
         <javac srcdir="${src.test.dir}" destdir="${classes.test.dir}" debug="on">
             <classpath>
                 <path refid="compile.test.classpath" />
             </classpath>
         </javac>
+-->
 
         <!-- リソースをコピーする -->
+<!--
         <copy todir="${classes.test.dir}">
             <fileset dir="${resources.test.dir}" />
         </copy>
+-->
     </target>
 
     <!-- JUnit テストの実行 -->
