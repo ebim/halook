@@ -70,11 +70,9 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 				instance.updateDisplaySpan(from, to);
 				// グラフの表示データを更新する
 				instance.updateGraphData(key, from, to);
+				
 			}
 		});
-		
-		$("#" + this.$el.attr("id")).append(
-				'<div class="clearFloat"></div>');
 	},
 	render : function() {
 		console.log('call render');
@@ -135,7 +133,6 @@ ENS.NodeInfoParentView = wgp.AbstractView.extend({
 		$.extend(true, viewAttribute, {
 			id : newDivAreaId
 		});
-		// 動的に生成するオブジェクトを切り替える必要があるため、やむを得ずeval()を使う
 		var view = eval("new " + viewClassName
 				+ "(viewAttribute, treeSettings)");
 		

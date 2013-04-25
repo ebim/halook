@@ -25,7 +25,7 @@
  ******************************************************************************/
 ENS.Utility = {};
 ENS.Utility.makeLogo = function(id, title) {
-	var idName = id + '_logo';
+	var idName = 'logo';
 	$("#" + id).append('<div id="' + idName + '" class="contentHeader" ></div>');
 	$('#' + idName).append(
 			'<h1>' + title + '</h1>');	

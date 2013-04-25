@@ -38,10 +38,10 @@ ENS.SingleSliderView = wgp.AbstractView
 				this.groupUnitNum = ENS.singleslider.groupUnitNum;
 				this.groupMaxNum = ENS.singleslider.groupMaxNum;
 				this.groupNum = ENS.singleslider.groupDefaultNum;
-				this.idTime = this.$el.attr('id') + "_" + ENS.singleslider.idTime;
+				this.idTime = ENS.singleslider.idTime;
 				this.viewId = '#' + this.$el.attr('id');
 				this.timeScale = this.groupUnitNum * this.groupNum;
-				
+
 				// get html of slider
 				var htmlString = this._getScaleHtml(this.scaleUnitString,
 						this.scaleUnitStrings, this.groupUnitNum
@@ -66,7 +66,7 @@ ENS.SingleSliderView = wgp.AbstractView
 						this.groupString, this.groupStrings);
 				$(this.viewId).append(groupHtmlString + '<hr class="clearFloat">');
 				this._setGroupCss();
-				this._selectSelector(this.$el.attr('id') + '_groupArea', this.groupNum - 1);
+				this._selectSelector('groupArea', this.groupNum);
 
 				// group selector event
 				this._setGroupSelectorMovedEvent();
@@ -86,7 +86,7 @@ ENS.SingleSliderView = wgp.AbstractView
 			_getScaleHtml : function(scaleUnitString, scaleUnitStrings,
 					scaleNum, groupString, groupStrings, groupNum) {
 				var htmlStr = '';
-				htmlStr += '<form id="' + this.$el.attr('id') + '_scaleArea">\n';
+				htmlStr += '<form id="scaleArea">\n';
 				htmlStr += '<fieldset>\n';
 				htmlStr += '  <select id="' + this.idTime + '">\n';
 
@@ -135,7 +135,7 @@ ENS.SingleSliderView = wgp.AbstractView
 			},
 			_setScaleCss : function() {
 				// adjust slider visual
-				$(this.viewId + ' form' + this.viewId + '_scaleArea').css({
+				$(this.viewId + ' form#scaleArea').css({
 					width : '600px',
 					float : 'left'
 				});
@@ -165,7 +165,7 @@ ENS.SingleSliderView = wgp.AbstractView
 			},
 			_getGroupHtml : function(groupMaxNum, groupString, groupStrings) {
 				var htmlStr = '';
-				htmlStr += '<form id="' + this.$el.attr('id') + '_groupArea">\n';
+				htmlStr += '<form id="groupArea">\n';
 				htmlStr += '  <select>\n';
 				for ( var groupNum = 1; groupNum <= groupMaxNum; groupNum++) {
 					
@@ -189,11 +189,10 @@ ENS.SingleSliderView = wgp.AbstractView
 				return htmlStr;
 			},
 			_setGroupCss : function() {
-				$(this.viewId + ' form' + this.viewId + '_groupArea').css({
+				$(this.viewId + ' form#groupArea').css({
 					width : '100px',
 					margin : '60px 0px 0px 10px',
-					float : 'left',
-					fontSize : '12px'
+					float : 'left'
 				});
 				$(this.viewId + ' .clearFloat').css({
 					diplay : 'block',
@@ -207,11 +206,11 @@ ENS.SingleSliderView = wgp.AbstractView
 			},
 			_setGroupSelectorMovedEvent : function() {
 				var instance = this;
-				$(this.viewId + ' ' + this.viewId + '_groupArea select')
+				$(this.viewId + ' #groupArea select')
 						.change(
 								function() {
 									// delete old scale
-									$('form' + instance.viewId + '_scaleArea').remove();
+									$('form#scaleArea').remove();
 
 									// get new html of scale
 									var oldGroupNum = instance.groupNum;

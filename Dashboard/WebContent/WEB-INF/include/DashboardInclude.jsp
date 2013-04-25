@@ -46,9 +46,6 @@
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/resourceTreeView.js">	
 </script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/tree/addSingnalDialogView.js">	
-</script>
 
 <%-- nodeInfo graph --%>
 <script type="text/javascript"
@@ -62,8 +59,4 @@
 </script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/tree/ensTreeView.js">	
-</script>
-<%-- Performance Doctor --%>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/nodeinfomation/view/perfDoctorView.js">	
 </script>

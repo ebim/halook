@@ -91,7 +91,6 @@ ENS.ResourceTreeView = wgp.TreeView.extend({
 			id : this.targetId
 		});
 		var treeSettings = treeModel.attributes;
-		// 動的に生成するオブジェクトを切り替える必要があるため、やむを得ずeval()を使う
 		this.childView = eval("new " + viewClassName
 				+ "(viewSettings, treeSettings)");
 	}

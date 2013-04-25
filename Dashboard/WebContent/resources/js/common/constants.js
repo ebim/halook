@@ -95,7 +95,3 @@ ENS.ResourceGraphAttribute = [ "colors", "labels", "valueRange", "xlabel",
 		"ylabel", "strokeWidth", "legend", "labelsDiv", "width", "height" ];
 ENS.nodeinfo.GRAPH_HEIGHT_MARGIN = 2;
 ENS.nodeinfo.GRAPH_TITLE_LENGTH = 30;
-
-ENS.tree = {};
-ENS.tree.contextOption = [];
-ENS.tree.SIGNAL_ICON = "signal_1";

@@ -201,8 +201,7 @@ ENS.DualSliderView = wgp.AbstractView
 				$(this.viewId + ' form#groupArea').css({
 					width : '100px',
 					margin : '60px 0px 0px 10px',
-					float : 'left',
-					fontSize : '12px'
+					float : 'left'
 				});
 				$(this.viewId + ' .clearFloat').css({
 					diplay : 'block',
@@ -273,6 +272,11 @@ ENS.DualSliderView = wgp.AbstractView
 								});
 			},
 			_getFromToAsArray : function(values) {
+				// values : .ui-slider values
+				// Ex: [4, 6]
+				// return : [fromMillisecond, toMillisecond]
+				// the time which means how long ago from now
+
 				var fromMillisecond = (this.groupUnitNum * this.groupNum - values[0])
 						* this.scaleUnit;
 				var toMillisecond = (this.groupUnitNum * this.groupNum - values[1])
