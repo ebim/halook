@@ -1,6 +1,4 @@
 <project name="ens" default="dist" basedir=".">
-    <import file="../ENdoSnipe/build_common.xml" />
-
     <!-- ★変数設定★ -->
     <property name="app.name" value="Dashboard"/>
 
@@ -82,10 +80,6 @@
     </target>
 
     <target name="compile" depends="clean,prepare,resources,sql" description="ソースファイルをコンパイルする">
-        <!-- 依存ライブラリをコピー -->
-        <copy file="${endosnipe-common.jar}" todir="${weblib.path}" failonerror="yes" />
-        <copy file="${endosnipe-communicator.jar}" todir="${weblib.path}" failonerror="yes" />
-        <copy file="${endosnipe-dataaccessor.jar}" todir="${weblib.path}" failonerror="yes" />
         <javac srcdir       = "${src.path}"
                destdir      = "${classes.path}"
                encoding     = "UTF-8"
