@@ -151,7 +151,8 @@ halook.HDFSView = wgp.AbstractView
 			},
 			render : function() {
 				// making area to set capacity table
-				$("#contents_area_content_0")
+				$(document.getElementById(this.$el
+						.attr("id")))
 				.append(
 						"<div id='capacity_table' style='margin-left:10px;margin-top:260px; float:left'></div>");
 				
@@ -159,7 +160,7 @@ halook.HDFSView = wgp.AbstractView
 				$(document.getElementById(this.$el
 						.attr("id")))
 				.append(
-						"<div id='hdfs_data' style='width:625px;height:630px; float:right'></div>");
+						"<div id='hdfs_data' style='width:600px;height:630px; float:right'></div>");
 				// set paper
 				this.paper = new Raphael('hdfs_data');
 			},

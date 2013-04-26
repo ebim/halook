@@ -109,6 +109,8 @@ halook.BubbleElementView = wgp.DygraphElementView
 				if (this.collection) {
 					this.collection.reset();
 				}
+				// チェックボックスの状態を初期に戻す。
+				halook.bubble.sortFlag = [ true, true, true, true, true, true ];
 			},
 			_getData : function() {
 				this.dataArray = [];
@@ -359,5 +361,6 @@ var graphListenerView = Backbone.View.extend({
 	_check : function(e) {
 		var id = $(e.target).attr("id");
 		halook.bubble.flagChange(id);
+		this.parentView.trigger("updateGraphOptions");
 	}
 });
