@@ -1,0 +1,5 @@
+# Settings for diff diff
+*.js diff
+*.xml diff
+*.txt diff
+*.css diff
