@@ -216,7 +216,7 @@
 ### 2.6. Webブラウザからのアクセス
 1. Webブラウザ(Firefox)から、以下のURLを開いてください。
 
-	`http://(HalookDashboard実行サーバ):8080/Dashboard/`
+	`http://(HalookDashboard実行サーバ):8080/HalookDashboard/halook`
 
 ## 3. 特記事項
 - 2013/02/18 改版
